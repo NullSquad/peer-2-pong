@@ -23,7 +23,10 @@ export function Table(props: Props) {
             Losses
           </th>
           <th scope="col" class="px-6 py-3 text-left tracking-wider">
-            Points
+            PD
+          </th>
+          <th scope="col" class="px-6 py-3 text-left tracking-wider">
+            Score
           </th>
           <th scope="col" class="px-6 py-3 text-left tracking-wider">
             Rank

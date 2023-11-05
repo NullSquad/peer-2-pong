@@ -32,7 +32,7 @@ export function PlayerRow(props: { player: Player; index: number }) {
     <tr class={index % 2 === 0 ? "bg-red-900 bg-opacity-20" : "bg-red-800"}>
       <td class="pl-4">{index + 1}</td>
       <td class="flex px-6 py-4 whitespace-nowrap">
-        <img class="w-5" src={player.image} alt={player.name} />
+        {/* <img class="w-5" src={player.image} alt={player.name} /> */}
         <a
           href={`https://profile.intra.42.fr/users/${player.name}`}
           class="ml-2 font-medium text-red-500 underline"
@@ -44,6 +44,7 @@ export function PlayerRow(props: { player: Player; index: number }) {
       <td class="px-6 py-4 whitespace-nowrap">{player.matchesPlayed}</td>
       <td class="px-6 py-4 whitespace-nowrap">{player.matchesWon}</td>
       <td class="px-6 py-4 whitespace-nowrap">{player.matchesLost}</td>
+      <td class="px-6 py-4 whitespace-nowrap">{player.pointDifference}</td>
       <td class="px-6 py-4 whitespace-nowrap">{player.score}</td>
       <td class="flex px-6 py-4 whitespace-nowrap">
         {renderStars()}

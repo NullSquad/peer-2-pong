@@ -1,5 +1,6 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
 import { listPlayers, Player } from "../utils/players.ts";
+import { State } from "../utils/state.ts";
 import { Main } from "../components/Main.tsx";
 import { Header } from "../components/Header.tsx";
 import { Container } from "../components/Container.tsx";
@@ -7,7 +8,7 @@ import { Table } from "../components/Table.tsx";
 import { PlayerRow } from "../components/PlayerRow.tsx";
 
 interface Data extends State {
-  posts: Player[];
+  players: Player[];
 }
 
 export const handler: Handlers<Data, State> = {
@@ -25,7 +26,7 @@ export default function Home(props: PageProps<Data>) {
         <Header />
         <Container>
           <Table>
-            {players.map((player, index) => (
+            {players.map((player: Player, index: number) => (
               <PlayerRow index={index} player={player} />
             ))}
           </Table>
