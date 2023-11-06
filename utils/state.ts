@@ -1,3 +1,3 @@
 export interface State {
-  locales: string[];
+  sessionId?: string;
 }

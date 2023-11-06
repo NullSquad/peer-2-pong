@@ -1,4 +1,4 @@
-import { readCSVObjects } from "https://deno.land/x/csv@v0.9.2/mod.ts";
+import { readCSVObjects } from "csv";
 
 type Match = {
   date: string;
