@@ -56,7 +56,7 @@ export async function listPlayers(): Promise<Player[]> {
     loserPlayer.matchesPlayed++;
     loserPlayer.matchesLost++;
     loserPlayer.score += (loserScore === -1) ? -1 : 0;
-    loserPlayer.pointDifference += winnerScore - loserScore;
+    loserPlayer.pointDifference += loserScore - winnerScore;
   }
 
   // Obtener la lista de jugadores del mapa
