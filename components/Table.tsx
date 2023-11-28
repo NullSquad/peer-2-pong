@@ -13,13 +13,13 @@ export function Table(props: Props) {
           <th scope="col" class="px-6 py-3 text-left tracking-wider">
             Player
           </th>
-          <th scope="col" class="px-6 py-3 text-left tracking-wider">
+          <th scope="col" class="hidden sm:table-cell px-6 py-3 text-left tracking-wider">
             Matches
           </th>
-          <th scope="col" class="px-6 py-3 text-left tracking-wider">
+          <th scope="col" class="hidden sm:table-cell px-6 py-3 text-left tracking-wider">
             Wins
           </th>
-          <th scope="col" class="px-6 py-3 text-left tracking-wider">
+          <th scope="col" class="hidden sm:table-cell px-6 py-3 text-left tracking-wider">
             Losses
           </th>
           <th scope="col" class="px-6 py-3 text-left tracking-wider">

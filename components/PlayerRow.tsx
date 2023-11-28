@@ -41,9 +41,9 @@ export function PlayerRow(props: { player: Player; index: number }) {
           {player.name}
         </a>
       </td>
-      <td class="px-6 py-4 whitespace-nowrap">{player.matchesPlayed}</td>
-      <td class="px-6 py-4 whitespace-nowrap">{player.matchesWon}</td>
-      <td class="px-6 py-4 whitespace-nowrap">{player.matchesLost}</td>
+      <td class="hidden sm:table-cell px-6 py-4 whitespace-nowrap">{player.matchesPlayed}</td>
+      <td class="hidden sm:table-cell px-6 py-4 whitespace-nowrap">{player.matchesWon}</td>
+      <td class="hidden sm:table-cell px-6 py-4 whitespace-nowrap">{player.matchesLost}</td>
       <td class="px-6 py-4 whitespace-nowrap">{player.pointDifference}</td>
       <td class="px-6 py-4 whitespace-nowrap">{player.score}</td>
       <td class="flex px-6 py-4 whitespace-nowrap">
