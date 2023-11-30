@@ -1,40 +1,64 @@
 import { Player } from "@/utils/players.ts";
 
 export function Table({ players }: { players: Player[] }) {
-  return (
+   const renderRank = ({player}) => {
+    switch (player.playerType) {
+      case "Elite":
+        return ("hover:text-orange transition-all");
+      case "Avanzado":
+        return ("hover:text-green transition-all");
+      case "Debutante":
+        return ("hover:text-cyan transition-all");
+      default:
+        return null;
+    }
+  };
+  const renderRank2 = ({player}) => {
+    switch (player.playerType) {
+      case "Elite":
+        return ("border-l-orange");
+      case "Avanzado":
+        return ("border-l-green");
+      case "Debutante":
+        return ("border-l-cyan");
+      default:
+        return null;
+    }
+  };
+return (
     <table class="min-w-full text-sm text-red-400">
       <thead class="bg-red-800 text-xs uppercase font-medium">
         <tr>
-          <th></th>
-          <th scope="col" class="px-6 py-3 text-left tracking-wider">
+          <th class ="bg-orange border-l-4 border-orange px-4"> N°</th>
+          <th scope="col" class="bg-orange px-6 py-3 text-left tracking-wider">
             Player
           </th>
           <th
             scope="col"
-            class="hidden sm:table-cell px-6 py-3 text-left tracking-wider"
+            class="bg-orange hidden sm:table-cell px-6 py-3 text-left tracking-wider"
           >
             Matches
           </th>
           <th
             scope="col"
-            class="hidden sm:table-cell px-6 py-3 text-left tracking-wider"
+            class="bg-orange hidden sm:table-cell px-6 py-3 text-left tracking-wider"
           >
             Wins
           </th>
           <th
             scope="col"
-            class="hidden sm:table-cell px-6 py-3 text-left tracking-wider"
+            class="bg-orange hidden sm:table-cell px-6 py-3 text-left tracking-wider"
           >
             Losses
           </th>
-          <th scope="col" class="px-6 py-3 text-left tracking-wider">
+          <th scope="col" class="bg-orange px-6 py-3 text-left tracking-wider">
             PD
           </th>
-          <th scope="col" class="px-6 py-3 text-left tracking-wider">
+          <th scope="col" class="bg-orange px-6 py-3 text-left tracking-wider">
             Score
           </th>
-          <th scope="col" class="px-6 py-3 text-left tracking-wider">
-            Rank
+          <th scope="col" class="bg-orange px-6 py-3 text-left tracking-wider">
+            L3
           </th>
         </tr>
       </thead>
@@ -43,12 +67,12 @@ export function Table({ players }: { players: Player[] }) {
           <tr
             class={index % 2 === 0 ? "bg-red-900 bg-opacity-20" : "bg-red-800"}
           >
-            <td class="pl-4">{index + 1}</td>
-            <td class="flex px-6 py-4 whitespace-nowrap">
+            <td className={`border-l-4 ${renderRank2({player})} text-sm sm:text-base text-center`}>{index + 1}</td>
+            <td className={`text-sm sm:text-base pl-2 sm:pl-4 px-4 sm:px-6 py-4 whitespace-nowrap text-center ${renderRank({player})}`}>
               {/* <img class="w-5" src={player.image} alt={player.name} /> */}
               <a
                 href={`https://profile.intra.42.fr/users/${player.name}`}
-                class="ml-2 font-medium text-red-500 underline"
+                class="ml-2 font-medium hover:font-bold"
                 target="_blank"
               >
                 {player.name}

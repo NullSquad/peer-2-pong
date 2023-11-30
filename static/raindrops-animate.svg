@@ -6,13 +6,13 @@
       stroke-linecap:round;
       stroke-dasharray: 20px 200px;
       stroke-dashoffset: 220px;
-      stroke: rgba(68,71,90,0.2);
+      stroke: rgba(248,248,242,0.2);
       animation: draw 6s linear infinite;
     }
     .speed2 {
       stroke-dasharray: 40px 200px;
       stroke-dashoffset: 240px;
-      stroke: rgba(68,71,90,0.5);
+      stroke: rgba(248,248,242,0.5);
       animation: draw 3s linear infinite;
     }
 

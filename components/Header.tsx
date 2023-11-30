@@ -11,21 +11,21 @@ export function Header({ user }: { user: User }) {
       }}
     >
       <div class="rainfall w-full h-full absolute" />
-      <nav class="w-11/12 h-24 max-w-5xl mx-auto flex items-center justify-between relative">
+      <nav class="w-11/12 h-24 max-w-5xl mx-auto flex pt-4 items-center justify-between relative">
         <a href="/">
           <img
             src={user.avatarUrl}
             alt={user.userId}
-            class="h-14 w-14"
+            class="h-14 w-14 rounded-full shadow-xl shadow-red"
           />
         </a>
         <h1>
           <img
-            src="/text_logo.svg"
-            alt="Deno Merch"
-            class="h-6"
-            width="130"
-            height="24"
+            src="/Peer2pong-02.svg"
+            alt="Peer2Pong"
+            class="h-42 w-42"
+            width="140"
+            height="60"
           />
         </h1>
         <Button
