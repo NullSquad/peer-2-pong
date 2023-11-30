@@ -22,7 +22,7 @@ function createAuth0OAuthConfig(
 
 const { signIn, handleCallback, signOut, getSessionId } = createHelpers(
   createAuth0OAuthConfig({
-    redirectUri: "/",
+    redirectUri: "https://peer-2-pong.deno.dev/",
     scope: "public",
   }),
 );
