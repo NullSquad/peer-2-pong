@@ -11,6 +11,7 @@ export type Player = {
   score: number;
   pointDifference: number;
   playerType: "Elite" | "Avanzado" | "Debutante";
+  lastResult: ("win" | "lose")[];
 };
 
 export async function listPlayers(accessToken: string): Promise<Player[]> {
@@ -35,11 +36,11 @@ export async function listPlayers(accessToken: string): Promise<Player[]> {
         score: 0,
         pointDifference: 0,
         playerType: "Debutante", // Inicialmente se asigna como debutante
+	lastResult: [],
       });
     }
     const winnerPlayer = playersMap.get(winner)!;
-    winnerPlayer.matchesPlayed++;
-    winnerPlayer.matchesWon++;
+    updatePlayerStats(winnerPlayer, "win");
     winnerPlayer.score += (winnerScore === 1) ? 1 : 3;
     winnerPlayer.pointDifference += winnerScore - loserScore;
 
@@ -53,11 +54,11 @@ export async function listPlayers(accessToken: string): Promise<Player[]> {
         score: 0,
         pointDifference: 0,
         playerType: "Debutante", // Inicialmente se asigna como debutante
+	lastResult: [],
       });
     }
     const loserPlayer = playersMap.get(loser)!;
-    loserPlayer.matchesPlayed++;
-    loserPlayer.matchesLost++;
+    updatePlayerStats(loserPlayer, "lose");
     loserPlayer.score += (loserScore === -1) ? -1 : 0;
     loserPlayer.pointDifference += loserScore - winnerScore;
   }
@@ -84,4 +85,14 @@ export async function listPlayers(accessToken: string): Promise<Player[]> {
     // El resto seguirá siendo "debutante" por defecto
   }
   return players;
+}
+function updatePlayerStats(player: Player, result: "win" | "lose"){
+        player.matchesPlayed++;
+        player.lastResult.unshift(result); //agregar el resultado al principio del historial
+        if(result == "win"){
+                player.matchesWon++;
+        }else{
+                player.matchesLost++;
+        }
+        player.lastResults = player.lastResult.slice(0 , 3);
 }

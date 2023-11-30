@@ -1,6 +1,8 @@
 import { Player } from "@/utils/players.ts";
+import { CheckW, CheckL } from "@/components/Vector.tsx"
 
 export function Table({ players }: { players: Player[] }) {
+
    const renderRank = ({player}) => {
     switch (player.playerType) {
       case "Elite":
@@ -21,6 +23,24 @@ export function Table({ players }: { players: Player[] }) {
         return ("border-l-green");
       case "Debutante":
         return ("border-l-cyan");
+      default:
+        return null;
+    }
+  };
+const last3 = ({player, i}) => {
+	switch (player.lastResult[i]) {
+      case "win":
+        return (
+          <>
+            <CheckW />
+          </>
+        );
+      case "lose":
+        return (
+          <>
+            <CheckL />
+          </>
+        );
       default:
         return null;
     }
@@ -51,13 +71,13 @@ return (
           >
             Losses
           </th>
-          <th scope="col" class="bg-orange px-6 py-3 text-left tracking-wider">
+          <th scope="col" class="hidden sm:table-cell bg-orange px-6 py-3 text-left tracking-wider">
             PD
           </th>
           <th scope="col" class="bg-orange px-6 py-3 text-left tracking-wider">
             Score
           </th>
-          <th scope="col" class="bg-orange px-6 py-3 text-left tracking-wider">
+          <th scope="col" class="bg-orange px-6 py-3 tracking-wider text-center">
             L3
           </th>
         </tr>
@@ -78,20 +98,23 @@ return (
                 {player.name}
               </a>
             </td>
-            <td class="hidden sm:table-cell px-6 py-4 whitespace-nowrap">
+            <td class="hidden sm:table-cell px-6 py-4 whitespace-nowrap text-center">
               {player.matchesPlayed}
             </td>
-            <td class="hidden sm:table-cell px-6 py-4 whitespace-nowrap">
+            <td class="hidden sm:table-cell px-6 py-4 whitespace-nowrap text-center">
               {player.matchesWon}
             </td>
-            <td class="hidden sm:table-cell px-6 py-4 whitespace-nowrap">
+            <td class="hidden sm:table-cell px-6 py-4 whitespace-nowrap text-center">
               {player.matchesLost}
             </td>
-            <td class="px-6 py-4 whitespace-nowrap">
+            <td class="hidden sm:table-cell px-6 py-4 whitespace-nowrap text-center">
               {player.pointDifference}
             </td>
-            <td class="px-6 py-4 whitespace-nowrap">{player.score}</td>
-            <td class="flex px-6 py-4 whitespace-nowrap">
+            <td class="px-6 py-4 whitespace-nowrap text-center">{player.score}</td>
+            <td class="flex px-6 py-4 whitespace-nowrap">	
+		{last3({player,i:2})}
+		{last3({player,i:1})}
+		{last3({player,i:0})}
             </td>
           </tr>
         ))}

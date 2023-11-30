@@ -30,6 +30,7 @@ export function Header({ user }: { user: User }) {
         </h1>
         <Button
           href="/oauth/signout"
+	  class="hidden sm:flex"
           onClick={() => deleteCookie(res, "token")}
         >
           <img
