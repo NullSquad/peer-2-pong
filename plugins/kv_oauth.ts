@@ -22,7 +22,7 @@ function createAuth0OAuthConfig(
 
 const { signIn, handleCallback, signOut, getSessionId } = createHelpers(
   createAuth0OAuthConfig({
-    redirectUri: "http://localhost:8000",
+    redirectUri: "/",
     scope: "public",
   }),
 );
