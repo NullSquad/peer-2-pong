@@ -1,7 +1,10 @@
 import { listMatches } from "./matches.ts";
+import { intraApi } from "@/communication/intra.ts";
 
 export type Player = {
   name: string;
+  image: string;
+  coalition: string;
   matchesPlayed: number;
   matchesWon: number;
   matchesLost: number;
@@ -10,7 +13,7 @@ export type Player = {
   playerType: "Elite" | "Avanzado" | "Debutante";
 };
 
-export async function listPlayers(): Promise<Player[]> {
+export async function listPlayers(accessToken: string): Promise<Player[]> {
   const matches = await listMatches();
 
   // Crear un mapa de jugadores para realizar un seguimiento de su información
@@ -80,6 +83,5 @@ export async function listPlayers(): Promise<Player[]> {
     }
     // El resto seguirá siendo "debutante" por defecto
   }
-
   return players;
 }

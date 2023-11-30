@@ -1,10 +1,6 @@
-import type {
-  OAuth2ClientConfig,
-} from "kv_oauth@v0.10.0/mod.ts";
-import {
-  createHelpers,
-  getRequiredEnv,
-} from "kv_oauth@v0.10.0/mod.ts";
+import type { OAuth2ClientConfig } from "kv_oauth/mod.ts";
+import { deleteCookie } from "$std/http/cookie.ts";
+import { createHelpers, getRequiredEnv } from "kv_oauth/mod.ts";
 import type { Plugin } from "$fresh/server.ts";
 
 function createAuth0OAuthConfig(
@@ -31,7 +27,7 @@ const { signIn, handleCallback, signOut, getSessionId } = createHelpers(
   }),
 );
 
-export const kvOAuthPlugin: Plugin = {
+export default {
   name: "kv-oauth",
   routes: [
     {
@@ -43,7 +39,6 @@ export const kvOAuthPlugin: Plugin = {
     {
       path: "/oauth/callback",
       async handler(req) {
-        // Return object also includes `accessToken` and `sessionId` properties.
         const { response } = await handleCallback(req);
         return response;
       },
@@ -51,8 +46,9 @@ export const kvOAuthPlugin: Plugin = {
     {
       path: "/oauth/signout",
       async handler(req) {
+        //deleteCookie(response, 'token');
         return await signOut(req);
       },
     },
   ],
-};
+} as Plugin;

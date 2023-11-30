@@ -1,37 +1,61 @@
-import { Handlers, PageProps } from "$fresh/server.ts";
-import { listPlayers, Player } from "../utils/players.ts";
-import { State } from "../utils/state.ts";
-import { Main } from "../components/Main.tsx";
-import { Header } from "../components/Header.tsx";
-import { Container } from "../components/Container.tsx";
-import { Table } from "../components/Table.tsx";
-import { PlayerRow } from "../components/PlayerRow.tsx";
+import { HandlerContext, PageProps } from "$fresh/server.ts";
+import { getCookies, setCookie } from "$std/http/cookie.ts";
+import { listPlayers, Player } from "@/utils/players.ts";
+import { User } from "@/utils/users.ts";
+import { intraApi } from "@/communication/intra.ts";
+import { Dashboard } from "@/components/Dashboard.tsx";
+import { Login } from "@/components/Login.tsx";
 
-interface Data extends State {
+type Data = {
+  user: User;
   players: Player[];
-}
-
-export const handler: Handlers<Data, State> = {
-  async GET(_req, ctx) {
-    const players = await listPlayers();
-    return ctx.render({ ...ctx.state, players });
-  },
 };
 
-export default function Home(props: PageProps<Data>) {
-  const { players } = props.data;
+export async function handler(
+  req: Request,
+  ctx: HandlerContext,
+): Promise<Response> {
+  const maybeAccessToken = getCookies(req.headers)["token"];
+  if (maybeAccessToken) {
+    const user = await intraApi.getUserData(maybeAccessToken);
+    const players = await listPlayers(maybeAccessToken);
+    if (user) {
+      return ctx.render({ user: user, players: players });
+    }
+  }
+  const url = new URL(req.url);
+  const code = url.searchParams.get("code");
+  if (!code) {
+    return ctx.render(false);
+  }
+
+  const accessToken = await intraApi.getAccessToken(code);
+  if (!accessToken) {
+    return ctx.render(false);
+  }
+  const user = await intraApi.getUserData(accessToken);
+  if (!user) {
+    return ctx.render(false);
+  }
+
+  const players = await listPlayers(accessToken);
+  const response = await ctx.render({ user: user });
+  setCookie(response.headers, {
+    name: "token",
+    value: accessToken,
+    maxAge: 60 * 60 * 24 * 7,
+    httpOnly: true,
+  });
+  return response;
+}
+
+export default function Home(
+  props: PageProps<Data>,
+) {
+  const { user, players } = props.data;
   return (
     <>
-      <Main>
-        <Header />
-        <Container>
-          <Table>
-            {players.map((player: Player, index: number) => (
-              <PlayerRow index={index} player={player} />
-            ))}
-          </Table>
-        </Container>
-      </Main>
+      {user ? <Dashboard user={user} players={players} /> : <Login />}
     </>
   );
 }
