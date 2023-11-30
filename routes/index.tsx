@@ -55,7 +55,7 @@ export default function Home(
   const { user, players } = props.data;
   return (
     <>
-      {user ? <Dashboard user={user} players={players} /> : <Login />}
+      {user && players ? <Dashboard user={user} players={players} /> : <Login />}
     </>
   );
 }
