@@ -4,16 +4,16 @@
     .line {
       stroke-width: 6px;
       stroke-linecap:round;
-      stroke-dasharray: 20px 200px;
-      stroke-dashoffset: 220px;
+      stroke-dasharray: 1px 34px;
+      stroke-dashoffset: 280px;
       stroke: rgba(248,248,242,0.2);
-      animation: draw 6s linear infinite;
+      animation: draw 10s linear infinite;
     }
     .speed2 {
-      stroke-dasharray: 40px 200px;
+      stroke-dasharray: 1px 34px;
       stroke-dashoffset: 240px;
       stroke: rgba(248,248,242,0.5);
-      animation: draw 3s linear infinite;
+      animation: draw 15s linear infinite;
     }
 
     @keyframes draw {
