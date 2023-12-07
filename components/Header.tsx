@@ -12,7 +12,7 @@ export function Header({ user }: { user: User }) {
     >
       <div class="rainfall w-full h-full absolute" />
       <nav class="w-11/12 h-24 max-w-5xl mx-auto flex pt-4 items-center justify-between relative">
-        <a href="/">
+        <a>
           <img
             src={user.avatarUrl}
             alt={user.userId}
