@@ -6,7 +6,7 @@ export class IntraApi {
     formData.append("client_id", getRequiredEnv("AUTH0_CLIENT_ID"));
     formData.append("client_secret", getRequiredEnv("AUTH0_CLIENT_SECRET"));
     formData.append("code", code);
-    formData.append("redirect_uri", "http://localhost:8000");
+    formData.append("redirect_uri", getRequiredEnv("REDIRECT_URI"));
     formData.append("state", state);
     try {
       const response = await fetch(
@@ -31,7 +31,8 @@ export class IntraApi {
       }
       return accessToken;
     } catch (error) {
-      throw new Error(error);
+      console.error(error);
+      //      throw new Error(error);
       return null;
     }
   }

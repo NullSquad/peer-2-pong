@@ -15,14 +15,6 @@ export async function handler(
   req: Request,
   ctx: HandlerContext,
 ): Promise<Response> {
-  const maybeAccessToken = getCookies(req.headers)["token"];
-  if (maybeAccessToken) {
-    const user = await intraApi.getUserData(maybeAccessToken);
-    const players = await listPlayers(maybeAccessToken);
-    if (user) {
-      return ctx.render({ user: user, players: players });
-    }
-  }
   const url = new URL(req.url);
   const code = url.searchParams.get("code");
   if (!code) {
@@ -39,14 +31,10 @@ export async function handler(
   }
 
   const players = await listPlayers(accessToken);
-  const response = await ctx.render({ user: user });
-  setCookie(response.headers, {
-    name: "token",
-    value: accessToken,
-    maxAge: 60 * 60 * 24 * 7,
-    httpOnly: true,
-  });
-  return response;
+  if (!players) {
+    return ctx.render(false);
+  }
+  return ctx.render({ user: user, players: players });
 }
 
 export default function Home(
@@ -55,7 +43,9 @@ export default function Home(
   const { user, players } = props.data;
   return (
     <>
-      {user && players ? <Dashboard user={user} players={players} /> : <Login />}
+      {user && players
+        ? <Dashboard user={user} players={players} />
+        : <Login />}
     </>
   );
 }

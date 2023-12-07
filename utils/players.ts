@@ -36,7 +36,7 @@ export async function listPlayers(accessToken: string): Promise<Player[]> {
         score: 0,
         pointDifference: 0,
         playerType: "Debutante", // Inicialmente se asigna como debutante
-	lastResult: [],
+        lastResult: [],
       });
     }
     const winnerPlayer = playersMap.get(winner)!;
@@ -54,7 +54,7 @@ export async function listPlayers(accessToken: string): Promise<Player[]> {
         score: 0,
         pointDifference: 0,
         playerType: "Debutante", // Inicialmente se asigna como debutante
-	lastResult: [],
+        lastResult: [],
       });
     }
     const loserPlayer = playersMap.get(loser)!;
@@ -86,13 +86,13 @@ export async function listPlayers(accessToken: string): Promise<Player[]> {
   }
   return players;
 }
-function updatePlayerStats(player: Player, result: "win" | "lose"){
-        player.matchesPlayed++;
-        player.lastResult.unshift(result); //agregar el resultado al principio del historial
-        if(result == "win"){
-                player.matchesWon++;
-        }else{
-                player.matchesLost++;
-        }
-        player.lastResults = player.lastResult.slice(0 , 3);
+function updatePlayerStats(player: Player, result: "win" | "lose") {
+  player.matchesPlayed++;
+  player.lastResult.unshift(result); //agregar el resultado al principio del historial
+  if (result == "win") {
+    player.matchesWon++;
+  } else {
+    player.matchesLost++;
+  }
+  player.lastResults = player.lastResult.slice(0, 3);
 }

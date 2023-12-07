@@ -12,7 +12,7 @@ export default {
   theme: {
     colors: {
       background: "#282A36",
-      currentLine : "#44475A",
+      currentLine: "#44475A",
       foreground: "#F8F8F2",
       comment: "#6272A4",
       cyan: "#8BE9FD",
