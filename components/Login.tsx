@@ -7,53 +7,22 @@ export function Login() {
         <div class="mb-16 mx-8 text-center">
           <img
             class="h-24 mx-auto mb-6"
-            src="/logo.svg"
+            src="/paletas2.svg"
             alt="Deno Logo"
           />
           <span class="block text-3xl font-bold text-black mb-3">
             Peer2Pong
           </span>
-          <span class="block text-lg -mb-1.5">
-            peer2pong demo test.
-          </span>
           <span class="block text-lg">
-            It uses{" "}
+            Made By{"  "}
             <a
               class="font-bold underline"
-              href="https://fresh.deno.dev"
+              href="https://github.com/San-tito"
               rel="noopener noreferrer"
               target="_blank"
             >
-              Fresh
+              Santito
             </a>
-            {" + "}
-            <a
-              class="font-bold underline"
-              href="https://supabase.com"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              Supabase
-            </a>
-            {" + "}
-            <a
-              class="font-bold underline"
-              href="https://twind.dev/"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              twind
-            </a>
-            {" + "}
-            <a
-              class="font-bold underline"
-              href="https://developer.mozilla.org/en-US/docs/Web/API/Broadcast_Channel_API"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              Broadcast Channel API
-            </a>{" "}
-            on Deno Deploy.
           </span>
         </div>
         <div class="flex justify-center items-center flex-col">
