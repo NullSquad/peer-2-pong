@@ -1,3 +1,4 @@
-export interface State {
-  sessionId?: string;
-}
+export type Data = {
+  user: User;
+  players: Player[];
+};

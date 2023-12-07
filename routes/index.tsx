@@ -2,14 +2,10 @@ import { HandlerContext, PageProps } from "$fresh/server.ts";
 import { getCookies, setCookie } from "$std/http/cookie.ts";
 import { listPlayers, Player } from "@/utils/players.ts";
 import { User } from "@/utils/users.ts";
+import { Data } from "@/utils/state.ts";
 import { intraApi } from "@/communication/intra.ts";
 import { Dashboard } from "@/components/Dashboard.tsx";
 import { Login } from "@/components/Login.tsx";
-
-type Data = {
-  user: User;
-  players: Player[];
-};
 
 export async function handler(
   req: Request,
