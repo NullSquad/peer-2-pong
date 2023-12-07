@@ -31,8 +31,8 @@ export class IntraApi {
       }
       return accessToken;
     } catch (error) {
-      console.error(error);
-      //      throw new Error(error);
+      // console.error(error);
+      throw new Error(error);
       return null;
     }
   }
