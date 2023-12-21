@@ -27,7 +27,7 @@ export function Table({ players }: { players: Player[] }) {
     }
   };
   const last3 = ({ player, i }) => {
-    switch (player.lastResult[i]) {
+    switch (player.getLastResults()[i]) {
       case "win":
         return (
           <>

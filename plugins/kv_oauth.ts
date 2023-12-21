@@ -1,5 +1,4 @@
 import type { OAuth2ClientConfig } from "kv_oauth/mod.ts";
-import { deleteCookie } from "$std/http/cookie.ts";
 import { createHelpers, getRequiredEnv } from "kv_oauth/mod.ts";
 import type { Plugin } from "$fresh/server.ts";
 
@@ -20,7 +19,7 @@ function createAuth0OAuthConfig(
   };
 }
 
-const { signIn, handleCallback, signOut, getSessionId } = createHelpers(
+const { signIn, handleCallback, signOut } = createHelpers(
   createAuth0OAuthConfig({
     redirectUri: getRequiredEnv("REDIRECT_URI"),
     scope: "public",
@@ -46,7 +45,6 @@ export default {
     {
       path: "/oauth/signout",
       async handler(req) {
-        //deleteCookie(response, 'token');
         return await signOut(req);
       },
     },
