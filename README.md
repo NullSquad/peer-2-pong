@@ -62,4 +62,4 @@ deno task start
 
 ## License
 
-Distributed under the MIT License. See [LICENSE](https://github.com/San-tito/peer-2-pong/blob/main/LICENSE.md) for more information.
+Distributed under the MIT License. See [LICENSE](https://github.com/San-tito/peer-2-pong/blob/main/LICENSE) for more information.
