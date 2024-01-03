@@ -1,5 +1,4 @@
 import { User } from "@/utils/users.ts";
-import { deleteCookie } from "$std/http/cookie.ts";
 import { Button } from "@/components/Button.tsx";
 
 export function Header({ user }: { user: User }) {
@@ -31,7 +30,6 @@ export function Header({ user }: { user: User }) {
         <Button
           href="/oauth/signout"
           class="hidden sm:flex"
-          onClick={() => deleteCookie(res, "token")}
         >
           <img
             class="fill-current w-8 h-8 mr-2"
