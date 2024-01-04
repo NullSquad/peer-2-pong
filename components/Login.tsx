@@ -2,26 +2,32 @@ import { Button } from "../components/Button.tsx";
 
 export function Login() {
   return (
-    <main class="flex justify-center items-center h-screen text-gray-600">
+    <main class="flex justify-center items-center h-screen bg-foreground">
       <div>
-        <div class="mb-16 mx-8 text-center">
-          <img
-            class="h-24 mx-auto mb-6"
-            src="/paletas2.svg"
-            alt="Deno Logo"
-          />
-          <span class="block text-3xl font-bold text-black mb-3">
-            Peer2Pong
-          </span>
+        <div class="mb-22 mx-8 text-center">
+         <img
+            src="/Peer2pong-02.svg"
+            alt="Peer2Pong"
+            class="h-96 mx-auto mb-6"
+          />  
           <span class="block text-lg">
-            Made By{"  "}
+            Maded By{"  "}
             <a
-              class="font-bold underline"
+              class="font-bold hover:text-red hover:underline"
               href="https://github.com/San-tito"
               rel="noopener noreferrer"
               target="_blank"
             >
               Santito
+            </a>{" "}
+and{" "}
+	 <a
+              class="font-bold hover:text-orange hover:underline"
+              href="https://github.com/Droied4"
+              rel="noopener noreferrer"
+              target="_blank"
+         >
+              Droied 
             </a>
           </span>
         </div>

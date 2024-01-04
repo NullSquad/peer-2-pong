@@ -15,6 +15,7 @@ export default {
       currentLine: "#44475A",
       foreground: "#F8F8F2",
       comment: "#6272A4",
+      cream: "#FFF0C9",
       cyan: "#8BE9FD",
       green: "#50FA7B",
       orange: "#FFB86C",
