@@ -29,7 +29,7 @@ export function Header({ user }: { user: User }) {
         </h1>
         <Button
           href="/oauth/signout"
-          class="hidden sm:flex"
+          class="hidden sm:flex justify-center items-center bg-orange border-1 hover:bg-foreground filter hover:invert hover:border-foreground"
         >
           <img
             class="fill-current w-8 h-8 mr-2"

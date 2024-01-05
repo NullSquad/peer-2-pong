@@ -8,7 +8,7 @@ export function Button(
   return (
     <a
       {...props}
-      class={`border-2 border-foreground bordertext-foreground bg-transparent hover:bg-foreground font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:hover:bg-background ${
+      class={`border-2 bg-foreground font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center${
         props.class ?? ""
       }`}
     />

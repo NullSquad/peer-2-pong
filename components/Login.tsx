@@ -8,12 +8,12 @@ export function Login() {
          <img
             src="/Peer2pong-02.svg"
             alt="Peer2Pong"
-            class="h-96 mx-auto mb-6"
+            class="h-96 mx-auto mb-6 transition hover:skew-y-3 duration-700"
           />  
           <span class="block text-lg">
             Maded By{"  "}
             <a
-              class="font-bold hover:text-red hover:underline"
+              class="font-bold hover:text-red hover:underline hover:animate-pulse"
               href="https://github.com/San-tito"
               rel="noopener noreferrer"
               target="_blank"
@@ -22,7 +22,7 @@ export function Login() {
             </a>{" "}
 and{" "}
 	 <a
-              class="font-bold hover:text-orange hover:underline"
+              class="font-bold hover:text-orange hover:underline hover:animate-pulse"
               href="https://github.com/Droied4"
               rel="noopener noreferrer"
               target="_blank"
@@ -31,7 +31,7 @@ and{" "}
             </a>
           </span>
         </div>
-        <div class="flex justify-center items-center flex-col">
+        <div class="flex justify-center items-center flex-col filter hover:invert">
           <Button
             href="/oauth/signin"
             onClick={() => deleteCookie(res, "token")}
