@@ -5,14 +5,14 @@ export class Player {
   name: string;
   score: number;
   pointDifference: number;
-  playerType: "Elite" | "Avanzado" | "Debutante"; // Prime | Nova | Rookie
+  playerType: "Elite" | "Prime" | "Nova" | "Rookie"; // Prime | Nova | Rookie
   matches: Match[];
 
   constructor(name: string) {
     this.name = name;
     this.score = 0;
     this.pointDifference = 0;
-    this.playerType = "Debutante";
+    this.playerType = "Rookie";
     this.matches = [];
   }
 
@@ -86,9 +86,13 @@ export async function listPlayers(accessToken: string): Promise<Player[]> {
   for (let i = 0; i < players.length; i++) {
     if (i < 8) {
       players[i].playerType = "Elite";
-    } else if (i < 24) {
-      players[i].playerType = "Avanzado";
-    }
-  }
-  return players;
+  	}
+	else if (i < 16) {
+      players[i].playerType = "Prime";
+  	}
+    else if (i < 32) {
+      players[i].playerType = "Nova";
+  	}
+	}
+ 	 return players;
 }

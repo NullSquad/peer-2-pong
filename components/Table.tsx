@@ -6,9 +6,11 @@ export function Table({ players }: { players: Player[] }) {
     switch (player.playerType) {
       case "Elite":
         return ("hover:text-orange transition-all");
-      case "Avanzado":
-        return ("hover:text-green transition-all");
-      case "Debutante":
+      case "Prime":
+        return ("hover:text-red transition-all");
+      case "Nova":
+        return ("hover:text-purple transition-all");
+      case "Rookie":
         return ("hover:text-cyan transition-all");
       default:
         return null;
@@ -18,9 +20,11 @@ export function Table({ players }: { players: Player[] }) {
     switch (player.playerType) {
       case "Elite":
         return ("border-l-orange");
-      case "Avanzado":
-        return ("border-l-green");
-      case "Debutante":
+      case "Prime":
+        return ("border-l-red");
+      case "Nova":
+        return ("border-l-purple");
+      case "Rookie":
         return ("border-l-cyan");
       default:
         return null;
@@ -45,7 +49,7 @@ export function Table({ players }: { players: Player[] }) {
     }
   };
   return (
-    <table class="min-w-full text-sm text-red-400">
+    <table class="min-w-full text-sm text-red-400 mt-4">
       <thead class="bg-red-800 text-xs uppercase font-medium">
         <tr>
           <th class="bg-orange border-l-4 border-orange px-4">N°</th>
@@ -104,7 +108,6 @@ export function Table({ players }: { players: Player[] }) {
                 renderRank({ player })
               }`}
             >
-              {/* <img class="w-5" src={player.image} alt={player.name} /> */}
               <a
                 href={`https://profile.intra.42.fr/users/${player.name}`}
                 class="ml-2 font-medium hover:font-bold"
