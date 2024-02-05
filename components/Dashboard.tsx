@@ -12,9 +12,11 @@ export function Dashboard(
     <main>
       <Header user={user} />
       <Container>
-		  <Clashes user={user} players={players} />
         <Table players={players} />
       </Container>
     </main>
   );
 }
+
+		//clashes
+		 //<Clashes user={user} players={players} />
