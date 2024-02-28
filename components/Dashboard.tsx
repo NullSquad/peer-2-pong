@@ -9,7 +9,7 @@ export function Dashboard(
   { user, players }: { user: User; players: Player[] },
 ) {
   return (
-    <main>
+    <main class="overflow-x-hidden">
       <Header user={user} />
       <Container>
         <Table players={players} />
