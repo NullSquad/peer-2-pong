@@ -10,7 +10,7 @@ export function Dashboard(
 ) {
   return (
     <main class="overflow-x-hidden">
-    <Header user={user} />
+      <Header user={user} />
       <Container>
         <Table players={players} />
       </Container>
