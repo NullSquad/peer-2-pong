@@ -49,7 +49,7 @@ export function Table({ players }: { players: Player[] }) {
     }
   };
   return (
-    <table class="min-w-full text-sm text-red-400 mt-4">
+    <table class="min-w-full text-sm text-red-400">
       <thead class="bg-red-800 text-xs uppercase font-medium">
         <tr>
           <th class="bg-orange border-l-4 border-orange px-4">N°</th>
