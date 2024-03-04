@@ -46,12 +46,12 @@ date,winnerName,winnerScore,loserScore,loserName
 2024-02-08,frankgar,11,6,gergarci
 2024-02-08,jareste-,11,1,gabsanch
 2024-02-08,avolcy,15,13,julolle-
-2024-02-09,omaali,11,9,lucastro
+2024-02-09,omaali,11,9,pingu-a2
 2024-02-10,eralonso,11,8,avolcy
 2024-02-11,alcaball,11,8,adanylev
 2024-02-11,dacortes,11,6,gergarci
 2024-02-11,ojimenez,1,-1,sguzman
-2024-02-11,lucastro,1,-1,sguzman
+2024-02-11,pingu-a2,1,-1,sguzman
 2024-02-11,joanavar,1,-1,sguzman
 2024-02-11,deordone,1,-1,pingu-a2
 2024-02-11,deordone,1,-1,lmartin2
@@ -86,7 +86,7 @@ date,winnerName,winnerScore,loserScore,loserName
 2024-02-16,rbarbier,11,8,jareste-
 2024-02-16,baltes-g,11,8,jareste-
 2024-02-16,adrijime,11,5,ltrevin-
-2024-02-16,dacortes,11,6,lucastro
+2024-02-16,dacortes,11,6,pingu-a2
 2024-02-16,dacortes,11,3,eerazo-c
 2024-02-16,eliagarc,11,6,adanylev
 2024-02-16,gergarci,11,9,acolomer
@@ -99,8 +99,8 @@ date,winnerName,winnerScore,loserScore,loserName
 2024-02-17,frankgar,11,5,ncastell
 2024-02-18,erigonza,11,0,anibarz-
 2024-02-18,omaali,11,6,erigonza
-2024-02-19,lucastro,11,8,ncastell
-2024-02-19,lucastro,11,8,eerazo-c
+2024-02-19,pingu-a2,11,8,ncastell
+2024-02-19,pingu-a2,11,8,eerazo-c
 2024-02-19,pborrull,11,7,frankgar
 2024-02-19,eralonso,12,10,jareste-
 2024-02-19,dacortes,11,6,alcaball
@@ -157,7 +157,7 @@ date,winnerName,winnerScore,loserScore,loserName
 2024-02-27,brandebr,1,-1,sguzman
 2024-02-27,jmarinel,1,-1,tiyarash
 2024-02-27,jmarinel,1,-1,omaali
-2024-02-27,lucastro,1,-1,sguzman
+2024-02-27,pingu-a2,1,-1,sguzman
 2024-02-27,svergara,1,-1,sguzman
 2024-02-28,simarcha,11,3,dmarijan
 2024-02-28,eliagarc,11,4,erigonza
@@ -194,3 +194,5 @@ date,winnerName,winnerScore,loserScore,loserName
 2024-03-03,cgomez-z,1,-1,acolomer
 2024-03-03,sguzman,1,-1,pingu-a2
 2024-03-03,eferre-m,1,-1,pingu-a2
+2024-03-03,rmedina-,11,8,anibarz-
+2024-03-03,cgomez-z,11,2,tiyarash
