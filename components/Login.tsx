@@ -11,7 +11,7 @@ export function Login() {
             class="h-96 mx-auto mb-6 transition hover:skew-y-3 duration-700"
           />  
           <span class="block text-lg">
-            Maded By{"  "}
+            Made By{"  "}
             <a
               class="font-bold hover:text-red hover:underline hover:animate-pulse"
               href="https://github.com/San-tito"
