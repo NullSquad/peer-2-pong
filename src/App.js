@@ -1,5 +1,5 @@
-import { createRoot } from "../modules/zaphod/react-dom";
+import { h, Component, render } from '../modules/zaphod/zaphod.js';
 
-const container = document.getElementById("root");
-const root = ReactDOM.createRoot(container);
-root.render(React.createElement('h1', null, 'Hello, world'));
+// Create your app
+const app = h('h1', null, 'Hello World!');
+render(app, document.body);
