@@ -1,7 +1,4 @@
-import { h, render } from 'zaphod';
-import htm from 'zaphod-dom';
-
-const html = htm.bind(h);
+import { html, render } from 'zaphod';
 
 function App (props) {
 	return html`<h1>Hello ${props.name}!</h1>`;
