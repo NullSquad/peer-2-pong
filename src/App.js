@@ -1,5 +1,10 @@
-import { h, Component, render } from '../modules/zaphod/zaphod.js';
+import { h, render } from '../modules/zaphod/zaphod.js';
+import htm from '../modules/zaphod/zaphod-dom.js';
 
-// Create your app
-const app = h('h1', null, 'Hello World!');
-render(app, document.body);
+const html = htm.bind(h);
+
+function App (props) {
+	return html`<h1>Hello ${props.name}!</h1>`;
+}
+
+render(html`<${App} name="Tuta" />`, document.body);
