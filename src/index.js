@@ -1,5 +1,5 @@
-import { h, render } from '../modules/zaphod/zaphod.js';
-import htm from '../modules/zaphod/zaphod-dom.js';
+import { h, render } from 'zaphod';
+import htm from 'zaphod-dom';
 
 const html = htm.bind(h);
 
