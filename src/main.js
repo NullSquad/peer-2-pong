@@ -1,30 +1,27 @@
 import { html, render } from "zaphod";
 
-const Header = ({ children, ...props }) => {
-    console.log(children);
-    return html`
-        <div>
-            <a> ${props.name} ${props.tmp} </a>
-            ${children}
-        </div>
-    `;
-};
+const owners = [
+    'Tito',
+    'Tuta',
+    'Dei',
+	'Erik'
+];
 
-const Footer = () => {
-    return html`
-        <div>
-            <p>hmmmm pies</p>
-        </div>
-    `;
-};
+const Card = ({ children, name }) => {
+	console.log('[Card] render with name: ', name);
+	return html`
+		<h1>${name}</h1>
+	`;
+}
 
 const App = () => {
     return html`
-        <${Header} name="Eric" tmp="txt">
-            <h1>yeah</h1>
-            <h1>perdonen</h1>
-        <//>
-        <${Footer} />
+	<section>
+	  ${owners.map((name) => html`
+	    <${Card} name=${name}/>
+	  `
+	  )}
+	</section>
     `;
 };
 
