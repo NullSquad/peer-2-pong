@@ -1,7 +1,31 @@
-import { html, render } from 'zaphod';
+import { html, render } from "zaphod";
 
-function App (props) {
-	return html`<h1>Hello ${props.name}!</h1>`;
-}
+const Header = ({ children, ...props }) => {
+    console.log(children);
+    return html`
+        <div>
+            <a> ${props.name} ${props.tmp} </a>
+            ${children}
+        </div>
+    `;
+};
 
-render(html`<${App} name="Tuta" />`, document.getElementById('root'));
+const Footer = () => {
+    return html`
+        <div>
+            <p>hmmmm pies</p>
+        </div>
+    `;
+};
+
+const App = () => {
+    return html`
+        <${Header} name="Eric" tmp="txt">
+            <h1>yeah</h1>
+            <h1>perdonen</h1>
+        <//>
+        <${Footer} />
+    `;
+};
+
+render(html`<${App} />`, document.getElementById("root"));
