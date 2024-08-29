@@ -7,10 +7,16 @@ const owners = [
 	'Erik'
 ];
 
-const Card = ({ children, name }) => {
+const Title = ({ children }) => {
+	return html`
+		<h1>${children}</h1>
+	`;
+}
+
+const Card = ({ children }) => {
 	console.log('[Card] render with name: ', name);
 	return html`
-		<h1>${name}</h1>
+		<div class=Card>${children}</div>
 	`;
 }
 
@@ -18,7 +24,11 @@ const App = () => {
     return html`
 	<section>
 	  ${owners.map((name) => html`
-	    <${Card} name=${name}/>
+	    <${Card}>
+			<${Title}>
+				${name}
+			<//>
+		<//>
 	  `
 	  )}
 	</section>
