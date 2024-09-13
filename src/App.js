@@ -8,11 +8,22 @@ import { CreateBoard } from "./components/Board.js";
 
 const App = () => {
 
-	const [board, setBoard] = useState(Array(9).fill(null));
+	const [board, setBoard] = useState(() => {
+		// get the saved board from the local localStorage
+		// if there is no saved board, create a new one
+		const savedBoard = window.localStorage.getItem('board');
+		return savedBoard ? JSON.parse(savedBoard) : Array(9).fill(null);
+	});
 
-	const [turn, setTurn] = useState(TURNS.X);
+	const [turn, setTurn] = useState(() => {
+		// get the saved turn from the local localStorage
+		// if there is no saved turn, set it to X
+		const savedTurn = window.localStorage.getItem('turn');
+		return savedTurn ? savedTurn : TURNS.X;
+	});
 
 	const [winner, setWinner] = useState(null);
+
 
 	const updateBoard = (index) => {
 		// dont update if the square is already filled or there is a winner
@@ -27,6 +38,11 @@ const App = () => {
 		// change the turn
 		const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X;
 		setTurn(newTurn);
+		// save game
+		window.localStorage.setItem('board', JSON.stringify(newBoard));
+		window.localStorage.setItem('turn', newTurn);
+
+		// check if there is a winner or a tie
 		const newWinner = checkWinner(newBoard);
 		if (newWinner) {
 			setWinner(newWinner);
@@ -41,6 +57,9 @@ const App = () => {
 		setBoard(Array(9).fill(null));
 		setTurn(TURNS.X);
 		setWinner(null);
+
+		window.localStorage.removeItem('board');
+		window.localStorage.removeItem('turn');
 	}
 
 	return html`
