@@ -1,82 +1,49 @@
-import { html } from "zaphod";
-import { useState } from "zaphod";
-import { Square } from "./components/Square.js";
-import { TURNS } from "./constants.js";
-import { checkWinner, checkEndGame } from "./utils/board.js";
-import { WinnerModal } from "./components/Winner.js";
-import { CreateBoard } from "./components/Board.js";
+import { html, useEffect, useState } from "zaphod";
 
 const App = () => {
 
-	const [board, setBoard] = useState(() => {
-		// get the saved board from the local localStorage
-		// if there is no saved board, create a new one
-		const savedBoard = window.localStorage.getItem('board');
-		return savedBoard ? JSON.parse(savedBoard) : Array(9).fill(null);
-	});
+	const [enabled, setEnabled] = useState(false);
+	const [position, setPosition] = useState({ x: 0, y: 0 });
 
-	const [turn, setTurn] = useState(() => {
-		// get the saved turn from the local localStorage
-		// if there is no saved turn, set it to X
-		const savedTurn = window.localStorage.getItem('turn');
-		return savedTurn ? savedTurn : TURNS.X;
-	});
+	useEffect(() => {
+		console.log("Effect", { enabled });
 
-	const [winner, setWinner] = useState(null);
-
-
-	const updateBoard = (index) => {
-		// dont update if the square is already filled or there is a winner
-		if (board[index] !== null || winner) {
-			return;
+		const handleMove = (event) => {
+			const { clientX, clientY } = event;
+			console.log("Move", { clientX, clientY });
+			setPosition({ x: clientX, y: clientY });
+		};
+		if (enabled) {
+			window.addEventListener('pointermove', handleMove);
 		}
-		// update the board
-		const newBoard = [...board];
-		newBoard[index] = turn;
-		setBoard(newBoard);
-
-		// change the turn
-		const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X;
-		setTurn(newTurn);
-		// save game
-		window.localStorage.setItem('board', JSON.stringify(newBoard));
-		window.localStorage.setItem('turn', newTurn);
-
-		// check if there is a winner or a tie
-		const newWinner = checkWinner(newBoard);
-		if (newWinner) {
-			setWinner(newWinner);
+		return () => { // cleanup method
+			console.log('cleanup')
+			window.removeEventListener('pointermove', handleMove)
 		}
-		else if (checkEndGame(newBoard)) {
-			setWinner(false);
-		}
-	}
 
-	const resetGame = () => {
-		// set all the states to the initial state
-		setBoard(Array(9).fill(null));
-		setTurn(TURNS.X);
-		setWinner(null);
-
-		window.localStorage.removeItem('board');
-		window.localStorage.removeItem('turn');
-	}
+	}, [enabled]);
 
 	return html`
-	<main className='board'>
-		<h1>Tic-Tac-Toe</h1>
-		<button onClick=${resetGame}>Reset</button>
-		<${CreateBoard} board=${board} updateBoard=${updateBoard} />
-		<section className="turn">
-			<${Square} isSelected=${turn === TURNS.X}>
-				${TURNS.X}
-			<//>
-			<${Square} isSelected=${turn === TURNS.O}> 
-				${TURNS.O}
-			<//>
-		</section>
-		<${WinnerModal} winner=${winner} resetGame=${resetGame} />
-		</main>
+	<main>
+		<div style=${{
+			position: "absolute",
+			backgroundColor: "rgba(0, 153, 255, 0.5)",
+			border: "1px solid #09f",
+			borderRadius: "50%",
+			oppacity: 0.8,
+			pointerEvents: "none",
+			left: -20,
+			top: -20,
+			width: 40,
+			height: 40,
+			transform: `translate(${position.x}px, ${position.y}px)`,
+		}}>
+		</div>
+		<h3>useEffect</h3>
+		<button onclick=${() => setEnabled(!enabled)}>
+			${enabled ? "Disable" : "Enable"} follow mouse
+		</button>
+	</main>
 	`;
 };
 
