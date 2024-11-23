@@ -1,11 +1,11 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import cors from 'cors';
+import { corsMiddleware } from './cors.js';
 
 const app = express();
 const port = process.env.BACKEND_PORT || 5000;
 
-app.use(cors());
+app.use(corsMiddleware());
 
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected'))
