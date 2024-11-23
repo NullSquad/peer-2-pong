@@ -1,0 +1,44 @@
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "${MONGO_PORT}:${MONGO_PORT}"
+    volumes:
+      - mongo-data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+
+  backend:
+    build: ./backend
+    container_name: backend
+    ports:
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
+    environment:
+      MONGO_URI: ${MONGO_URI}
+      PORT: ${BACKEND_PORT}
+    depends_on:
+      - mongodb
+    networks:
+      - net
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
+    environment:
+      PORT: ${FRONTEND_PORT}
+      VITE_BACKEND_PORT: ${BACKEND_PORT}
+    depends_on:
+      - backend
+    networks:
+      - net
+
+volumes:
+  mongo-data:
+
+networks:
+  net:
+    driver: bridge
