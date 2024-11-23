@@ -5,7 +5,7 @@ export function App() {
 
   useEffect(() => {
     async function fetchMessage() {
-      const response = await fetch(`http://backend:${import.meta.env.VITE_BACKEND_PORT}/`);
+      const response = await fetch(`http://127.0.0.1:${import.meta.env.VITE_BACKEND_PORT}/`);
       const data = await response.json();
       setMessage(data.message);
     }
