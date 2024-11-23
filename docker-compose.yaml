@@ -30,7 +30,7 @@ services:
       - "${FRONTEND_PORT}:${FRONTEND_PORT}"
     environment:
       PORT: ${FRONTEND_PORT}
-      VITE_BACKEND_PORT: ${BACKEND_PORT}
+      BACKEND_PORT: ${BACKEND_PORT}
     depends_on:
       - backend
     networks:
