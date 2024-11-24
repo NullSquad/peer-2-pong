@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import preact from '@preact/preset-vite'
 
-const { BACKEND_PORT, PORT } = process.env
+const { API_URI, PORT } = process.env
 
 export default defineConfig({
   plugins: [preact()],
@@ -9,7 +9,7 @@ export default defineConfig({
     host: '0.0.0.0',
     proxy: {
       '/api': {
-        target: `http://backend:${BACKEND_PORT}`,
+        target: API_URI,
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },

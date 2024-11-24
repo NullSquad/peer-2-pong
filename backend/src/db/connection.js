@@ -5,6 +5,7 @@ const client = new MongoClient(URI);
 
 try {
   await client.connect();
+  await client.db("admin").command({ ping: 1 });
   console.log("You successfully connected to MongoDB!");
 } catch (err) {
   console.error(err);
