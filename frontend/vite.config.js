@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import preact from '@preact/preset-vite'
 
-const { BACKEND_PORT, FRONTEND_PORT } = process.env
+const { BACKEND_PORT, PORT } = process.env
 
 export default defineConfig({
   plugins: [preact()],
@@ -18,6 +18,6 @@ export default defineConfig({
       usePolling: true,
     },
     strictPort: true,
-    port: parseInt(FRONTEND_PORT, 10) || 3000,
+    port: parseInt(PORT, 10) || 3000,
   },
 })

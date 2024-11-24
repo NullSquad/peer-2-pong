@@ -1,14 +1,14 @@
 services:
-  mongodb:
+  database:
     image: mongo:latest
-    container_name: mongodb
+    container_name: database
     ports:
-      - "${MONGO_PORT}:${MONGO_PORT}"
+      - "${DB_PORT}:${DB_PORT}"
     volumes:
-      - mongo-data:/data/db
+      - data:/data/db
     environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASS}
 
   backend:
     build: ./backend
@@ -16,10 +16,10 @@ services:
     ports:
       - "${BACKEND_PORT}:${BACKEND_PORT}"
     environment:
-      MONGO_URI: ${MONGO_URI}
+      DB_URI: ${DB_URI}
       PORT: ${BACKEND_PORT}
     depends_on:
-      - mongodb
+      - database
     networks:
       - net
 
@@ -37,7 +37,7 @@ services:
       - net
 
 volumes:
-  mongo-data:
+  data:
 
 networks:
   net:
