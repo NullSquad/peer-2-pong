@@ -4,6 +4,9 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    fontFamily: {
+      sans: ['Fugaz One', 'sans-serif'],
+    },
     colors: {
       transparent: 'transparent',
       current: 'currentColor',

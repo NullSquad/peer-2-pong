@@ -14,7 +14,7 @@ export function App() {
 
   return (
     <>
-      <h1 class="text-white">Vite + Preact</h1>
+      <h1 class="text-white text-5xl">Peer 2 Pong</h1>
       <div class="text-3xl font-bold underline text-primary">
         <p>{message}</p>
       </div>
