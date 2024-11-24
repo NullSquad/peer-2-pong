@@ -5,17 +5,17 @@ export function App() {
 
   useEffect(() => {
     async function fetchMessage() {
-        const response = await fetch('/api/');
-        const data = await response.json();
-        setMessage(data.message);
+      const response = await fetch('/api/');
+      const data = await response.json();
+      setMessage(data.message);
     }
     fetchMessage();
   }, []);
 
   return (
     <>
-      <h1>Vite + Preact</h1>
-      <div class="card">
+      <h1 class="text-white">Vite + Preact</h1>
+      <div class="text-3xl font-bold underline text-primary">
         <p>{message}</p>
       </div>
     </>
