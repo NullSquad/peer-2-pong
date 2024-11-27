@@ -51,6 +51,7 @@ import { useState, useEffect } from 'preact/hooks';
 import { Slider } from './slider.jsx'
 import { h } from 'preact';
 
+
 export function App() 
 {
   const [message, setMessage] = useState('');
@@ -67,9 +68,9 @@ export function App()
   return (
     <>
 	  <Slider>
-		<div> children 1 </div>
-		<div> children 2 </div>
-		<div> children 3 </div>
+		<div> tuta </div>
+		<div> tito </div>
+		<div> tony </div>
 	  </Slider>
     </>
   );
