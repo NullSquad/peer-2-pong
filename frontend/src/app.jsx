@@ -14,10 +14,26 @@ export function App() {
 
   return (
     <>
-      <h1 class="text-white text-5xl">Peer 2 Pong</h1>
-      <div class="text-3xl font-bold underline text-primary">
-        <p>{message}</p>
-      </div>
+      <LoginPage />
     </>
   );
 }
+
+function LoginPage() {
+  return (
+    <div class="flex justify-center items-center bg-gray-100">
+      <h1>Login Page</h1>
+      <LoginPageButton />
+    </div>
+  );
+}
+
+function LoginPageButton() {
+    return (
+        <button
+        class="block border-gray-500 rounded">
+          Login
+        </button>
+    );
+}
+
