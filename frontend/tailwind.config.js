@@ -1,3 +1,7 @@
+const plugin = require('tailwindcss/plugin')
+
+  plugins: [
+
 export default {
 	content: [
 		"./index.html",
@@ -53,6 +57,19 @@ export default {
 			},
 		}
 	},
-	plugins: [],
+	plugins: [
+    plugin(function({ addBase, addComponents, theme }) {
+			addBase({
+				'h1': { fontSize: theme('.2xl') },
+			})
+      addComponents({
+        '.btn': {
+          padding: '.5rem 1rem',
+          borderRadius: '.25rem',
+          fontWeight: '600',
+        },
+			})
+		})
+	],
 }
 
