@@ -1,24 +1,5 @@
-import React, {useState} from 'https://cdn.skypack.dev/react';
-import ReactDOM from 'https://cdn.skypack.dev/react-dom';
-
- import {TiChevronLeftOutline, TiChevronRightOutline} from 'https://cdn.skypack.dev/react-icons/ti';
-
-const CARDS = 10;
-const MAX_VISIBILITY = 3;
-
-const Card = ({title, content}) => 
-(
-	<div className='card'>
-    	<h2>{title}</h2>
-        <p>{content}</p>
-    </div>
-);
-              
-const Carousel = ({children}) => 
+/*const Carousel = ({children}) => 
 {
-	const [active, setActive] = useState(2);
-    const count = React.Children.count(children);
-
 	return 
 	(
     	<div className='carousel'>
@@ -64,11 +45,14 @@ ReactDOM.render
 	document.body
 );
 
+*/
 
-/*
 import { useState, useEffect } from 'preact/hooks';
+import { Slider } from './slider.jsx'
+import { h } from 'preact';
 
-export function App() {
+export function App() 
+{
   const [message, setMessage] = useState('');
 
   useEffect(() => {
@@ -82,10 +66,11 @@ export function App() {
 
   return (
     <>
-      <h1 class="text-white text-5xl">peer 2 pong</h1>
-      <div class="text-3xl font-bold underline text-primary">
-        <p>{message}</p>
-      </div>
+	  <Slider>
+		<div> children 1 </div>
+		<div> children 2 </div>
+		<div> children 3 </div>
+	  </Slider>
     </>
   );
-}*/
+}
