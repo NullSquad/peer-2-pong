@@ -1,9 +1,17 @@
-import { render } from 'preact'
-import { App } from './app.jsx'
-import './index.css'
+import { render } from 'preact';
 
-render
-(
-	<App />, 
-	document.getElementById('app')
-)
+const root = document.getElementById('app');
+
+const Test = () => {
+	return (
+	  <h1 className="text-black">Hello World!</h1>
+  )
+}
+
+function Tuvieja() {
+	return (
+	  <h1 className="text-black">Hello World!</h1>
+  )
+}
+
+render(<Tuvieja/>, root)
