@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import preact from '@preact/preset-vite'
 
-const { API_URI, PORT } = process.env
+const { API_URI = "", PORT = 3000 } = process.env
 
 export default defineConfig({
   plugins: [preact()],
@@ -18,6 +18,6 @@ export default defineConfig({
       usePolling: true,
     },
     strictPort: true,
-    port: parseInt(PORT, 10) || 3000,
+    port: parseInt(PORT, 10),
   },
 })

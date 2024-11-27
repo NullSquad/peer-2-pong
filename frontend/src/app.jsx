@@ -67,6 +67,7 @@ export function App()
 
   return (
     <>
+	  <h1>message :{message}</h1>
 	  <Slider>
 		<div> tuta </div>
 		<div> tito </div>

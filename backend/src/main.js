@@ -2,7 +2,7 @@ import express from "express";
 import index from "./routes/index.js"
 import users from "./routes/users.js";
 
-const PORT = process.env.PORT || 5000;
+const { PORT = 5000 } = process.env;
 const app = express();
 
 app.use(express.json());
