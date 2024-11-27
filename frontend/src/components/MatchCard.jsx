@@ -1,64 +1,85 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from 'preact/hooks';
 
-const MatchCard = ({ player1, player2, player1Img, player2Img, initialTime }) => {
-  const [timeLeft, setTimeLeft] = useState(initialTime);
+export function MatchCard({ player1, player2, targetDate }) {
+  const [timeLeft, setTimeLeft] = useState('');
 
-  // Lógica para reducir el tiempo restante
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev <= 0) {
-          clearInterval(timer);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
+  const calculateTimeLeft = () => {
+    const now = new Date();
+    const target = new Date(targetDate);
+    const difference = target - now;
 
-    return () => clearInterval(timer); // Limpia el intervalo al desmontar
-  }, []);
+    if (difference > 0) {
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((difference / (1000 * 60)) % 60);
+      const seconds = Math.floor((difference / 1000) % 60);
 
-  // Formatear el tiempo restante (días, horas, minutos, segundos)
-  const formatTime = (seconds) => {
-    const days = Math.floor(seconds / (60 * 60 * 24));
-    const hours = Math.floor((seconds % (60 * 60 * 24)) / (60 * 60));
-    const minutes = Math.floor((seconds % (60 * 60)) / 60);
-    const secs = seconds % 60;
-
-    return `${days}d ${hours}h ${minutes}m ${secs}s`;
+	  return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    //   if (days > 0) {
+    //     return `${days}d ${hours}h`;
+    //   } else if (hours > 0) {
+    //     return `${hours}h ${minutes}m`;
+    //   } else if (minutes > 0) {
+    //     return `${minutes}m ${seconds}s`;
+    //   } else {
+    //     return `${seconds}s`;
+    //   }
+    } else {
+      return 'Time expired';
+    }
   };
 
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [targetDate]);
+
   return (
-    <div className="flex items-center justify-between bg-gray-900 rounded-lg p-4 shadow-lg relative">
-      {/* Jugador 1 */}
-      <div className="flex items-center space-x-2 bg-blue-500 p-2 rounded-l-lg">
+    <div className="relative flex w-full max-w-4xl shadow-lg overflow-visible">
+      {/* Player 1 Side */}
+      <div className="flex items-center justify-center bg-blue-500 w-1/2 px-6 py-8 text-black">
         <img
-          src={player1Img}
-          alt={`${player1} avatar`}
-          className="w-12 h-12 rounded-full border-2 border-white"
+          src={player1.image}
+          alt={player1.name}
+          className="w-16 h-16 rounded-full border-4 border-black mr-4"
         />
-        <span className="text-white font-bold">{player1}</span>
+        <span className="text-2xl font-bold">{player1.name}</span>
       </div>
 
-      {/* VS en el centro */}
-      <div className="text-white font-extrabold text-xl">VS</div>
+      {/* VS Section */}
+      <div
+        className="absolute inset-0 flex items-center justify-center text-white text-4xl font-extrabold"
+        style={{
+          textShadow: '2px 2px 4px black',
+        }}
+      >
+        VS
+      </div>
 
-      {/* Jugador 2 */}
-      <div className="flex items-center space-x-2 bg-red-500 p-2 rounded-r-lg">
-        <span className="text-white font-bold">{player2}</span>
+      {/* Player 2 Side */}
+      <div className="flex items-center justify-center bg-red-500 w-1/2 px-6 py-8 text-black">
+        <span className="text-2xl font-bold mr-4">{player2.name}</span>
         <img
-          src={player2Img}
-          alt={`${player2} avatar`}
-          className="w-12 h-12 rounded-full border-2 border-white"
+          src={player2.image}
+          alt={player2.name}
+          className="w-16 h-16 rounded-full border-4 border-black"
+		  // WebkitTextStroke: '0.3px black',
+		  // color: 'white',
         />
       </div>
 
-      {/* Tiempo restante */}
-      <div className="absolute bottom-2 right-2 bg-black text-gray-200 px-2 py-1 text-xs rounded-lg">
-        Time left: {formatTime(timeLeft)}
+      {/* Time Left */}
+      <div
+        className="absolute bottom-0 right-0 bg-gray-900 text-white text-sm p-2 rounded-lg translate-y-full"
+        style={{ marginTop: '8px', zIndex: 10 }}
+      >
+        Time left: {timeLeft}
       </div>
     </div>
   );
-};
+}
 
 export default MatchCard;
