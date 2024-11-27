@@ -1,12 +1,15 @@
 FROM node:lts-buster
 
-WORKDIR /usr/src/app
+RUN useradd -ms /bin/sh -u 1001 app
+USER app
 
-COPY package*.json ./
+WORKDIR /app
+
+COPY --chown=app:app package*.json ./
 
 RUN npm install
 
-COPY . .
+COPY --chown=app:app . .
 
 EXPOSE ${FRONTEND_PORT}
 

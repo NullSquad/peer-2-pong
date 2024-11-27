@@ -25,7 +25,7 @@ services:
       watch:
         - action: sync
           path: ./backend/src
-          target: /usr/src/app/src
+          target: /app/src
         - action: rebuild
           path: ./backend/package.json
 
@@ -44,7 +44,7 @@ services:
       watch:
         - action: sync
           path: ./frontend/src
-          target: /usr/src/app/src
+          target: /app/src
         - action: rebuild
           path: ./frontend/package.json
 
