@@ -1,7 +1,5 @@
 const plugin = require('tailwindcss/plugin')
 
-  plugins: [
-
 export default {
 	content: [
 		"./index.html",
@@ -18,7 +16,7 @@ export default {
 				neutral: {
 					DEFAULT: '#FFFFFF',
 					grey: {
-						50: '#F8F9FA'
+						50: '#F8F9FA',
 						100: '#F1F3F5',
 						200: '#E9ECEF',
 						300: '#DEE2E6',
@@ -36,7 +34,7 @@ export default {
 						50: '#FCEFB0',
 						100: '#FFD81D',
 						300: '#F8D83A',
-						DEFAULT: '#F0C808',
+						500: '#F0C808',
 						700: '#BC7D25',
 						900: '#A6552D',
 					},
@@ -49,7 +47,7 @@ export default {
 						ocean: '#094CF0',
 					},
 					red: {
-						light: '#EB5151'
+						light: '#EB5151',
 						DEFAULT: '#E52424',
 						dark: '#B71515',
 					}
@@ -58,18 +56,16 @@ export default {
 		}
 	},
 	plugins: [
-    plugin(function({ addBase, addComponents, theme }) {
+		plugin(function({ addBase, addComponents, theme }) {
 			addBase({
-				'h1': { fontSize: theme('.2xl') },
+				'h1': { fontSize: '2rem', textShadow: '1px 1px 2px black' },
 			})
-      addComponents({
-        '.btn': {
-          padding: '.5rem 1rem',
-          borderRadius: '.25rem',
-          fontWeight: '600',
-        },
+			addComponents({
+				'.shadow-item': {
+					boxShadow: `inset 0 .5em ${theme("colors.primary.yellow.100")}, inset 0px -.5em ${theme("colors.primary.yellow.700")}`
+				},
 			})
 		})
 	],
-}
 
+}
