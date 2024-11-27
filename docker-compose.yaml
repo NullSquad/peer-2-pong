@@ -28,6 +28,7 @@ services:
           target: /app/src
         - action: rebuild
           path: ./backend/package.json
+          target: /app
 
   frontend:
     build: frontend
@@ -47,6 +48,7 @@ services:
           target: /app/src
         - action: rebuild
           path: ./frontend/package.json
+          target: /app
 
 volumes:
   data:

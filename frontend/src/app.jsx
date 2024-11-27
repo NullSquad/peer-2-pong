@@ -66,6 +66,7 @@ export function App()
 
   return (
     <>
+	  <h1>message :{message}</h1>
 	  <Slider>
 		<div> children 1 </div>
 		<div> children 2 </div>
