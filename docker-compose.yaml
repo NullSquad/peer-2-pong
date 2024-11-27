@@ -2,8 +2,6 @@ services:
   database:
     image: mongo:latest
     container_name: database
-    ports:
-      - "27017:27017"
     volumes:
       - data:/data/db
     environment:
@@ -15,8 +13,6 @@ services:
   backend:
     build: ./backend
     container_name: backend
-    ports:
-      - "${BACKEND_PORT}:${BACKEND_PORT}"
     environment:
       PORT: ${BACKEND_PORT}
       DB_URI: mongodb://${DB_USER}:${DB_PASS}@database:27017
@@ -25,14 +21,19 @@ services:
     networks:
       - backend
       - frontend
+    develop:
+      watch:
+        - action: sync
+          path: ./backend/src
+          target: /app/src
+        - action: rebuild
+          path: ./backend/package.json
 
   frontend:
     build: ./frontend
     container_name: frontend
     ports:
       - "${FRONTEND_PORT}:${FRONTEND_PORT}"
-    volumes:
-      - ./frontend/src:/usr/src/app/src
     environment:
       PORT: ${FRONTEND_PORT}
       API_URI: http://backend:${BACKEND_PORT}
@@ -40,6 +41,13 @@ services:
       - backend
     networks:
       - frontend
+    develop:
+      watch:
+        - action: sync
+          path: ./frontend/src
+          target: /app/src
+        - action: rebuild
+          path: ./frontend/package.json
 
 volumes:
   data:
