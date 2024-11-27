@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'preact/hooks';
+import { Event } from './events.jsx';
 
 export function App() {
   const [message, setMessage] = useState('');
@@ -12,12 +13,5 @@ export function App() {
     fetchMessage();
   }, []);
 
-  return (
-    <>
-      <h1 class="text-white text-5xl">Peer 2 Pong</h1>
-      <div class="text-3xl font-bold underline text-primary">
-        <p>{message}</p>
-      </div>
-    </>
-  );
-}
+  return ( <Event></Event>)
+};
