@@ -1,6 +1,6 @@
-FROM node:18
+FROM node:lts-buster
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
 COPY package*.json ./
 
