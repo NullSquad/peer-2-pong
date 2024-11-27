@@ -1,3 +1,23 @@
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import LogIn from "./pages/LogIn";
+import NotFound from "./pages/NotFound";
+
+/*export function App() = () => {
+  return (
+    <Router>
+      <Routes>
+		<Route path="/LogIn" element={<LogIn />} />
+        <Route path="/" element={<Home />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </Router>
+  );
+};
+
+export default App;
+*/
 import { useState, useEffect } from 'preact/hooks';
 
 export function App() {
