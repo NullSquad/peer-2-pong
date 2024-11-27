@@ -1,32 +1,33 @@
-import { useState } from 'preact/hooks';
-import { Children } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { EffectCards } from 'swiper/modules';
+import { Children } from 'react';
 import 'swiper/css';
 
 export const Slider = ({children}) => {
-	const [active, setActive] = useState(0);
 	const count = Children.count(children);
 	return (
-    	<>
-			<div class="bg-white flex flex-row">
-				{	active > 0 &&
-				<button onClick={() => setActive(i => i - 1)}>
-					flecha izquierda
-				</button> 
-				}
-    			
-				<div 
-					class="	bg-primary flex flex-row " 
+		<>
+			<article class="flex justify-center w-screen bg-white py-8 px-8">
+				<Swiper
+				effect={'cards'}
+		        grabCursor={true}
+		        modules={[EffectCards]}
+				onSlideChange={() => console.log('slide change')}
+				onSwiper={(swiper) => console.log(swiper)}
+				className="flex justify-center items-center"
 				>
-					{children}
-				</div>
-
-				{	active < count - 1 && 
-				<button onClick={() => setActive(i => i + 1)}>
-					flecha derecha 
-				</button>
-				}
-			</div>
+					{
+						Children.map(children, (child, index) => (
+			        	<SwiperSlide 
+						key={index} 
+						style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', }}
+						>
+							{child}
+						</SwiperSlide>
+			    		))
+					}
+		    	</Swiper>
+			</article>
     	</>
 	);
 };

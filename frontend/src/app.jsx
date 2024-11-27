@@ -67,11 +67,10 @@ export function App()
 
   return (
     <>
-	  <h1>message :{message}</h1>
 	  <Slider>
-		<div> tuta </div>
-		<div> tito </div>
-		<div> tony </div>
+		<article class="bg-primary size-40 flex items-center justify-center" > LEAGUE </article>
+		<article class="bg-primary size-40 flex justify-center items-center" > TOURNAMENTS </article>
+		<article class="bg-primary size-40 flex justify-center items-center" > TONY </article>
 	  </Slider>
     </>
   );
