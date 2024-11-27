@@ -1,7 +1,6 @@
-import React from "react";
 import MatchCard from "../components/MatchCard";
 
-const Matches = () => {
+const Home = () => {
   const matches = [
     {
       player1: "bautrodr",
@@ -38,4 +37,4 @@ const Matches = () => {
   );
 };
 
-export default Matches;
+export default Home;
