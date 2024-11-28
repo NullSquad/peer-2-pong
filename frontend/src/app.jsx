@@ -29,8 +29,11 @@ function	LoginPage()
 		<>
 			<div className="w-[800px] h-[70px] left-[96px] top-[575px] absolute justify-center items-center inline-flex">
 				<div className="w-[800px] h-[70px] relative">
-					<div className="w-[199.99px] h-[69.72px] shadow-yellow-100-900 parallelogram-tuta px-4 py-2 left-0 top-[0.28px] bg-primary-yellow rounded-sm border-2 border-black justify-center items-center gap-2 inline-flex">
+					<div className="w-[199.99px] h-[69.72px] shadow-yellow-100-700 parallelogram-tuta px-4 py-2 left-0 top-[0.28px] bg-primary-yellow rounded-sm border-2 border-black justify-center items-center gap-2 inline-flex">
 						<div className="text-white leading-loose"><h1>LOGIN</h1></div>
+					</div>
+					<div className="w-[199.99px] h-[69.72px] shadow-yellow-50-700 parallelogram-tuta px-4 py-2 left-0 top-[0.28px] bg-primary-yellow rounded-sm border-2 border-black justify-center items-center gap-2 inline-flex">
+						<div className="text-white leading-loose"><h1>MATCHES</h1></div>
 					</div>
 					<div className="w-[25.99px] h-[20.72px] text-[25px] shadow-blue-ocean parallelogram-tuta px-4 py-2 left-0 top-[0.28px] bg-accent-blue rounded-sm border-2 border-black justify-center items-center gap-2 inline-flex">
 						<div className="text-white leading-loose">+</div>
@@ -56,11 +59,27 @@ function	Background({children})
 	);
 }
 
+function	Banner()
+{
+	return (
+		<div className="w-80 h-9 relative">
+			<div className="w-72 mt-2 h-5 left-[7.85px] rounded-r-sm shadow-yellow-50-700 bg-primary-yellow top-[23.10px] absolute">
+			</div>
+			<div className="w-64 h-5 left-[95px] rounded-r-sm shadow-yellow-50-700 bg-primary-yellow top-[8.20px] absolute">
+			</div>
+			<div className="w-60 h-12 left-0 parallelogram-banner rounded-r-sm shadow-yellow-50-700 bg-primary-yellow top-0 absolute">
+			</div>
+			<div className="w-44 left-[37px] top-[-2px] absolute text-white text-3xl font-normal font-['Fugaz One'] leading-loose">MATCHES</div>
+		</div>
+	);
+}
+
 export function	App()
 {
 	return (
 		<Background>
-				<LoginPage/>
+			<Banner/>
 		</Background>
 	);
 }
+				// <LoginPage/>

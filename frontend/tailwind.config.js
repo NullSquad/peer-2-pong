@@ -71,8 +71,11 @@ export default {
 				'h6': { fontSize: '1rem', textShadow: '1px 1px 2px black' },
 			})
 			addComponents({
-				'.shadow-yellow-100-900': {
-					boxShadow: `inset 0 .5em ${theme('colors.primary.yellow.100')}, inset 0 -.5em ${theme('colors.primary.yellow.900')}`
+				'.shadow-yellow-50-700': {
+					boxShadow: `inset 0 .3em ${theme('colors.primary.yellow.50')}, inset 0 -.3em ${theme('colors.primary.yellow.700')}`
+				},
+				'.shadow-yellow-100-700': {
+					boxShadow: `inset 0 .5em ${theme('colors.primary.yellow.100')}, inset 0 -.5em ${theme('colors.primary.yellow.700')}`
 				},
 				'.shadow-blue-ocean': {
 					boxShadow: `inset 0 .15em ${theme('colors.accent.blue.light')}, inset 0 -.15em ${theme('colors.accent.blue.ocean')}`
@@ -86,7 +89,9 @@ export default {
 				'.parallelogram-tuta': {
         	clipPath: 'polygon(8% 0, 100% 0, 92% 100%, 0% 100%)'
 				}, 
-
+				'.parallelogram-banner': {
+        	clipPath: 'polygon(0% 0, 100% 0, 92% 100%, 0% 100%)'
+				}, 
 			})
 		})
 	],
