@@ -86,7 +86,7 @@ const SwipeCardStack = ({ children }) => {
     >
       {cards.map((card, index) => (
         <section
-          key={card.id}
+          key={card}
           className={`absolute w-80 h-40 rounded-lg shadow-lg ${card.bgColor} flex
             justify-center items-center text-black text-2xl font-bold
             transition-transform duration-300`}
@@ -98,7 +98,7 @@ const SwipeCardStack = ({ children }) => {
             clipPath: "polygon(8% 0, 100% 0, 92% 100%, 0% 100%)",
           }}
         >
-          {card.content}
+          {children[card.id]}
         </section>
       ))}
     </section>
@@ -107,16 +107,6 @@ const SwipeCardStack = ({ children }) => {
 
 export function App() 
 {
-  const [message, setMessage] = useState('');
-
-  useEffect(() => {
-    async function fetchMessage() {
-      const response = await fetch('/api/');
-      const data = await response.json();
-      setMessage(data.message);
-    }
-    fetchMessage();
-  }, []);
 
   return (
     <>
