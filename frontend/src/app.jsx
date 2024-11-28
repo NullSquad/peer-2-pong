@@ -54,27 +54,16 @@ ReactDOM.render
 import { useState, useEffect } from 'preact/hooks';
 import { Slider } from './slider.jsx'
 import { h } from 'preact';
-
+import { Event } from './events.jsx';
 
 export function App() 
 {
-  const [message, setMessage] = useState('');
-
-  useEffect(() => {
-    async function fetchMessage() {
-      const response = await fetch('/api/');
-      const data = await response.json();
-      setMessage(data.message);
-    }
-    fetchMessage();
-  }, []);
-
   return (
     <>
 	  <Slider>
-		<article class="bg-primary size-40 flex items-center justify-center" > LEAGUE </article>
-		<article class="bg-primary size-40 flex justify-center items-center" > TOURNAMENTS </article>
-		<article class="bg-primary size-40 flex justify-center items-center" > TONY </article>
+		<Event class="bg-primary size-40 flex items-center justify-center" > LEAGUE </Event>
+		<Event class="bg-primary size-40 flex items-center justify-center" > TOURNAMENT </Event>
+		<Event class="bg-primary size-40 flex items-center justify-center" > MORE EVENTS </Event>
 	  </Slider>
     </>
   );

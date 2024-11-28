@@ -1,3 +1,122 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.slider-container {
+
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    overflow: hidden;
+    padding: 20px;
+    background-color: transparent;
+}
+
+.league-window-container {
+
+    position: relative;
+    width: 400px;
+    height: 200px;
+    background-color: #000000 ;
+    color: #c4c4c4;
+    border: 1px solid #ccc;
+    overflow: hidden;
+    text-align-last: left;
+    line-height: 1px;
+    font-size: 10px;
+    font-weight: bold;
+    transform: skew(-10deg);
+    display: grid;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.time-container
+{
+    position: absolute;
+    padding: auto;
+    top: 10px;
+    right: 10px;
+    width: -19px;
+    height: -2px;
+    background-color: #000000;
+    border: 0.5px solid #ccc;
+    /*background-color: aquamarine;*/
+    /*color: #FF0000;*/
+    color: #c4c4c4;
+    text-align: center;
+    line-height: 10px;
+    font-size: 10px;
+    font-weight: lighter;
+    transform: skew(-4deg);
+    display: flex;
+    justify-self: end;
+}
+
+.league-window {
+
+    width: 339px;
+    height: 150px;
+    background-color: #1A7CC0;
+    color: #c4c4c4;
+    text-align: right;
+    line-height: 1px;
+    font-size: 40px;
+    font-weight: bold;
+    transform: skew(-0.5deg);
+    display: flex;
+    justify-content: center;
+    justify-self: flex-end;
+    align-items: center;
+
+}
+
+.tournaments-window-container {
+
+    width: 400px;
+    height: 200px;
+    background-color: #000000;
+    color: white;
+    text-align: center;
+    line-height: 10px;
+    font-size: 40px;
+    font-weight: bold;
+    transform: skew(-4 deg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tournament-window {
+
+    width: 339px;
+    height: 150px;
+    background-color: #1A7CC0;
+    color: #c4c4c4;
+    text-align: right;
+    line-height: 1px;
+    font-size: 40px;
+    font-weight: bold;
+    transform: skew(-0.5deg);
+    display: flex;
+    justify-content: center;
+    justify-self: flex-end;
+    align-items: center;
+}
+
+.tony-window-container {
+
+    width: 20px;
+    height: 10px;
+    background-color: #000000;
+    color: white;
+    text-align: center;
+    line-height: 10px;
+    font-size: 1px;
+    font-weight: bold;
+    transform: skew(-20deg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
