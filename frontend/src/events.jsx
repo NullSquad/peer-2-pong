@@ -18,7 +18,11 @@ export const Event = ({ children }) => {
 
             {/* Corrected onClick */}
             <button className="norms-button" onClick={togglePopup}>
-              Show Norms
+              Norms
+            </button>
+
+            <button className="join-button">
+              Join
             </button>
 
             {/* Pop-up */}

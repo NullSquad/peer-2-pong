@@ -55,6 +55,26 @@
     
 
 }
+
+
+
+.join-button {
+  position: absolute; /* Allow absolute positioning relative to parent */
+  bottom: 10px; /* Distance from top edge */
+  right: 10px; /* Distance from left edge */
+  padding: 8px 16px; /* Adjust padding for button size */
+  background-color: #F0c808; /* Button background color */
+  color: white; /* Text color */
+  border: none; /* Remove border */
+  border-radius: 4px; /* Rounded corners */
+  font-size: 14px; /* Font size */
+  cursor: pointer; /* Pointer cursor on hover */
+}
+
+.join-button:hover {
+  background-color: #01ff10; /* Darker background on hover */
+}
+
 .norms-button {
   position: absolute; /* Allow absolute positioning relative to parent */
   top: 10px; /* Distance from top edge */
@@ -69,7 +89,7 @@
 }
 
 .norms-button:hover {
-  background-color: #0056b3; /* Darker background on hover */
+  background-color: #ff1001; /* Darker background on hover */
 }
 
 /* Pop-up overlay styles */
