@@ -1,0 +1,31 @@
+.header {
+  position: relative;
+  background-color: #e2bd07;;
+  color: white;
+  padding: 0.3rem;
+  margin: 2rem 30% 1rem 0;
+  display: flex; /* Usa flexbox para alinear horizontalmente */
+  justify-content: space-between; /* Espacio entre las secciones del header */
+  align-items: center; /* Centrar verticalmente la imagen y el texto */
+  border-top: solid #FCEFB0 0.5em;
+  border-bottom: solid #BC7D25 0.5em;
+  border-right: solid black 0.2em;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.3);
+}
+
+.header img.avatar {
+  width: 60px; /* Tamaño de la imagen */
+  height: 60px;
+  border-radius: 50%; /* Hace la imagen circular */
+  border: 3px solid white; /* Opcional: borde blanco alrededor de la imagen */
+  margin-right: 1rem; /* Espacio entre la imagen y el texto */
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.1);
+}
+
+.header .slogan {
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: black;
+  font-size: 2.1rem;
+  margin: 0;
+}
+
