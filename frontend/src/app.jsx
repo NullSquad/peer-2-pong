@@ -1,11 +1,15 @@
-import { useState, useEffect } from "preact/hooks";
-import Login from "./login-page.jsx";
+import Router from "preact-router";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
 
 function App() {
   return (
-    <>
-      <Login />
-    </>
+    <main className="min-h-screen bg-gray-900 text-white">
+      <Router>
+        <Login path="/" />
+        <Home path="/home" />
+      </Router>
+    </main>
   );
 }
 
