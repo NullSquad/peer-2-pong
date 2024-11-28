@@ -36,7 +36,7 @@ export default {
 						50: '#FCEFB0',
 						100: '#FFD81D',
 						300: '#F8D83A',
-						500: '#F0C808',
+						DEFAULT: '#F0C808',
 						700: '#BC7D25',
 						900: '#A6552D',
 					},
@@ -55,53 +55,78 @@ export default {
 					}
 				},
 			},
+			clipPath: {
+				'paralel': ''
+			}
 		}
 	},
 	plugins: [
-		//plugin(({ matchUtilities, theme }) => {
-		//			matchUtilities(
-		//				{
-		//					"shadow-inner-top": (value) => ({
-		//						boxShadow: `inset 0 .5em ${value}`
-		//					})
-		//				},
-		//				{ 
-		//					values: flattenColorPalette(theme("colors")), 
-		//					type: "color" 
-		//				}
-		//			);
-		//		})
-		plugin(function({ addBase, matchComponents, theme }) {
+		plugin(function({ addBase, addComponents, matchComponents, theme }) {
 			addBase({
-				'h1': { fontSize: '2rem', textShadow: '1px 1px 2px black' },
+				'h1': { fontSize: '2.5rem', textShadow: '1px 1px 2px black' },
+				'h2': { fontSize: '2rem', textShadow: '1px 1px 2px black' },
+				'h3': { fontSize: '1.75rem', textShadow: '1px 1px 2px black' },
+				'h4': { fontSize: '1.5rem', textShadow: '1px 1px 2px black' },
+				'h5': { fontSize: '1.25rem', textShadow: '1px 1px 2px black' },
+				'h6': { fontSize: '1rem', textShadow: '1px 1px 2px black' },
 			})
-			matchComponents(
-				{
-					'shadow-inner': (value) => {
-						// value = [["t", "primary.yellow.100"], ["b", "primary.yellow.900"]];
-						// return {
-						// 	boxShadow: `inset 0 -.5em ${value}`
-						// }
-						if (value[0] == 's')
-							value = value.substring(12);
-						if (value[0] == '-')
-							value = value.substring(1);
-						let shadows = value.split("+");
+			addComponents({
+				'.shadow-yellow-100-900': {
+					boxShadow: `inset 0 .5em ${theme('colors.primary.yellow.100')}, inset 0 -.5em ${theme('colors.primary.yellow.900')}`
+				},
+				'.shadow-blue-ocean': {
+					boxShadow: `inset 0 .15em ${theme('colors.accent.blue.light')}, inset 0 -.15em ${theme('colors.accent.blue.ocean')}`
+				},
+				'.shadow-red-light-dark': {
+					boxShadow: `inset 0 .15em ${theme('colors.accent.red.light')}, inset 0 -.15em ${theme('colors.accent.red.dark')}`
+				},
+				'.parallelogram': {
+        	clipPath: 'polygon(3% 15%, 100% 15%, 97% 85%, 0% 85%)'
+				}, 
+				'.parallelogram-tuta': {
+        	clipPath: 'polygon(8% 0, 100% 0, 92% 100%, 0% 100%)'
+				}, 
 
-						shadows = shadows.map(color => color.split("_"));
-						shadows = shadows.map(combo => combo.map(color => color.replaceAll("-", ".")));
-						shadows = shadows.map(combo => [combo[0] == 'b' ? '-' : '', combo[1]]);
-
-						return {
-							boxShadow: shadows.map(color => `inset 0 ${color[0]}.5em ${theme(color[1])}`).join(", ") 
-						}
-					},
-					//'shadow-inner-btm': (value) => { return {
-					//	boxShadow: `inset 0 -.5em ${value}`
-					//}},
-				}
-			)
+			})
 		})
 	],
 
 }
+//plugin(({ matchUtilities, theme }) => {
+//			matchUtilities(
+//				{
+//					"shadow-inner-top": (value) => ({
+//						boxShadow: `inset 0 .5em ${value}`
+//					})
+//				},
+//				{ 
+//					values: flattenColorPalette(theme("colors")), 
+//					type: "color" 
+//				}
+//			);
+//		})
+//
+//matchComponents(
+//	{
+//		'shadow-item': (value) => {
+//			// value = [["t", "primary.yellow.100"], ["b", "primary.yellow.900"]];
+//			if (value[0] == 's')
+//				value = value.substring(12);
+//			if (value[0] == '-')
+//				value = value.substring(1);
+
+//			let shadows = value.split("+");
+
+//			shadows = shadows.map(color => color.split("_"));
+//			shadows = shadows.map(combo => combo.map(color => color.replaceAll("-", ".")));
+//			shadows = shadows.map(combo => [combo[0] == 'b' ? '-' : '', combo[1]]);
+
+//			return {
+//				boxShadow: shadows.map(color => `inset 0 ${color[0]}.5em ${theme('colors.' + color[1])}`).join(", ") 
+//			}
+//		},
+//		//'shadow-inner-btm': (value) => { return {
+//		//	boxShadow: `inset 0 -.5em ${value}`
+//		//}},
+//	}
+//)

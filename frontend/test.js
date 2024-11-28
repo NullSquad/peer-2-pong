@@ -19,8 +19,8 @@ const test = (value) => {
 		console.log(shadows);
 
 		return {
-			boxShadow: shadows.map(color => `inset 0 ${color[0]}.5em ${theme(color[1])}`).join(", ") 
+			boxShadow: shadows.map(color => `inset 0 ${color[0]}.5em ${theme('colors.' + color[1])}`).join(", ") 
 		}
 	}
 
-console.log(test("shadow-inner-t_colors-primary-yellow-100+b_colors-primary-yellow-900"));
+console.log(test("shadow-inner-t_primary-yellow-100+b_primary-yellow-900"));
