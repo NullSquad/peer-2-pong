@@ -59,7 +59,7 @@
     width: 339px;
     height: 150px;
     background-color: #1A7CC0;
-    color: #c4c4c4;
+    color: #000000;
     text-align: right;
     line-height: 1px;
     font-size: 40px;
@@ -119,4 +119,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+@layer components {
+	.stroke {
+		-webkit-text-stroke: .1em black;
+	}
 }
