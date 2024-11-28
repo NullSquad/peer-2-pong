@@ -4,9 +4,6 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
-      clipPath: {
-        parallelogram: "polygon(3% 0, 100% 0, 97% 100%, 0% 100%)",
-      },
       fontFamily: {
         sans: ["Fugaz One", "sans-serif"],
       },
@@ -53,18 +50,42 @@ export default {
           },
         },
       },
+      clipPath: {
+        paralel: "",
+      },
     },
   },
   plugins: [
-    plugin(function ({ addBase, addComponents, theme }) {
+    plugin(function ({ addBase, addComponents, matchComponents, theme }) {
       addBase({
-        h1: { fontSize: theme(".2xl") },
+        h1: { fontSize: "2.5rem", textShadow: "1px 1px 2px black" },
+        h2: { fontSize: "2rem", textShadow: "1px 1px 2px black" },
+        h3: { fontSize: "1.75rem", textShadow: "1px 1px 2px black" },
+        h4: { fontSize: "1.5rem", textShadow: "1px 1px 2px black" },
+        h5: { fontSize: "1.25rem", textShadow: "1px 1px 2px black" },
+        h6: { fontSize: "1rem", textShadow: "1px 1px 2px black" },
       });
       addComponents({
-        ".btn": {
-          padding: ".5rem 1rem",
-          borderRadius: ".25rem",
-          fontWeight: "600",
+        ".shadow-yellow-50-700": {
+          boxShadow: `inset 0 .3em ${theme("colors.primary.yellow.50")}, inset 0 -.3em ${theme("colors.primary.yellow.700")}`,
+        },
+        ".shadow-yellow-100-700": {
+          boxShadow: `inset 0 .5em ${theme("colors.primary.yellow.100")}, inset 0 -.5em ${theme("colors.primary.yellow.700")}`,
+        },
+        ".shadow-blue-ocean": {
+          boxShadow: `inset 0 .15em ${theme("colors.accent.blue.light")}, inset 0 -.15em ${theme("colors.accent.blue.ocean")}`,
+        },
+        ".shadow-red-light-dark": {
+          boxShadow: `inset 0 .15em ${theme("colors.accent.red.light")}, inset 0 -.15em ${theme("colors.accent.red.dark")}`,
+        },
+        ".parallelogram": {
+          clipPath: "polygon(3% 15%, 100% 15%, 97% 85%, 0% 85%)",
+        },
+        ".parallelogram-tuta": {
+          clipPath: "polygon(8% 0, 100% 0, 92% 100%, 0% 100%)",
+        },
+        ".parallelogram-banner": {
+          clipPath: "polygon(0% 0, 100% 0, 92% 100%, 0% 100%)",
         },
       });
     }),
