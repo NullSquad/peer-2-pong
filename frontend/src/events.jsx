@@ -1,17 +1,44 @@
+import { useState } from 'react';
 
-export const Event = ({children}) => { 
-    return ( 
+export const Event = ({ children }) => {
+
+  const [showPopup, setShowPopup] = useState(false);
+  const togglePopup = () => {
+    setShowPopup(!showPopup); /* Toggle pop-up visibility */
+  };
+
+  return (
     <>
-     <div className="slider-container">
-      <div className="league-window-container">
-        <div className="time-container">
-          league ends in : 00h00mn00s
-        </div>
-        <div className="league-window">
-          League-Window
+      <div className="slider-container">
+        <div className="league-window-container">
+          <div className="time-container">
+            league ends in: 00h00mn00s
+          </div>
+          <div className="league-window">
+
+            {/* Corrected onClick */}
+            <button className="norms-button" onClick={togglePopup}>
+              Show Norms
+            </button>
+
+            {/* Pop-up */}
+            {showPopup && (
+              <div className="popup-overlay">
+                <div className="popup">
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                  <p>This is the pop-up content!</p>
+                  <button className="close-button" onClick={togglePopup}>
+                    Close
+                  </button>
+                </div>
+              </div>
+            )}
+
+            League-Window
             {children}
+          </div>
         </div>
       </div>
-    </div>
-    </>);  
+    </>
+  );
 };
