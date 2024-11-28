@@ -1,12 +1,12 @@
 import express from "express";
 import passport from "passport";
-import OAuth2Stratedy from "passport-oauth2";
+import OAuth2Strategy from "passport-oauth2";
 
 const { CALLBACK_URL, CLIENT_ID, CLIENT_SECRET } = process.env;
 const router = express.Router();
 
 passport.use(
-  new OAuth2Stratedy(
+  new OAuth2Strategy(
     {
       authorizationURL: "https://api.intra.42.fr/oauth/authorize",
       tokenURL: "https://api.intra.42.fr/oauth/token",
