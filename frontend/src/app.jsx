@@ -63,13 +63,13 @@ function	Banner()
 {
 	return (
 		<div className="w-80 h-9 relative">
-			<div className="w-72 mt-2 h-5 left-[7.85px] rounded-r-sm shadow-yellow-50-700 bg-primary-yellow top-[23.10px] absolute">
+			<div className="w-72 border-4 border-black h-6 mt-1 left-[7.85px] parallelogram-banner rounded-r-md shadow-yellow-50-700 bg-primary-yellow top-[23.10px] absolute">
+			</div>                      
+			<div className="w-64 border-4 border-black h-6 left-[95px] parallelogram-banner rounded-r-md shadow-yellow-50-700 bg-primary-yellow top-[8.20px] absolute">
+			</div>                      
+			<div className="w-60 border-4 border-black h-12 left-0 parallelogram-banner rounded-r-md shadow-yellow-50-700 bg-primary-yellow top-0 absolute">
 			</div>
-			<div className="w-64 h-5 left-[95px] rounded-r-sm shadow-yellow-50-700 bg-primary-yellow top-[8.20px] absolute">
-			</div>
-			<div className="w-60 h-12 left-0 parallelogram-banner rounded-r-sm shadow-yellow-50-700 bg-primary-yellow top-0 absolute">
-			</div>
-			<div className="w-44 left-[37px] top-[-2px] absolute text-white text-3xl font-normal font-['Fugaz One'] leading-loose">MATCHES</div>
+			<div className="w-44 left-[30px] top-[-14px] absolute text-white text-3xl font-normal font-['Fugaz One'] leading-loose"><h1>MATCHES</h1></div>
 		</div>
 	);
 }

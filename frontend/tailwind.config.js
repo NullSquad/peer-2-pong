@@ -90,7 +90,7 @@ export default {
         	clipPath: 'polygon(8% 0, 100% 0, 92% 100%, 0% 100%)'
 				}, 
 				'.parallelogram-banner': {
-        	clipPath: 'polygon(0% 0, 100% 0, 92% 100%, 0% 100%)'
+        	clipPath: 'polygon(0% 0, 100% 0, 95% 95%, 0% 100%)'
 				}, 
 			})
 		})
