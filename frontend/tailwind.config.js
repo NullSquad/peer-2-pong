@@ -9,6 +9,9 @@ export default {
 	],
 	theme: {
 		extend: {
+			clipPath: {
+				'parallelogram': 'polygon(3% 0, 100% 0, 97% 100%, 0% 100%)',
+			},
 			fontFamily: {
 				sans: ['Fugaz One', 'sans-serif'],
 			},
