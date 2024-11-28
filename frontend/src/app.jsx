@@ -1,7 +1,6 @@
 import Router from "preact-router";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -9,7 +8,6 @@ function App() {
       <Router>
         <Login path="/" />
         <Home path="/home" />
-        <NotFound default />
       </Router>
     </main>
   );
