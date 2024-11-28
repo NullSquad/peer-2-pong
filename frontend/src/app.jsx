@@ -25,6 +25,10 @@
 		</div>
     );
 };
+=======
+import { useState, useEffect } from 'preact/hooks';
+import { Event } from './events.jsx';
+>>>>>>> events_components
 
 const App = () => 
 (
