@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'preact/hooks';
+import { useEffect, useState } from "preact/hooks";
 
 function CountdownTimer({ targetDate }) {
-  const [timeLeft, setTimeLeft] = useState('');
+  const [timeLeft, setTimeLeft] = useState("");
 
   const calculateTimeLeft = () => {
     const now = new Date();
@@ -24,7 +24,7 @@ function CountdownTimer({ targetDate }) {
         return `${seconds}s`;
       }
     } else {
-      return 'Time expired';
+      return "Time expired";
     }
   };
 
