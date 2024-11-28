@@ -58,19 +58,48 @@ export default {
 		}
 	},
 	plugins: [
+		//plugin(({ matchUtilities, theme }) => {
+		//			matchUtilities(
+		//				{
+		//					"shadow-inner-top": (value) => ({
+		//						boxShadow: `inset 0 .5em ${value}`
+		//					})
+		//				},
+		//				{ 
+		//					values: flattenColorPalette(theme("colors")), 
+		//					type: "color" 
+		//				}
+		//			);
+		//		})
 		plugin(function({ addBase, matchComponents, theme }) {
 			addBase({
 				'h1': { fontSize: '2rem', textShadow: '1px 1px 2px black' },
 			})
 			matchComponents(
 				{
-					'shadow-inner-top': (value) => {
-						boxShadow: `inset 0 .5em ${value}`
+					'shadow-inner': (value) => {
+						// value = [["t", "primary.yellow.100"], ["b", "primary.yellow.900"]];
+						// return {
+						// 	boxShadow: `inset 0 -.5em ${value}`
+						// }
+						if (value[0] == 's')
+							value = value.substring(12);
+						if (value[0] == '-')
+							value = value.substring(1);
+						let shadows = value.split("+");
+
+						shadows = shadows.map(color => color.split("_"));
+						shadows = shadows.map(combo => combo.map(color => color.replaceAll("-", ".")));
+						shadows = shadows.map(combo => [combo[0] == 'b' ? '-' : '', combo[1]]);
+
+						return {
+							boxShadow: shadows.map(color => `inset 0 ${color[0]}.5em ${theme(color[1])}`).join(", ") 
+						}
 					},
-					'shadow-inner-btm': (value) => {
-						boxShadow: `inset 0 -.5em ${value}`
-					},
-				}, { values: flattenColorPalette(theme('colors')) }
+					//'shadow-inner-btm': (value) => { return {
+					//	boxShadow: `inset 0 -.5em ${value}`
+					//}},
+				}
 			)
 		})
 	],
