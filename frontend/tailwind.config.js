@@ -1,4 +1,5 @@
 const plugin = require('tailwindcss/plugin')
+const flattenColorPalette = require('tailwindcss/lib/util/flattenColorPalette')
 
 export default {
 	content: [
@@ -13,6 +14,7 @@ export default {
 			colors: {
 				transparent: 'transparent',
 				current: 'currentColor',
+				myred: '#FF0000',
 				neutral: {
 					DEFAULT: '#FFFFFF',
 					grey: {
@@ -56,15 +58,20 @@ export default {
 		}
 	},
 	plugins: [
-		plugin(function({ addBase, addComponents, theme }) {
+		plugin(function({ addBase, matchComponents, theme }) {
 			addBase({
 				'h1': { fontSize: '2rem', textShadow: '1px 1px 2px black' },
 			})
-			addComponents({
-				'.shadow-item': {
-					boxShadow: `inset 0 .5em ${theme("colors.primary.yellow.100")}, inset 0px -.5em ${theme("colors.primary.yellow.700")}`
-				},
-			})
+			matchComponents(
+				{
+					'shadow-inner-top': (value) => {
+						boxShadow: `inset 0 .5em ${value}`
+					},
+					'shadow-inner-btm': (value) => {
+						boxShadow: `inset 0 -.5em ${value}`
+					},
+				}, { values: flattenColorPalette(theme('colors')) }
+			)
 		})
 	],
 
