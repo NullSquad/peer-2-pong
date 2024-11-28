@@ -26,11 +26,12 @@ services:
       - client-api
     develop:
       watch:
-        - action: sync
+        - action: sync+restart
           path: ./backend/src
-          target: /usr/src/app/src
+          target: /app/src
         - action: rebuild
           path: ./backend/package.json
+          target: /app
 
   frontend:
     build: frontend
@@ -47,9 +48,10 @@ services:
       watch:
         - action: sync
           path: ./frontend/src
-          target: /usr/src/app/src
+          target: /app/src
         - action: rebuild
           path: ./frontend/package.json
+          target: /app
 
 volumes:
   data:
