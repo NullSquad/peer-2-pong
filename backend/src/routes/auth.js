@@ -26,9 +26,8 @@ router.get("/", passport.authenticate("oauth2"));
 
 router.get(
   "/callback",
-  passport.authenticate("oauth2", { failureRedirect: "/login" }),
   function (req, res) {
-    res.redirect("/");
+    res.redirect("/home");
   },
 );
 

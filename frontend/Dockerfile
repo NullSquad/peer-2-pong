@@ -1,12 +1,16 @@
 FROM node:lts-buster
 
+RUN useradd -ms /bin/sh -u 1001 app
+
+USER app
+
 WORKDIR /app
 
-COPY package*.json ./
+COPY --chown=app:app package.json package-lock.json ./
 
 RUN npm install
 
-COPY . .
+COPY --chown=app:app . /app
 
 EXPOSE ${FRONTEND_PORT}
 
