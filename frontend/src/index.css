@@ -5,10 +5,10 @@
 .slider-container {
 
     display: flex;
-    gap: 30px;
+    gap: 20px;
     justify-content: center;
     overflow: hidden;
-    padding: 100px;
+    padding: 20px;
     background-color: #c4c4c4;
 }
 
