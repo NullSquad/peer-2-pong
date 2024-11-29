@@ -2,7 +2,7 @@
 
 ## Description
 
-Peer2Pong is a web application designed to manage competitive ping pong activities. 
+Peer2Pong is a web application designed to manage competitive ping pong activities.
 
 ## Technologies Used
 
