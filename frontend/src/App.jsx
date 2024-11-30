@@ -1,6 +1,7 @@
 import { useState, useEffect } from "preact/hooks";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
+import { Loading } from "./pages/Loading.jsx"
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -19,7 +20,7 @@ const App = () => {
   }, []);
 
   if (loading) {
-    return <h1>Loading...</h1>;
+    return <Loading/>;
   }
 
   return user ? <Dashboard user={user} /> : <Login />;
