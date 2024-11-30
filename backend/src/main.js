@@ -7,6 +7,8 @@ const { PORT = 5000 } = process.env;
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
 app.use("/", index);
 app.use("/users", users);
 app.use("/auth", auth);

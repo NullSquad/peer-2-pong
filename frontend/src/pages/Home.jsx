@@ -7,9 +7,18 @@ const Home = () => {
     <main className="min-h-screen bg-gray-800 text-white p-4">
       <h1 className="text-2xl font-bold mb-4">Matches</h1>
       <Slider>
-          <Event class="bg-primary size-40 flex items-center justify-center" > LEAGUE </Event>
-          <Event class="bg-primary size-40 flex items-center justify-center" > TOURNAMENT </Event>
-          <Event class="bg-primary size-40 flex items-center justify-center" > MORE EVENTS </Event>
+        <Event class="bg-primary size-40 flex items-center justify-center">
+          {" "}
+          LEAGUE{" "}
+        </Event>
+        <Event class="bg-primary size-40 flex items-center justify-center">
+          {" "}
+          TOURNAMENT{" "}
+        </Event>
+        <Event class="bg-primary size-40 flex items-center justify-center">
+          {" "}
+          MORE EVENTS{" "}
+        </Event>
       </Slider>
 
       <section className="space-y-4 py-6">
