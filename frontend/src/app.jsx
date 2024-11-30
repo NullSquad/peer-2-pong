@@ -1,16 +1,16 @@
-import Router from "preact-router";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 
-function App() {
-  return (
-    <main className="min-h-screen bg-gray-900 text-white">
-      <Router>
-        <Login path="/" />
-        <Home path="/home" />
-      </Router>
-    </main>
-  );
+const App = () => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    fetch("/api/auth")
+      .then((res) => res.json())
+      .then((data) => setUser(data));
+  }, []);
+
+  return user ? <Home user={user} /> : <Login />;
 }
 
 export default App;

@@ -14,21 +14,33 @@ passport.use(
       clientSecret: CLIENT_SECRET,
       callbackURL: CALLBACK_URL,
     },
-    function (accessToken, refreshToken, profile, cb) {
-      User.findOrCreate({ exampleId: profile.id }, function (err, user) {
-        return cb(err, user);
-      });
+    (accessToken, refreshToken, profile, done) => {
+      return done(null, profile);
     },
   ),
 );
 
-router.get("/", passport.authenticate("oauth2"));
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
 
-router.get(
-  "/callback",
-  function (req, res) {
-    res.redirect("/home");
-  },
-);
+passport.deserializeUser((user, done) => {
+  done(null, user);
+});
+
+router.get("/", (req, res) => {
+  res.json(req.user);
+});
+
+router.get("/login", passport.authenticate("oauth2"));
+
+router.get('/callback', passport.authenticate('oauth2', { failureRedirect: '/' }), (req, res) => {
+  res.redirect('/');
+});
+
+router.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/");
+});
 
 export default router;
