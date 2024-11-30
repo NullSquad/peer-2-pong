@@ -1,5 +1,5 @@
-import { useState, useEffect } from "preact/hooks";
-import Home from "./pages/Home";
+import { useEffect, useState } from "preact/hooks";
+import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 
 const App = () => {
@@ -7,9 +7,9 @@ const App = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/auth/session")
-      .then((response) => response.json())
-      .then((data) => {
+    fetch('/api/auth/session')
+      .then(response => response.json())
+      .then(data => {
         if (data.user) {
           setUser(data.user);
         }
@@ -22,7 +22,7 @@ const App = () => {
     return <h1>Loading...</h1>;
   }
 
-  return user ? <Home user={user} /> : <Login />;
+  return user ? <Dashboard user={user} /> : <Login />;
 };
 
 export default App;
