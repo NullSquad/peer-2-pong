@@ -1,4 +1,4 @@
-import { useEffect, useState } from "preact/hooks";
+import { useState, useEffect } from "preact/hooks";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 
@@ -7,9 +7,9 @@ const App = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/auth/session')
-      .then(response => response.json())
-      .then(data => {
+    fetch("/api/auth/session")
+      .then((response) => response.json())
+      .then((data) => {
         if (data.user) {
           setUser(data.user);
         }
