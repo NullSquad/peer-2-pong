@@ -9,6 +9,9 @@ const Home = () => {
           <Event className="bg-primary size-40 flex items-center justify-center" >LEAGUE</Event>
           <Event className="bg-primary size-40 flex items-center justify-center" >TOURNAMENT</Event>
       </Slider>
+      <Slider className="min-h-screen flex flex-col gap-6">
+          <Event className="bg-primary size-40 flex items-center justify-center" > TOURNAMENT</Event>
+      </Slider>
     </main>
   );
 };
