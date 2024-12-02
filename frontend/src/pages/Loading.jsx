@@ -1,4 +1,4 @@
-import pacloader from "../assets/pacman.svg"
+import pacloader from "../assets/logo.svg"
 
 export const Loading = () => {
 	return (
