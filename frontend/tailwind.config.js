@@ -50,9 +50,10 @@ export default {
           },
         },
       },
-      clipPath: {
-        paralel: "",
-      },
+	backgroundImage: {
+		'league': "url('/league.svg')",
+		'tournament': "url('/tournament.svg')",
+	}
     },
   },
   plugins: [
