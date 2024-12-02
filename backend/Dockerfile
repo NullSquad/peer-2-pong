@@ -1,12 +1,16 @@
-FROM node:18
+FROM node:lts-buster-slim
 
-WORKDIR /usr/src/app
+RUN useradd -ms /bin/sh -u 1001 app
 
-COPY package*.json ./
+USER app
+
+WORKDIR /app
+
+COPY --chown=app:app package.json package-lock.json ./
 
 RUN npm install
 
-COPY . .
+COPY --chown=app:app . /app
 
 EXPOSE ${BACKEND_PORT}
 
