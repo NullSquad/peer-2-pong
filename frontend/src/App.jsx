@@ -1,29 +1,27 @@
-import { useState, useEffect } from "preact/hooks";
-import Dashboard from "./pages/Dashboard";
+import { createContext } from 'preact'
+import Router from 'preact-router';
+import Home from "./pages/Home";
 import Login from "./pages/Login";
-import { Loading } from "./pages/Loading.jsx"
 
-const App = () => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+export const AuthContext = createContext()
 
-  useEffect(() => {
-    fetch("/api/auth/session")
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.user) {
-          setUser(data.user);
-        }
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
-  }, []);
+const getCookie = (name) => {
+ const cookies = document.cookie
+   .split("; ")
+   .find((row) => row.startsWith(`${name}=`));
 
-  if (loading) {
-    return <Loading/>;
-  }
-
-  return user ? <Dashboard user={user} /> : <Login />;
+ return cookies ? cookies.split("=")[1] : null;
 };
 
-export default App;
+export const App = () => {
+	  const {user} = getCookie("user");
+
+	  return (
+			<AuthContext.Provider value={user}>
+				<Router>
+      		<Home path="/"/>
+      		<Login path="/login" />
+    		</Router>
+		 	</AuthContext.Provider>
+  );
+};

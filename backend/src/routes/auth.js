@@ -11,7 +11,16 @@ const TOKEN_URL = "https://api.intra.42.fr/oauth/token";
 const USER_INFO_URL = "https://api.intra.42.fr/v2/me";
 
 router.use(
-  session({ secret: CLIENT_SECRET, resave: false, saveUninitialized: true }),
+  session({
+    key: "user",
+    secret: CLIENT_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      expires: 60 * 60 * 1000,
+      httpOnly: false,
+    },
+  }),
 );
 
 router.use((req, res, next) => {
@@ -74,15 +83,7 @@ router.get(
   }),
 );
 
-router.get("/session", (req, res) => {
-  if (req.isAuthenticated()) {
-    res.json({ user: req.user });
-  } else {
-    res.status(401).json({ message: "Unauthorized" });
-  }
-});
-
-router.post("/logout", function (req, res, next) {
+router.post("/logout", (req, res, next) => {
   req.logout(function (err) {
     if (err) {
       return next(err);

@@ -1,5 +1,5 @@
-import { h } from 'preact';
-import './Background.css'; // Archivo de estilos
+import { h } from "preact";
+import "./Background.css"; // Archivo de estilos
 
 export function Background() {
   return (
