@@ -2,7 +2,8 @@ import { h } from "preact";
 
 export function Header({ user }) {
   return (
-    <header className="relative bg-yellow-500 text-white p-2 w-full flex justify-between items-center border-t-4 border-yellow-200 border-b-4 border-orange-600 border-r-2 border-black shadow-md">
+    // <header className="absolute bg-yellow-500 text-white py-1 px-5 my-10 ml-0 w-[50%] flex justify-between items-center border-t-4 border-yellow-200 border-b-4 border-orange-600 border-r-2 border-black shadow-md">
+      <header className="fixed top-10 left-0 bg-yellow-500 text-white py-2 px-5 w-[70%] flex justify-between items-center border-t-4 border-yellow-200 border-b-4 border-orange-600 border-r-2 border-black shadow-md z-50">
       <nav className="flex items-center">
         {/* Imagen del Avatar */}
         <img
