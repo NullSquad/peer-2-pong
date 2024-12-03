@@ -12,10 +12,21 @@ function App() {
     image: "https://via.placeholder.com/150",
     name: "bautizador"
   }
+  const result1 = {
+    blue: 13,
+    red: 11,
+    winner: "blue"
+  }
+  const result2 = {
+    blue: 11,
+    red: 13,
+    winner: "red"
+  }
   return (
     <main className="min-h-screen bg-gray-900 text-white">
-      <MatchCard player1={player1} player2={player2} targetDate="2" />
-      <MatchCard player1={player1} player2={player2} targetDate="21.3.2" />
+      <MatchCard player1={player1} player2={player2} result={result1} />
+      <MatchCard player1={player1} player2={player2} result={result2} />
+      <MatchCard player1={player1} player2={player2} result={result1} />
     </main>
     /*
       <Router>

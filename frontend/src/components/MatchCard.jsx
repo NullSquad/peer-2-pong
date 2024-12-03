@@ -1,82 +1,68 @@
-import CountdownTimer from "./CountdownTimer";
 import CrownIcon from "../assets/CrownIcon.svg";
 
-export function MatchCard({ player1, player2, targetDate }) {
+// MATCH CARD COMPONENT STATE #5
+// This component will be used to display a match card with two players and their scores after a match
+// The winner will have a bigger card size and the crown icon will be displayed on their side
+
+export function MatchCard({ player1, player2, result }) {
+
+  const blueCardSize = result.blue > result.red ? "w-9/12" : "w-5/12";
+  const redCardSize = result.red > result.blue ? "w-9/12" : "w-5/12";
+  const crownPosition = result.blue > result.red ? "80%" : "20%";
+  const blueImagePosition = result.blue > result.red ? "right-[55%]" : "right-[82%]";
+  const redImagePosition =result.blue < result.red ? "left-[45%]" : "left-[72%]";
+
   return (
     <div className="relative flex w-full max-w-4xl h-28 overflow-visible bg-gray-800">
       {/* Card Body with clip-path */}
-      <div
-        className="relative flex w-full h-full"
-        style={{
-          clipPath: "polygon(3% 15%, 100% 15%, 97% 85%, 0% 85%)",
-        }}
-      >
-        {/* Player 1 Side */}
-        <div className="relative flex items-center justify-between bg-blue-500 w-7/12 px-3 py-2 text-black">
-          {/* Left Section: Crown + Player */}
+      <div className="relative flex w-full h-14 sm:h-16 parallelogram">
+        {/* Blue card */}
+        <div
+          className={`relative flex items-center justify-between bg-blue-500 ${blueCardSize} px-3 py-2 text-black`}
+        >
+          {/* Blue score */}
           <div
-            className="flex items-center w-5/6"
-            style={{ paddingRight: "20px" }}
+            className="absolute sm:right-4 right-2 top-1/2 -translate-y-1/2 bg-black text-white p-1 px-2 rounded w-6 h-7 sm:w-7 sm:h-8 flex items-center justify-center" // absolute right-9"
           >
-            {/* Crown Icon */}
-            <div className="flex justify-center w-1/2">
-              <img src={CrownIcon} alt="Crown Icon" className="w-16 h-16" />
-            </div>
-
-            {/* Player Image and Name */}
-            <div className="flex items-center">
-              <img
-                src={player1.image}
-                alt={player1.name}
-                className="w-16 h-16 rounded-full border-2 border-black mr-3"
-              />
-              <span className="text-sm md:text-lg font-bold">
-                {player1.name}
-              </span>
-            </div>
-          </div>
-          {/* Right Section (if needed, for symmetry or other content) */}
-          <div 
-            className="absolute md:right-4 right-2 top-1/2 -translate-y-1/2 bg-gray-700 text-white p-1 px-2 rounded w-8 h-7 flex items-center justify-center"// absolute right-9"
-            style={{
-              bottom: "20px", // Adjust the vertical position if needed
-            }}
-          >
-              <span className="font-bold text-sm">11</span> {/* Blue score */}
+            <span className="font-bold text-sm sm:text-lg">{result.blue}</span>{" "}
           </div>
         </div>
+
         {/* Space between blue and red */}
         <div className="w-1"></div>
-        
-        {/* Player 2 Side */}
-        <div className="relative flex items-center justify-center bg-red-500 w-5/12 px-3 py-2 text-black">
-          <div 
-            className="absolute md:left-4 left-2 top-1/2 -translate-y-1/2 bg-gray-700 text-white p-1 px-2 rounded w-8 h-7 flex items-center justify-center"// absolute right-9"
-            style={{
-              bottom: "20px", // Adjust the vertical position if needed
-            }}
+
+        {/* Red card */}
+        <div
+          className={`relative flex items-center justify-center ${redCardSize} bg-red-500 px-3 py-2 text-black`}
+        >
+          {/* Red score */}
+          <div
+            className="absolute sm:left-4 left-2 top-1/2 -translate-y-1/2 bg-black text-white p-1 px-2 rounded w-6 h-7 sm:w-7 sm:h-8 flex items-center justify-center" // absolute right-9"
           >
-              <span className="font-bold text-sm">3</span> {/* Blue score */}
+            <span className="font-bold text-sm sm:text-lg">{result.red}</span>{" "}
           </div>
-          <span className="text-sm md:text-lg font-bold mr-2">
-            {player2.name}
-          </span>
+        </div>
+
+        {/* Player Images */}
+        <div className="flex items-center">
+          <img
+            src={player1.image}
+            alt={player1.name}
+            className={`absolute ${blueImagePosition} translate-x-1/2 w-12 sm:w-14 rounded-full border-2 border-black mr-3`}
+          />
           <img
             src={player2.image}
             alt={player2.name}
-            className="w-16 h-16 rounded-full border-2 border-black"
+            className={`absolute ${redImagePosition} translate-x-1/2 w-12 sm:w-14 rounded-full border-2 border-black`}
           />
         </div>
-      </div>
 
-      {/* Time Left Container */}
-      <div
-        className="absolute right-0 bottom-[-20px] sm:right-2 sm:bottom-[-30px] md:right-[26px] md:bottom-[-20px] bg-gray-900 text-white text-xs sm:text-sm md:text-sm p-1 md:p-2 rounded-lg z-10"
-        style={{
-          width: "max-content",
-        }}
-      >
-        Time left: <CountdownTimer targetDate={targetDate} />
+        {/* Crown Icon */}
+        <div
+          className={`absolute right-[${crownPosition}] translate-x-[50%] flex justify-center w-1/3`}
+        >
+          <img src={CrownIcon} alt="Crown Icon" className="w-14 sm:w-16" />
+        </div>
       </div>
     </div>
   );
