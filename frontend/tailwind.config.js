@@ -79,7 +79,7 @@ export default {
           boxShadow: `inset 0 .15em ${theme("colors.accent.red.light")}, inset 0 -.15em ${theme("colors.accent.red.dark")}`,
         },
         ".parallelogram": {
-          clipPath: "polygon(3% 15%, 100% 15%, 97% 85%, 0% 85%)",
+          clipPath: "polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)",
         },
         ".parallelogram-tuta": {
           clipPath: "polygon(8% 0, 100% 0, 92% 100%, 0% 100%)",

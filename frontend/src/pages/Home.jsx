@@ -39,6 +39,7 @@ const Home = ({ user }) => {
           player1={{
             name: user.login,
             image: user.image,
+
           }}
           player2={{
             name: user.login,
