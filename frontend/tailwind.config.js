@@ -58,7 +58,7 @@ export default {
   plugins: [
     plugin(function ({ addBase, addComponents, matchComponents, theme }) {
       addBase({
-        h1: { fontSize: "2.5rem", textShadow: "1px 1px 2px black" },
+        h1: { fontSize: "2.5rem", textShadow: "0 5px 1px black" },
         h2: { fontSize: "2rem", textShadow: "1px 1px 2px black" },
         h3: { fontSize: "1.75rem", textShadow: "1px 1px 2px black" },
         h4: { fontSize: "1.5rem", textShadow: "1px 1px 2px black" },

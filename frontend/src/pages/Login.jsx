@@ -3,18 +3,16 @@ import Logo from "../assets/logo.svg";
 
 const Login = () => {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-800 text-white">
-    <img
-		src={Logo}
-		alt="Peer 2 Pong Logo"
-		className="w-24 sm:w-32 md:w-40 lg:w-48 xl:w-56 h-auto mb-6" // Ajustar el tamano de la imagen
-	  />
-      <Link activeClassName="active" href="/api/auth/">
-        <button className="bg-primary-yellow px-8 shadow-yellow-100-700 py-2 rounded-lg text-white">
-          Login
-        </button>
+    <main className="min-h-screen flex flex-col items-center justify-center bg-gray-800 text-white">
+      <img 
+        src={Logo} 
+        alt="Peer 2 Pong app Logo" 
+        className="w-auto max-w-xs h-auto mb-6"
+	    />
+      <Link href="/api/auth/" className="bg-primary-yellow shadow-yellow-100-700 px-12 py-4 rounded-sm text-white text-2xl text-stroke drop-shadow tracking-tighter font-bold">
+          <h2>LOGIN</h2>
       </Link>
-    </div>
+    </main>
   );
 };
 
