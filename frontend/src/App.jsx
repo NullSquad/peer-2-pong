@@ -23,7 +23,13 @@ const App = () => {
     return <Loading/>;
   }
 
-  return user ? <Dashboard user={user} /> : <Login />;
+  // Background aplicado a toda la renderizacion
+  return (
+    <div className="relative inset-0 w-full h-full bg-pattern bg-cover pt-6 sm:pt-10">
+      {user ? <Dashboard user={user} /> : <Login />}
+    </div>
+  );
+  // return user ? <Dashboard user={user} /> : <Login />;
 };
 
 export default App;

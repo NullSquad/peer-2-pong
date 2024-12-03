@@ -1,3 +1,5 @@
+import { Background } from "./src/components/Background";
+
 const plugin = require("tailwindcss/plugin");
 
 export default {
@@ -66,6 +68,10 @@ export default {
         h4: { fontSize: "1.5rem", textShadow: "1px 1px 2px black" },
         h5: { fontSize: "1.25rem", textShadow: "1px 1px 2px black" },
         h6: { fontSize: "1rem", textShadow: "1px 1px 2px black" },
+        // main: {
+        //   backgroundImage: "url('./src/assets/block.svg')",
+        //   backgroundColor: theme("colors.neutral.grey.100"),
+        // }
       });
       addComponents({
         ".shadow-yellow-50-700": {
