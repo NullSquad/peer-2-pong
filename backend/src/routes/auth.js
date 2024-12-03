@@ -11,25 +11,8 @@ const TOKEN_URL = "https://api.intra.42.fr/oauth/token";
 const USER_INFO_URL = "https://api.intra.42.fr/v2/me";
 
 router.use(
-  session({
-    key: "user",
-    secret: CLIENT_SECRET,
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-      expires: 60 * 60 * 1000,
-      httpOnly: false,
-    },
-  }),
+  session({ secret: CLIENT_SECRET, resave: false, saveUninitialized: true }),
 );
-
-router.use((req, res, next) => {
-  var msgs = req.session.messages || [];
-  res.locals.messages = msgs;
-  res.locals.hasMessages = !!msgs.length;
-  req.session.messages = [];
-  next();
-});
 
 passport.use(
   new OAuth2Strategy(
@@ -83,8 +66,16 @@ router.get(
   }),
 );
 
+router.get("/session", (req, res) => {
+  if (req.isAuthenticated()) {
+    res.json({ user: req.user });
+  } else {
+    res.status(401).json({ message: "Unauthorized" });
+  }
+});
+
 router.post("/logout", (req, res, next) => {
-  req.logout(function (err) {
+  req.logout((err) => {
     if (err) {
       return next(err);
     }

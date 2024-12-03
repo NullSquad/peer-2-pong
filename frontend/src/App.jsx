@@ -1,27 +1,40 @@
-import { createContext } from 'preact'
-import Router from 'preact-router';
+import { createContext } from "preact";
+import { useState, useEffect, useContext, useMemo } from "preact/hooks";
+import Router, { Route, route } from "preact-router";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 
-export const AuthContext = createContext()
+export const AuthContext = createContext();
 
-const getCookie = (name) => {
- const cookies = document.cookie
-   .split("; ")
-   .find((row) => row.startsWith(`${name}=`));
+const ProtectedRoute = (props) => {
+  const { user, setUser } = useContext(AuthContext);
 
- return cookies ? cookies.split("=")[1] : null;
+  useEffect(() => {
+    fetch("/api/auth/session")
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.user) {
+          setUser(data.user);
+        } else route("/login", true);
+      });
+  }, [user]);
+
+  return user ? <Route {...props} /> : null;
 };
 
 export const App = () => {
-	  const {user} = getCookie("user");
+  const [user, setUser] = useState(null);
 
-	  return (
-			<AuthContext.Provider value={user}>
-				<Router>
-      		<Home path="/"/>
-      		<Login path="/login" />
-    		</Router>
-		 	</AuthContext.Provider>
+  const auth = useMemo(() => {
+    return { user, setUser };
+  }, [user]);
+
+  return (
+    <AuthContext.Provider value={auth}>
+      <Router>
+        <ProtectedRoute path="/" component={Home} />
+        <Route path="/login" component={Login} />
+      </Router>
+    </AuthContext.Provider>
   );
 };
