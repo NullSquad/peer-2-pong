@@ -51,8 +51,8 @@ export default {
         },
       },
       backgroundImage: {
-        league: "url('/league.svg')",
-        tournament: "url('/tournament.svg')",
+        'league': "url('/league.svg')",
+        'tournament': "url('/tournament.svg')",
       },
     },
   },

@@ -54,14 +54,14 @@ import CountdownTimer from "./CountdownTimer";
 
 // Event component with two info sections and a countdown timer
 const Event = ({ type, isParticipating, status, children, targetDate }) => {
-
-  let eventType = `bg-${type}`.toLowerCase();
   return (
     <div className="relative">
       {/* Container that holds both left and right info */}
       <div className="relative flex justify-between pt-[.25rem] items-center translate-x-[0.6rem] sm:translate-x-[0.7rem] md:translate-x-[0.81rem] lg:translate-x-[0.91rem] -skew-x-[8.2deg] bg-black px-3">
         {/* left text */}
-        <p className={`text-primary-yellow text-xs sm:text-xs md:text-sm skew-x-[8.2deg] ${isParticipating ? "" : "invisible"}`}>
+        <p
+          className={`text-primary-yellow text-xs sm:text-xs md:text-sm skew-x-[8.2deg] ${isParticipating ? "" : "invisible"}`}
+        >
           Participating
         </p>
 
@@ -82,12 +82,19 @@ const Event = ({ type, isParticipating, status, children, targetDate }) => {
           lg:min-w-[28rem] lg:min-h-[16rem]
         `}
       >
-        <div
-          className={`flex ${eventType} scale-[1.1] -translate-x-1 absolute inset-0 skew-x-6 bg-cover bg-bottom`}
-        />
+        {type.toLowerCase() === "tournament" ? (
+          <div
+            className={`flex bg-tournament scale-[1.1] -translate-x-1 absolute inset-0 skew-x-6 bg-cover bg-bottom`}
+          />
+        ) : (
+          <div
+            className={`flex bg-league scale-[1.1] -translate-x-1 absolute inset-0 skew-x-6 bg-cover bg-bottom`}
+          />
+        )}
+
         <div className="flex justify-center translate-y-8">
           <div className="text-white skew-x-6">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold drop-shadow-lg">
+            <h1 className="text-2xl text-stroke sm:text-3xl md:text-4xl lg:text-5xl font-bold drop-shadow-lg">
               {children}
             </h1>
           </div>
