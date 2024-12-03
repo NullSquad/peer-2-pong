@@ -4,11 +4,7 @@ import CountdownTimer from "./CountdownTimer";
 
 export function MatchCard({ player1, player2, targetDate }) {
   const [phase, setPhase] = useState(1);
-
-  const result = {
-    blue: 13,
-    red: 11,
-  }
+  const [result, setResult] = useState({ blue: 0, red: 0 });
 
   const nextPhase = () => setPhase((prev) => (prev < 5 ? prev + 1 : 1));
   const prevPhase = () => setPhase((prev) => (prev > 1 ? prev - 1 : 5));
@@ -18,7 +14,14 @@ export function MatchCard({ player1, player2, targetDate }) {
       {phase === 1 && (
         <Phase1 player1={player1} player2={player2} targetDate={targetDate} />
       )}
-      {phase === 2 && <Phase2 player1={player1} player2={player2} />}
+      {phase === 2 && (
+        <Phase2
+          player1={player1}
+          player2={player2}
+          result={result}
+          setResult={setResult}
+        />
+      )}
       {phase === 3 && <Phase3 player1={player1} player2={player2} />}
       {phase === 4 && <Phase4 player1={player1} player2={player2} />}
       {phase === 5 && <Phase5 player1={player1} player2={player2} result={result}/>}
@@ -90,7 +93,14 @@ function Phase1({ player1, player2, targetDate }) {
 }
 
 // Fases 2-5, puedes personalizarlas en funciones separadas
-function Phase2({ player1, player2, targetDate }) {
+function Phase2({ player1, player2, result, setResult }) {
+
+  const increaseBlue = () => setResult({ ...result, blue: result.blue + 1 });
+  const decreaseBlue = () => setResult({ ...result, blue: Math.max(0, result.blue - 1) });
+
+  const increaseRed = () => setResult({ ...result, red: result.red + 1 });
+  const decreaseRed = () => setResult({ ...result, red: Math.max(0, result.red - 1) }); 
+
   return (
     <div className="w-full">
       <div className="relative flex w-full max-w-4xl h-[86px] sm:h-[94px] md:h-28 overflow-visible bg-gray-800">
@@ -128,22 +138,21 @@ function Phase2({ player1, player2, targetDate }) {
 
       {/* Controles de puntuación */}
       <div className="flex justify-center items-center mt-2 gap-2 parallelogram">
-        {/* Player 1 Score Controls */}
         <div className="flex items-center bg-accent-blue-light p-2 rounded">
-          <button className="bg-accent-red-light text-white px-2 py-1 rounded font-bold">-</button>
-          <span className="text-black text-2xl font-extrabold mx-2">6</span>
-          <button className="bg-blue-700 text-white px-2 py-1 rounded font-bold">+</button>
+          <button onClick={decreaseBlue} className="bg-accent-red-light text-white px-2 py-1 rounded font-bold">-</button>
+          <span className="text-black text-2xl font-extrabold mx-2">{result.blue}</span>
+          <button onClick={increaseBlue} className="bg-blue-700 text-white px-2 py-1 rounded font-bold">+</button>
         </div>
 
-        {/* Player 2 Score Controls */}
         <div className="flex items-center bg-red-500 p-2 rounded">
-          <button className="bg-accent-blue-light text-white px-2 py-1 rounded font-bold">+</button>
-          <span className="text-black text-2xl font-extrabold mx-2">11</span>
-          <button className="bg-accent-red-light  text-white px-2 py-1 rounded font-bold">-</button>
+          <button onClick={decreaseRed} className="bg-accent-red-light text-white px-2 py-1 rounded font-bold">-</button>
+          <span className="text-black text-2xl font-extrabold mx-2">{result.red}</span>
+          <button onClick={increaseRed} className="bg-accent-blue-light text-white px-2 py-1 rounded font-bold">+</button>
         </div>
 
-        {/* Submit Button */}
-        <button className="bg-yellow-500 text-black font-bold px-4 py-2 rounded shadow-md">SUBMIT</button>
+        <button className="bg-yellow-500 text-black font-bold px-4 py-2 rounded shadow-md">
+          SUBMIT
+        </button>
       </div>
     </div>
   );
@@ -167,7 +176,7 @@ function Phase5({ player1, player2, result }) {
   return (
     <div className="relative flex w-full max-w-4xl h-28 overflow-visible bg-gray-800">
       {/* Card Body */}
-      <div className="relative flex w-full h-14 sm:h-16 m-2 -skew-x-[8deg]">
+      <div className="relative flex w-full h-14 sm:h-16 -skew-x-[8deg]">
         {/* Blue card */}
         <div
           className={`relative flex items-center justify-between bg-accent-blue-light ${blueCardSize} px-3 py-2 text-black`}
