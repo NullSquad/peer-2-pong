@@ -5,7 +5,13 @@
 @tailwind utilities;
 
 @layer components {
-	.stroke {
-		-webkit-text-stroke: .1em black;
+	.text-stroke-sm {
+		-webkit-text-stroke: .5px black;
+	}
+	.text-stroke {
+		-webkit-text-stroke: 1px black;
+	}
+	.text-stroke-lg {
+		-webkit-text-stroke: 1.5px black;
 	}
 }

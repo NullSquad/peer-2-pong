@@ -22,32 +22,32 @@ import { useState, useEffect } from 'preact/hooks';
 //  );
 //}
 
-function	LoginPage()
-{
-// shadow-inner-t_colors-primary-yellow-100+b_colors-primary-yellow-900
-	return (
-		<>
-			<div className="w-[800px] h-[70px] left-[96px] top-[575px] absolute justify-center items-center inline-flex">
-				<div className="w-[800px] h-[70px] relative">
-					<div className="w-[199.99px] h-[69.72px] shadow-yellow-100-700 parallelogram-tuta px-4 py-2 left-0 top-[0.28px] bg-primary-yellow rounded-sm border-2 border-black justify-center items-center gap-2 inline-flex">
-						<div className="text-white leading-loose"><h1>LOGIN</h1></div>
-					</div>
-					<div className="w-[199.99px] h-[69.72px] shadow-yellow-50-700 parallelogram-tuta px-4 py-2 left-0 top-[0.28px] bg-primary-yellow rounded-sm border-2 border-black justify-center items-center gap-2 inline-flex">
-						<div className="text-white leading-loose"><h1 className="font-sans">MATCHES</h1></div>
-					</div>
-					<div className="w-[25.99px] h-[20.72px] text-[25px] shadow-blue-ocean parallelogram-tuta px-4 py-2 left-0 top-[0.28px] bg-accent-blue rounded-sm border-2 border-black justify-center items-center gap-2 inline-flex">
-						<div className="text-white leading-loose">+</div>
-					</div>
-					<div className="w-[25.99px] h-[20.72px] text-[25px] shadow-red-light-dark px-4 py-2 left-0 top-[0.28px] bg-accent-red rounded-sm border-2 border-black justify-center items-center gap-2 inline-flex">
-						<div className="text-white leading-loose">-</div>
-					</div>
-				</div>
-			</div>
-			<img className="w-[203px] h-[183px] left-[93px] top-[223px] absolute" src="assets/logo.png" />
-		</>
-	);
-
-}
+//function	LoginPage()
+//{
+//// shadow-inner-t_colors-primary-yellow-100+b_colors-primary-yellow-900
+//	return (
+//		<>
+//			<div className="w-[800px] h-[70px] left-[96px] top-[575px] absolute justify-center items-center inline-flex">
+//				<div className="w-[800px] h-[70px] relative">
+//					<div className="w-[199.99px] h-[69.72px] shadow-yellow-100-700 parallelogram-tuta px-4 py-2 left-0 top-[0.28px] bg-primary-yellow rounded-sm border-2 border-black justify-center items-center gap-2 inline-flex">
+//						<div className="text-white leading-loose"><h1>LOGIN</h1></div>
+//					</div>
+//					<div className="w-[199.99px] h-[69.72px] shadow-yellow-50-700 parallelogram-tuta px-4 py-2 left-0 top-[0.28px] bg-primary-yellow rounded-sm border-2 border-black justify-center items-center gap-2 inline-flex">
+//						<div className="leading-loose"><h1 className="text-primary-yellow">MATCHES</h1></div>
+//					</div>
+//					<div className="w-[25.99px] h-[20.72px] text-[25px] shadow-blue-ocean parallelogram-tuta px-4 py-2 left-0 top-[0.28px] bg-accent-blue rounded-sm border-2 border-black justify-center items-center gap-2 inline-flex">
+//						<div className="text-white leading-loose">+</div>
+//					</div>
+//					<div className="w-[25.99px] h-[20.72px] text-[25px] shadow-red-light-dark px-4 py-2 left-0 top-[0.28px] bg-accent-red rounded-sm border-2 border-black justify-center items-center gap-2 inline-flex">
+//						<div className="text-white leading-loose">-</div>
+//					</div>
+//				</div>
+//			</div>
+//			<img className="w-[203px] h-[183px] left-[93px] top-[223px] absolute" src="assets/logo.png" />
+//		</>
+//	);
+//
+//}
 
 function	Background({children})
 {
@@ -67,9 +67,9 @@ function	Banner()
 			</div>                      
 			<div className="w-64 border-4 border-black h-6 left-[95px] parallelogram-banner rounded-r-md shadow-yellow-50-700 bg-primary-yellow top-[8.20px] absolute">
 			</div>                      
-			<div className="w-60 border-4 border-black h-12 left-0 parallelogram-banner rounded-r-md shadow-yellow-50-700 bg-primary-yellow top-0 absolute">
+			<div className="w-72 relative -left-10 border-4 border-black h-14 left-0 parallelogram-banner rounded-r-md shadow-yellow-50-700 bg-primary-yellow top-0 absolute">
 			</div>
-			<div className="w-44 left-[30px] top-[-14px] absolute text-white text-3xl font-normal font-['Fugaz One'] leading-loose"><h1>MATCHES</h1></div>
+			<div className="w-44 left-[30px] top-[-14px] absolute text-white text-3xl font-normal font-['Fugaz One'] leading-loose"><h1 className="text-stroke-lg text-shadow-clear">MATCHES</h1></div>
 		</div>
 	);
 }

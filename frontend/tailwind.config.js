@@ -59,14 +59,20 @@ export default {
 	plugins: [
 		plugin(function({ addBase, addComponents, matchComponents, theme }) {
 			addBase({
-				'h1': { fontSize: '2.5rem', textShadow: '1px 1px 2px black' },
-				'h2': { fontSize: '2rem', textShadow: '1px 1px 2px black' },
-				'h3': { fontSize: '1.75rem', textShadow: '1px 1px 2px black' },
-				'h4': { fontSize: '1.5rem', textShadow: '1px 1px 2px black' },
-				'h5': { fontSize: '1.25rem', textShadow: '1px 1px 2px black' },
-				'h6': { fontSize: '1rem', textShadow: '1px 1px 2px black' },
+				'h1': { fontSize: '2.5rem' },
+				'h2': { fontSize: '2rem' },
+				'h3': { fontSize: '1.75rem' },
+				'h4': { fontSize: '1.5rem' },
+				'h5': { fontSize: '1.25rem' },
+				'h6': { fontSize: '1rem' },
 			})
 			addComponents({
+				'.text-shadow-clear': {
+					textShadow: '0 .313rem 0 black'
+				},
+				'.text-shadow-blur': {
+					textShadow: '0 .188rem .125rem black'
+				},
 				'.shadow-yellow-50-700': {
 					boxShadow: `inset 0 .3em ${theme('colors.primary.yellow.50')}, inset 0 -.3em ${theme('colors.primary.yellow.700')}`
 				},
@@ -86,7 +92,7 @@ export default {
         	clipPath: 'polygon(8% 0, 100% 0, 92% 100%, 0% 100%)'
 				}, 
 				'.parallelogram-banner': {
-        	clipPath: 'polygon(0% 0, 100% 0, 95% 95%, 0% 100%)'
+        	transform: 'skew(-8deg, 0)'
 				}, 
 			})
 		})
