@@ -14,7 +14,6 @@ export default {
 			colors: {
 				transparent: 'transparent',
 				current: 'currentColor',
-				myred: '#FF0000',
 				neutral: {
 					DEFAULT: '#FFFFFF',
 					grey: {
@@ -55,9 +54,6 @@ export default {
 					}
 				},
 			},
-			clipPath: {
-				'paralel': ''
-			}
 		}
 	},
 	plugins: [

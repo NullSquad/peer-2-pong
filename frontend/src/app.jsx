@@ -33,7 +33,7 @@ function	LoginPage()
 						<div className="text-white leading-loose"><h1>LOGIN</h1></div>
 					</div>
 					<div className="w-[199.99px] h-[69.72px] shadow-yellow-50-700 parallelogram-tuta px-4 py-2 left-0 top-[0.28px] bg-primary-yellow rounded-sm border-2 border-black justify-center items-center gap-2 inline-flex">
-						<div className="text-white leading-loose"><h1>MATCHES</h1></div>
+						<div className="text-white leading-loose"><h1 className="font-sans">MATCHES</h1></div>
 					</div>
 					<div className="w-[25.99px] h-[20.72px] text-[25px] shadow-blue-ocean parallelogram-tuta px-4 py-2 left-0 top-[0.28px] bg-accent-blue rounded-sm border-2 border-black justify-center items-center gap-2 inline-flex">
 						<div className="text-white leading-loose">+</div>
