@@ -27,7 +27,7 @@ export function MatchCard({ player1, player2, targetDate }) {
         <button onClick={prevPhase} className="bg-gray-500 text-white p-2 rounded">
           Prev
         </button>
-        <button onClick={nextPhase} className="bg-blue-500 text-white p-2 rounded">
+        <button onClick={nextPhase} className="bg-accent-blue-light text-white p-2 rounded">
           Next
         </button>
       </div>
@@ -41,7 +41,7 @@ function Phase1({ player1, player2, targetDate }) {
       {/* Card Body with clip-path */}
       <div className="relative flex w-full h-14 sm:h-16 -skew-x-[8deg]">
         {/* Player 1 Side */}
-        <div className="flex items-center justify-center bg-blue-500 w-1/2 px-3 py-2 text-black">
+        <div className="flex items-center justify-center bg-accent-blue-light w-1/2 px-3 py-2 text-black">
           <img
             src={player1.image}
             alt={player1.name}
@@ -95,7 +95,7 @@ function Phase2({ player1, player2, targetDate }) {
     <div className="w-full">
       <div className="relative flex w-full max-w-4xl h-[86px] sm:h-[94px] md:h-28 overflow-visible bg-gray-800">
         <div className="relative flex w-full h-14 sm:h-16 -skew-x-[8deg]">
-          <div className="flex items-center justify-center bg-blue-500 w-1/2 px-3 py-2 text-black">
+          <div className="flex items-center justify-center bg-accent-blue-light w-1/2 px-3 py-2 text-black">
             <img
               src={player1.image}
               alt={player1.name}
@@ -129,7 +129,7 @@ function Phase2({ player1, player2, targetDate }) {
       {/* Controles de puntuación */}
       <div className="flex justify-center items-center mt-2 gap-2 parallelogram">
         {/* Player 1 Score Controls */}
-        <div className="flex items-center bg-blue-500 p-2 rounded">
+        <div className="flex items-center bg-accent-blue-light p-2 rounded">
           <button className="bg-accent-red-light text-white px-2 py-1 rounded font-bold">-</button>
           <span className="text-black text-2xl font-extrabold mx-2">6</span>
           <button className="bg-blue-700 text-white px-2 py-1 rounded font-bold">+</button>
@@ -137,7 +137,7 @@ function Phase2({ player1, player2, targetDate }) {
 
         {/* Player 2 Score Controls */}
         <div className="flex items-center bg-red-500 p-2 rounded">
-          <button className="bg-blue-500 text-white px-2 py-1 rounded font-bold">+</button>
+          <button className="bg-accent-blue-light text-white px-2 py-1 rounded font-bold">+</button>
           <span className="text-black text-2xl font-extrabold mx-2">11</span>
           <button className="bg-accent-red-light  text-white px-2 py-1 rounded font-bold">-</button>
         </div>
@@ -170,7 +170,7 @@ function Phase5({ player1, player2, result }) {
       <div className="relative flex w-full h-14 sm:h-16 m-2 -skew-x-[8deg]">
         {/* Blue card */}
         <div
-          className={`relative flex items-center justify-between bg-blue-500 ${blueCardSize} px-3 py-2 text-black`}
+          className={`relative flex items-center justify-between bg-accent-blue-light ${blueCardSize} px-3 py-2 text-black`}
         >
           {/* Blue score */}
           <div
