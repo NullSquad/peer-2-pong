@@ -54,6 +54,7 @@ import CountdownTimer from "./CountdownTimer";
 
 // Event component with two info sections and a countdown timer
 const Event = ({ type, isParticipating, status, children, targetDate }) => {
+  let bgType = type.toLowerCase() === "tournament" ? "bg-tournament" : "bg-league";
   return (
     <div className="relative">
       {/* Container that holds both left and right info */}
@@ -82,15 +83,9 @@ const Event = ({ type, isParticipating, status, children, targetDate }) => {
           lg:min-w-[28rem] lg:min-h-[16rem]
         `}
       >
-        {type.toLowerCase() === "tournament" ? (
           <div
-            className={`flex bg-tournament scale-[1.1] -translate-x-1 absolute inset-0 skew-x-6 bg-cover bg-bottom`}
+            className={`flex ${bgType} scale-[1.1] -translate-x-1 absolute inset-0 skew-x-6 bg-cover bg-bottom`}
           />
-        ) : (
-          <div
-            className={`flex bg-league scale-[1.1] -translate-x-1 absolute inset-0 skew-x-6 bg-cover bg-bottom`}
-          />
-        )}
 
         <div className="flex justify-center translate-y-8">
           <div className="text-white skew-x-6">
