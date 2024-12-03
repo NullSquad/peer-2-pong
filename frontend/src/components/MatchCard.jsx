@@ -8,14 +8,14 @@ export function MatchCard({ player1, player2, result }) {
 
   const blueCardSize = result.blue > result.red ? "w-9/12" : "w-5/12";
   const redCardSize = result.red > result.blue ? "w-9/12" : "w-5/12";
-  const crownPosition = result.blue > result.red ? "80%" : "20%";
+  const crownPosition = result.blue > result.red ? "right-[80%]" : "right-[20%]";
   const blueImagePosition = result.blue > result.red ? "right-[55%]" : "right-[82%]";
   const redImagePosition =result.blue < result.red ? "left-[45%]" : "left-[72%]";
 
   return (
     <div className="relative flex w-full max-w-4xl h-28 overflow-visible bg-gray-800">
-      {/* Card Body with clip-path */}
-      <div className="relative flex w-full h-14 sm:h-16 parallelogram">
+      {/* Card Body */}
+      <div className="relative flex w-full h-14 sm:h-16 m-2 parallelogram">
         {/* Blue card */}
         <div
           className={`relative flex items-center justify-between bg-blue-500 ${blueCardSize} px-3 py-2 text-black`}
@@ -59,7 +59,7 @@ export function MatchCard({ player1, player2, result }) {
 
         {/* Crown Icon */}
         <div
-          className={`absolute right-[${crownPosition}] translate-x-[50%] flex justify-center w-1/3`}
+          className={`absolute ${crownPosition} translate-x-[50%] flex justify-center w-1/3`}
         >
           <img src={CrownIcon} alt="Crown Icon" className="w-14 sm:w-16" />
         </div>
