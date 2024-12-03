@@ -11,7 +11,8 @@ export function MatchCard({ player1, player2, targetDate }) {
           clipPath: "polygon(3% 15%, 100% 15%, 97% 85%, 0% 85%)",
         }}
       >
-        <div className="flex items-center justify-between bg-blue-500 w-7/12 px-3 py-2 text-black">
+        {/* Player 1 Side */}
+        <div className="relative flex items-center justify-between bg-blue-500 w-7/12 px-3 py-2 text-black">
           {/* Left Section: Crown + Player */}
           <div
             className="flex items-center w-5/6"
@@ -33,22 +34,30 @@ export function MatchCard({ player1, player2, targetDate }) {
                 {player1.name}
               </span>
             </div>
-            <div
-              className="bg-gray-700 text-white p-1 px-2 rounded w-10 h-6 flex items-center justify-center absolute right-9"
-              style={{
-                bottom: "20px", // Adjust the vertical position if needed
-              }}
-            >
-              <span className="font-bold text-sm">3</span> {/* Blue score */}
-            </div>
           </div>
-
           {/* Right Section (if needed, for symmetry or other content) */}
+          <div 
+            className="absolute md:right-4 right-2 top-1/2 -translate-y-1/2 bg-gray-700 text-white p-1 px-2 rounded w-8 h-7 flex items-center justify-center"// absolute right-9"
+            style={{
+              bottom: "20px", // Adjust the vertical position if needed
+            }}
+          >
+              <span className="font-bold text-sm">11</span> {/* Blue score */}
+          </div>
         </div>
         {/* Space between blue and red */}
         <div className="w-1"></div>
+        
         {/* Player 2 Side */}
-        <div className="flex items-center justify-center bg-red-500 w-5/12 px-3 py-2 text-black">
+        <div className="relative flex items-center justify-center bg-red-500 w-5/12 px-3 py-2 text-black">
+          <div 
+            className="absolute md:left-4 left-2 top-1/2 -translate-y-1/2 bg-gray-700 text-white p-1 px-2 rounded w-8 h-7 flex items-center justify-center"// absolute right-9"
+            style={{
+              bottom: "20px", // Adjust the vertical position if needed
+            }}
+          >
+              <span className="font-bold text-sm">3</span> {/* Blue score */}
+          </div>
           <span className="text-sm md:text-lg font-bold mr-2">
             {player2.name}
           </span>
