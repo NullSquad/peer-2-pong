@@ -11,6 +11,7 @@ export function MatchCard({ player1, player2, targetDate }) {
         }}
       >
         {/* Player 1 Side */}
+        <>
         <div className="flex items-center justify-center bg-blue-500 w-1/2 px-3 py-2 text-black">
           <img
             src={player1.image}
@@ -19,6 +20,7 @@ export function MatchCard({ player1, player2, targetDate }) {
           />
           <span className="text-sm md:text-lg font-bold">{player1.name}</span>
         </div>
+        </>
 
         {/* VS Section */}
         <div
