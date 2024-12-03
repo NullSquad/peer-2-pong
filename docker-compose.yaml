@@ -1,3 +1,5 @@
+version: "3.8"
+
 services:
   database:
     restart: always
@@ -12,7 +14,8 @@ services:
 
   backend:
     restart: always
-    build: backend
+    build:
+      context: ./backend
     environment:
       PORT: ${BACKEND_PORT}
       DB_URI: mongodb://${DB_USER}:${DB_PASS}@database:27017
@@ -24,17 +27,13 @@ services:
     networks:
       - api-db
       - client-api
-    develop:
-      watch:
-        - action: sync+restart
-          path: ./backend/src
-          target: /app/src
-        - action: rebuild
-          path: ./backend/package.json
-          target: /app
+    volumes:
+      - ./backend/src:/app/src  # Sincroniza el código fuente para desarrollo.
+      - ./backend/package.json:/app/package.json
 
   frontend:
-    build: frontend
+    build:
+      context: ./frontend
     ports:
       - "${FRONTEND_PORT}:${FRONTEND_PORT}"
     environment:
@@ -44,14 +43,9 @@ services:
       - backend
     networks:
       - client-api
-    develop:
-      watch:
-        - action: sync
-          path: ./frontend/src
-          target: /app/src
-        - action: rebuild
-          path: ./frontend/package.json
-          target: /app
+    volumes:
+      - ./frontend/src:/app/src  # Sincroniza el código fuente para desarrollo.
+      - ./frontend/package.json:/app/package.json
 
 volumes:
   data:

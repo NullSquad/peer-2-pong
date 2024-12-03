@@ -11,7 +11,7 @@ export function MatchCard({ player1, player2, targetDate, status }) {
           clipPath: "polygon(3% 15%, 100% 15%, 97% 85%, 0% 85%)",
         }}
       >
-        <div className="flex items-center justify-between bg-blue-500 w-7/12 px-3 py-2 text-black">
+        <div className="flex items-center justify-between bg-blue-500 w-7/12 px-8 py-2 text-black">
           {/* Left Section: Players + Scores */}
           <div
             className="flex items-center"
@@ -28,14 +28,14 @@ export function MatchCard({ player1, player2, targetDate, status }) {
             </div>
 	  		
 	  		{/*Scores Section*/}
-	  		<div className="flex items-center justify-center bg-black px-4 py-2 rounded-full border-2 border-black">
-	  			<span className="text-xl md:text-2xl font-bold">{player1.score}</span>
-	  			<span className="mx-2 md:text-2xl font-bold">-</span>
-	  			<span className="text-xl md:text-2xl font-bold">{player2.score}</span>
+	  		<div className="flex items-center justify-center bg-black px-4 py-2 rounded-full border-2 border-black text-white">
+	  			<span className="text-xl md:text-2xl font-bold">11</span>
+	  			<span className="px-1 mx-2 md:text-2xl font-bold">-</span>
+	  			<span className="text-xl md:text-2xl font-bold">5</span>
 	  		</div>
             
 	  		{/* player2 Image and Name */}
-			<div className="flex items-center flex-row-reverse px-20">
+			<div className="flex items-center flex-row-reverse px-30">
               <img
                 src={player2.image}
                 alt={player2.name}
@@ -59,7 +59,7 @@ export function MatchCard({ player1, player2, targetDate, status }) {
 			</div>)
 	  	}
 	  	</div>
-      {/* Time Left Container */}
+      {/* Time Left Container 
       <div
         className="absolute right-0 bottom-[-20px] sm:right-2 sm:bottom-[-30px] md:right-[26px] md:bottom-[-20px] bg-gray-900 text-white text-xs sm:text-sm md:text-sm p-1 md:p-2 rounded-lg z-10"
         style={{
@@ -67,7 +67,7 @@ export function MatchCard({ player1, player2, targetDate, status }) {
         }}
       >
         Time left: <CountdownTimer targetDate={targetDate} />
-      </div>
+      </div>*/}
     </div>
   );
 }
