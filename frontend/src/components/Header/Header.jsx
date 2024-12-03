@@ -1,6 +1,5 @@
 import { h } from 'preact';
 import './Header.css'; // Archivo CSS con los estilos
-import avatar from "../../img/avatar.png"; // Imagen para el avatar
 
 export function Header() {
   return (

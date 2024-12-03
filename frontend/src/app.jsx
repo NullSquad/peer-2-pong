@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'preact/hooks';
 import { Event } from './events.jsx';
+import { Header } from './components/Header/Header.jsx';
+import { Usercard } from './components/Usercard.jsx';
 
 export function App() {
   const [message, setMessage] = useState('');
@@ -13,5 +15,5 @@ export function App() {
     fetchMessage();
   }, []);
 
-  return ( <Event></Event>)
+  return ( < Usercard name="Deordone" picture="../src/assets/avatar.png"/>);
 };
