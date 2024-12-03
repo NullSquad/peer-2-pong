@@ -50,10 +50,10 @@ export default {
           },
         },
       },
-	backgroundImage: {
-		'league': "url('/league.svg')",
-		'tournament': "url('/tournament.svg')",
-	}
+      backgroundImage: {
+        league: "url('/league.svg')",
+        tournament: "url('/tournament.svg')",
+      },
     },
   },
   plugins: [

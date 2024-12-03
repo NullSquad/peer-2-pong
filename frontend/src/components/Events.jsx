@@ -53,20 +53,21 @@
 import CountdownTimer from "./CountdownTimer";
 
 // Event component with two info sections and a countdown timer
-const Event = ({ isLeague, infoLeft, infoRight, children, targetDate }) => {
-  let type = (isLeague ? "bg-league" : "bg-tournament");
+const Event = ({ type, isParticipating, status, children, targetDate }) => {
+
+  let eventType = `bg-${type}`.toLowerCase();
   return (
     <div className="relative">
       {/* Container that holds both left and right info */}
-      <div className="text-primary-yello-DEFAULT relative flex justify-between items-center translate-x-[0.6rem] sm:translate-x-[0.7rem] md:translate-x-[0.81rem] lg:translate-x-[0.91rem] -skew-x-[8.2deg] bg-black px-3 sticky">
-        {/* left align text */}
-        <p className="text-primary-yello-DEFAULT text-xs sm:text-xs md:text-sm skew-x-[8.2deg]">
-          {infoLeft}
+      <div className="relative flex justify-between pt-[.25rem] items-center translate-x-[0.6rem] sm:translate-x-[0.7rem] md:translate-x-[0.81rem] lg:translate-x-[0.91rem] -skew-x-[8.2deg] bg-black px-3">
+        {/* left text */}
+        <p className={`text-primary-yellow text-xs sm:text-xs md:text-sm skew-x-[8.2deg] ${isParticipating ? "" : "invisible"}`}>
+          Participating
         </p>
 
-        {/* right align text */}
+        {/* status right text */}
         <p className="text-xs sm:text-xs md:text-sm text-right skew-x-[8.2deg]">
-          {infoRight}
+          {`${type} ${status} in: `}
           {/* Render Timer only if targetDate is defined*/}
           {targetDate && <CountdownTimer targetDate={targetDate} />}
         </p>
@@ -82,7 +83,7 @@ const Event = ({ isLeague, infoLeft, infoRight, children, targetDate }) => {
         `}
       >
         <div
-          className={`flex ${type} scale-[1.1] -translate-x-1 absolute inset-0 skew-x-6 bg-cover bg-bottom`}
+          className={`flex ${eventType} scale-[1.1] -translate-x-1 absolute inset-0 skew-x-6 bg-cover bg-bottom`}
         />
         <div className="flex justify-center translate-y-8">
           <div className="text-white skew-x-6">
