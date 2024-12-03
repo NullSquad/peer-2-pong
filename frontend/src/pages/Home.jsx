@@ -22,6 +22,22 @@ const Home = () => {
         >
           TOURNAMENT
         </Event>
+        <Event
+          type="Tournament"
+          isParticipating={true}
+          status="start"
+          targetDate="2024-12-31T23:59:59"
+        >
+          TOURNAMENT
+        </Event>
+        <Event
+          type="League"
+          isParticipating={false}
+          status="start"
+          targetDate="2024-12-31T23:59:59"
+        >
+          LEAGUE
+        </Event>
       </Slider>
     </main>
   );

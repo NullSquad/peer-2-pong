@@ -55,9 +55,10 @@ import CountdownTimer from "./CountdownTimer";
 // Event component with two info sections and a countdown timer
 const Event = ({ type, isParticipating, status, children, targetDate }) => {
 
-  let eventType = `bg-${type}`.toLowerCase();
+  const eventType = `bg-${type}`.toLowerCase();
+
   return (
-    <div className="relative">
+    <section className="relative">
       {/* Container that holds both left and right info */}
       <div className="relative flex justify-between pt-[.25rem] items-center translate-x-[0.6rem] sm:translate-x-[0.7rem] md:translate-x-[0.81rem] lg:translate-x-[0.91rem] -skew-x-[8.2deg] bg-black px-3">
         {/* left text */}
@@ -73,7 +74,7 @@ const Event = ({ type, isParticipating, status, children, targetDate }) => {
         </p>
       </div>
 
-      <section
+      <article
         className={`
           relative overflow-hidden -skew-x-6 border-4 border-black
           shadow-lg mx-auto min-w-[16rem] min-h-[10rem] 
@@ -92,8 +93,8 @@ const Event = ({ type, isParticipating, status, children, targetDate }) => {
             </h1>
           </div>
         </div>
-      </section>
-    </div>
+      </article>
+    </section>
   );
 };
 
