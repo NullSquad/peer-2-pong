@@ -1,6 +1,6 @@
 import { useEffect } from "preact/hooks";
 import { Route, route } from "preact-router";
-import { useAuth } from "../hooks/useAuth";
+import useAuth from "../hooks/useAuth";
 
 const ProtectedRoute = (props) => {
   const { user, setUser } = useAuth();
