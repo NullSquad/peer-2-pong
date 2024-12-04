@@ -135,17 +135,46 @@ function Phase2({ player1, player2, result, setResult }) {
           </div>
         </div>
       </div>
-
       {/* Controles de puntuación */}
       <div className="flex justify-center items-center mt-2 gap-2">
         <div className="flex items-center bg-accent-blue-light p-2 rounded">
-          <button onClick={decreaseBlue} className="bg-accent-red-light text-white px-2 py-1 rounded font-bold">-</button>
-          <span className="text-black text-2xl font-extrabold mx-2">{result.blue}</span>
-          <button onClick={increaseBlue} className="bg-blue-700 text-white px-2 py-1 rounded font-bold">+</button>
-          
+          {/* Decrease blue score*/}
+          <button
+            onClick={decreaseBlue}
+            className="bg-accent-red shadow-red-light-dark border-2 border-black w-8 h-6 sm:w-9 sm:h-7 mr-1 rounded-md text-white text-sm sm:text-xl font-bold font-lilita-one active:translate-y-[1px] flex items-center justify-center -skew-x-[5deg]"
+          >
+            <span
+              className="inline-block relative top-[-1px] sm:top-[-2px] leading-none skew-x-[5deg]"
+              style={{
+                textShadow: "1px 1px 0px black",
+              }}
+            >
+              -
+            </span>
+          </button>
+          {/* Increase blue score */}
+          <button
+            onClick={increaseBlue}
+            className="bg-accent-blue shadow-blue-ocean border-2 border-black w-8 h-6 sm:w-9 sm:h-7 rounded-md text-white text-sm sm:text-xl font-bold font-lilita-one active:translate-y-[1px] flex items-center justify-center -skew-x-[5deg]"
+          >
+            <span
+              className="inline-block relative leading-none skew-x-[5deg]"
+              style={{
+                textShadow: "1px 1px 0px black",
+              }}
+            >
+              +
+            </span>
+          </button>
+          {/* Blue score */}
+          <div
+            className="bg-black text-white p-1 px-2 rounded w-6 h-7 sm:w-7 sm:h-8 flex items-center justify-center ml-2"
+          >
+            <span className="font-bold text-sm skew-x-[8deg] sm:text-lg">{result.blue}</span>
+          </div >
         </div>
-        {/* Red score */}
         <div className="flex items-center bg-red-500 p-2 rounded">
+          {/* Red score */}
           <div
             className="bg-black text-white p-1 px-2 rounded w-6 h-7 sm:w-7 sm:h-8 flex items-center justify-center mr-2"
           >
@@ -182,7 +211,7 @@ function Phase2({ player1, player2, result, setResult }) {
         </div>
         {/* Submit score */}
         <button
-          className="bg-yellow-500 shadow-yellow-50-700 hover:bg-yellow-600 text-white font-bold text-xl font-lilita-one border-2 border-black px-6 py-2 -skew-x-[8deg] rounded-lg relative active:translate-y-[2px]"
+          className="bg-yellow-500 shadow-yellow-50-700-sm text-white font-bold text-xl font-lilita-one border-2 border-black w-24 h-7 sm:w-22 sm:h-8 text-sm sm:text-xl -skew-x-[8deg] rounded-lg relative active:translate-y-[2px]"
         >
           <span
             className="inline-block skew-x-[8deg]"

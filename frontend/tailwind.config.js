@@ -70,6 +70,9 @@ export default {
         ".shadow-yellow-50-700": {
           boxShadow: `inset 0 .3em ${theme("colors.primary.yellow.50")}, inset 0 -.3em ${theme("colors.primary.yellow.700")}`,
         },
+        ".shadow-yellow-50-700-sm": {
+          boxShadow: `inset 0 .1em ${theme("colors.primary.yellow.50")}, inset 0 -.1em ${theme("colors.primary.yellow.700")}`,
+        },
         ".shadow-yellow-100-700": {
           boxShadow: `inset 0 .5em ${theme("colors.primary.yellow.100")}, inset 0 -.5em ${theme("colors.primary.yellow.700")}`,
         },
