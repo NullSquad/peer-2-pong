@@ -9,7 +9,7 @@ const Login = () => {
         alt="Peer 2 Pong app Logo" 
         className="w-auto max-w-xs h-auto mb-6"
 	    />
-      <Link href="/api/auth/" className="bg-primary-yellow shadow-yellow-100-700 px-12 py-4 rounded-sm text-white text-2xl text-stroke drop-shadow tracking-tighter font-bold">
+      <Link href="/api/auth/" className="bg-primary-yellow shadow-yellow-50-700 px-12 py-5 rounded-sm text-white text-2xl text-stroke drop-shadow tracking-tighter font-bold">
           <h2>LOGIN</h2>
       </Link>
     </main>
