@@ -52,12 +52,12 @@ export default {
           },
         },
       },
-	backgroundImage: {
-		'league': "url('./src/assets/league.svg')",
+	  backgroundImage: {
+	    'league': "url('./src/assets/league.svg')",
 		'tournament': "url('./src/assets/tournament.svg')",
-    'pattern' : "url('./src/assets/block.svg')",
-	}
-    },
+        'pattern' : "url('./src/assets/block.svg')",
+	  }
+	},
   },
   plugins: [
     plugin(function ({ addBase, addComponents, matchComponents, theme }) {

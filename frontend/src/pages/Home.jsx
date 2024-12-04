@@ -11,16 +11,17 @@ const Home = ({ user }) => {
         <Header user={user} />
         <Slider className="min-h-screen flex flex-col gap-6">
           <Event
-            isLeague={true}
-            infoLeft="Participating"
-            infoRight="League ends in: "
-            targetDate="2024-12-04T23:59:59"
+            type="league"
+            isParticipating={true}
+            status="ends"
+            targetDate="2024-12-04T16:59:59"
           >
             LEAGUE
           </Event>
           <Event
-            eventType="tournament"
-            infoRight="Tournament start in: "
+            type="tournament"
+            isParticipating={false}
+            status="start"
             targetDate="2024-12-31T23:59:59"
           >
             TOURNAMENT
