@@ -1,14 +1,15 @@
+import useAuth from "../hooks/useAuth";
 import MatchCard from "../components/MatchCard";
 import Slider from "../components/Slider";
 import Event from "../components/Events";
-// import { Background } from "../components/Background/Background";
 import { Header } from "../components/Header";
 
-const Home = ({ user }) => {
+const Home = () => {
+  const { user } = useAuth();
+
   return (
-    <>
-      <main className="relative min-h-screen text-white p-0">
-        <Header user={user} />
+      <main className="relative text-white inset-0 w-full h-full bg-pattern pt-6 sm:pt-10">
+        <Header />
         <Slider className="min-h-screen flex flex-col gap-6">
           <Event
             type="league"
@@ -68,7 +69,6 @@ const Home = ({ user }) => {
           />
         </section>
       </main>
-    </>
   );
 };
 

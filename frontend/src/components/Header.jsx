@@ -1,6 +1,7 @@
-import { h } from "preact";
+import useAuth from "../hooks/useAuth";
 
-export function Header({ user }) {
+export const Header = () => {
+	  const { user } = useAuth();
   return (
     <header
       className="relative bg-yellow-500 text-white sm:mt-15 py-1 px-5 sm:px-10 sm:ml-[-1%] ml-[-2%] w-[80%] sm:w-[50%] flex justify-between 

@@ -14,14 +14,6 @@ router.use(
   session({ secret: CLIENT_SECRET, resave: false, saveUninitialized: true }),
 );
 
-router.use((req, res, next) => {
-  var msgs = req.session.messages || [];
-  res.locals.messages = msgs;
-  res.locals.hasMessages = !!msgs.length;
-  req.session.messages = [];
-  next();
-});
-
 passport.use(
   new OAuth2Strategy(
     {
@@ -82,8 +74,8 @@ router.get("/session", (req, res) => {
   }
 });
 
-router.post("/logout", function (req, res, next) {
-  req.logout(function (err) {
+router.post("/logout", (req, res, next) => {
+  req.logout((err) => {
     if (err) {
       return next(err);
     }
