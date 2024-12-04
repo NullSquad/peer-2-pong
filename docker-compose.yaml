@@ -24,6 +24,8 @@ services:
     networks:
       - api-db
       - client-api
+    ports:
+      - "${BACKEND_PORT}:${BACKEND_PORT}"  # Mapea el puerto al host
     develop:
       watch:
         - action: sync+restart

@@ -3,15 +3,37 @@ import passport from "passport";
 import session from "express-session";
 import OAuth2Strategy from "passport-oauth2";
 
+// Originalmente, se obtenían las variables directamente de process.env
+// const { CALLBACK_URL, CLIENT_ID, CLIENT_SECRET } = process.env;
+
+import dotenv from "dotenv";
+
+// Configuración de dotenv para cargar las variables desde el archivo .env
+dotenv.config();
+
 const { CALLBACK_URL, CLIENT_ID, CLIENT_SECRET } = process.env;
+
+// Validación para asegurarse de que todas las variables requeridas están definidas
+if (!CALLBACK_URL || !CLIENT_ID || !CLIENT_SECRET) {
+  throw new Error("Missing required environment variables in .env");
+}
+
 const router = express.Router();
 
 const AUTHORIZATION_URL = "https://api.intra.42.fr/oauth/authorize";
 const TOKEN_URL = "https://api.intra.42.fr/oauth/token";
 const USER_INFO_URL = "https://api.intra.42.fr/v2/me";
 
+// La sesión anteriormente usaba CLIENT_SECRET como clave secreta, es mejor reemplazarlo
+// router.use(
+//   session({ secret: CLIENT_SECRET, resave: false, saveUninitialized: true }),
+// );
 router.use(
-  session({ secret: CLIENT_SECRET, resave: false, saveUninitialized: true }),
+  session({
+    secret: "a-very-secure-random-string", // Cambia por una cadena segura
+    resave: false,
+    saveUninitialized: true,
+  }),
 );
 
 router.use((req, res, next) => {
@@ -43,7 +65,7 @@ passport.use(
         const user = {
           login,
           email,
-          image: image.link,
+          image: image?.link || null,
         };
         return done(null, user);
       } catch (error) {
