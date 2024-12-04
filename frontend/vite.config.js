@@ -9,9 +9,14 @@ export default defineConfig({
     host: "0.0.0.0",
     proxy: {
       "/auth": {
-        target: API_URI,
+        target: VITE_API_URI,
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/auth/, "/auth"),
+      },
+      "/auth/callback": {
+        target: VITE_API_URI,
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/auth\/callback/, "/auth/callback"),
       },
     },
     watch: {
