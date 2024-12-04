@@ -1,6 +1,8 @@
 import CrownIcon from "../assets/CrownIcon.svg";
 import { useState } from "preact/hooks";
 import CountdownTimer from "./CountdownTimer";
+import { TEAnimation } from "tw-elements-react";
+
 
 export function MatchCard({ player1, player2, targetDate }) {
   const [phase, setPhase] = useState(1);
@@ -8,31 +10,24 @@ export function MatchCard({ player1, player2, targetDate }) {
 
   const nextPhase = () => setPhase((prev) => (prev < 5 ? prev + 1 : 1));
   const prevPhase = () => setPhase((prev) => (prev > 1 ? prev - 1 : 5));
+  const togglePhase = () => setPhase((prev) => (prev === 1 ? 2 : 1));
 
   return (
-    <div className="relative flex w-full max-w-4xl h-[86px] sm:h-[94px] md:h-28 overflow-visible bg-gray-800">
-      {phase === 1 && (
+    <div className="relative flex flex-col w-full max-w-4xl overflow-visible bg-gray-800">
+      <button onClick={togglePhase} >
         <Phase1 player1={player1} player2={player2} targetDate={targetDate} />
-      )}
-      {phase === 2 && (
+      </button>
+      <div
+        className={` animation-shadow ${
+          phase === 2 ? "opacity-100 animate-slide-out-bottom " : "opacity-0"
+        }`}
+      >
         <Phase2
           player1={player1}
           player2={player2}
           result={result}
           setResult={setResult}
         />
-      )}
-      {phase === 3 && <Phase3 player1={player1} player2={player2} />}
-      {phase === 4 && <Phase4 player1={player1} player2={player2} result={result} />}
-      {phase === 5 && <Phase5 player1={player1} player2={player2} result={result} />}
-
-      <div className="absolute bottom-2 right-64 flex space-x-2">
-        <button onClick={prevPhase} className="bg-gray-500 text-white p-2 rounded">
-          Prev
-        </button>
-        <button onClick={nextPhase} className="bg-accent-blue-light text-white p-2 rounded">
-          Next
-        </button>
       </div>
     </div>
   );
@@ -92,7 +87,7 @@ function Phase1({ player1, player2, targetDate }) {
   );
 }
 
-function Phase2({ player1, player2, result, setResult }) {
+function Phase2({ result, setResult }) {
 
   const increaseBlue = () => setResult({ ...result, blue: result.blue + 1 });
   const decreaseBlue = () => setResult({ ...result, blue: Math.max(0, result.blue - 1) });
@@ -101,41 +96,8 @@ function Phase2({ player1, player2, result, setResult }) {
   const decreaseRed = () => setResult({ ...result, red: Math.max(0, result.red - 1) });
 
   return (
-    <div className="w-full">
-      {/* fase 1 */}
-      <div className="relative flex w-full max-w-4xl h-[86px] sm:h-[94px] md:h-28 overflow-visible bg-gray-800">
-        <div className="relative flex w-full h-14 sm:h-16 -skew-x-[8deg]">
-          <div className="flex items-center justify-center bg-accent-blue-light w-1/2 px-3 py-2 text-black">
-            <img
-              src={player1.image}
-              alt={player1.name}
-              className="w-12 sm:w-14 rounded-full skew-x-[8deg] border-2 border-black mr-2"
-            />
-            <span className="text-sm md:text-lg skew-x-[8deg] font-bold">{player1.name}</span>
-          </div>
-
-          <div
-            className="absolute inset-0 flex items-center justify-center text-white text-2xl md:text-3xl font-extrabold"
-            style={{ textShadow: "2px 2px 4px black" }}
-          >
-            VS
-          </div>
-
-          <div className="w-1"></div>
-
-          <div className="flex items-center justify-center bg-accent-red-light w-1/2 px-3 py-2 text-black">
-            <span className="text-sm skew-x-[8deg] md:text-lg font-bold mr-2">
-              {player2.name}
-            </span>
-            <img
-              src={player2.image}
-              alt={player2.name}
-              className="w-12 sm:w-14 skew-x-[8deg] rounded-full border-2 border-black"
-            />
-          </div>
-        </div>
-      </div>
-      {/* Controles de puntuación */}
+    <div className="relative bottom-[3.7rem] left-[3rem] md:bottom-[5rem]">
+           {/* Controles de puntuación */}
       <div className="flex justify-center items-center mt-2 gap-2">
         <div className="flex items-center bg-accent-blue-light p-2 rounded">
           {/* Decrease blue score*/}

@@ -1,5 +1,5 @@
 const plugin = require("tailwindcss/plugin");
-
+const animations = require('@midudev/tailwind-animations')
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
@@ -57,6 +57,7 @@ export default {
     },
   },
   plugins: [
+    animations,
     plugin(function ({ addBase, addComponents, matchComponents, theme }) {
       addBase({
         h1: { fontSize: "2.5rem", textShadow: "1px 1px 2px black" },
