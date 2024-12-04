@@ -5,34 +5,44 @@ import CountdownTimer from "./CountdownTimer";
 export function MatchCard({ player1, player2, targetDate }) {
   const [phase, setPhase] = useState(1);
   const [result1, setResult1] = useState({ blue: 0, red: 0 });
-  const [result2, setResult2] = useState({ blue: 11, red: 3 });
 
-  const nextPhase = () => setPhase((prev) => (prev < 5 ? prev + 1 : 1));
-  const prevPhase = () => setPhase((prev) => (prev > 1 ? prev - 1 : 5));
   const togglePhase = () => setPhase((prev) => (prev === 1 ? 2 : 1));
+  const setPhase4 = () => setPhase(4);
 
   return (
     <div className="relative flex flex-col w-full max-w-4xl overflow-visible bg-invisible">
-      <button onClick={togglePhase}>
+      {phase != 4 && <button onClick={togglePhase}>
         <Phase1
           player1={player1}
           player2={player2}
           targetDate={phase === 1 ? targetDate : ""}
         />
-      </button>
+      </button>}
       <div
         className={` animation-opacity ${
-          phase === 2
+          phase === 2 
             ? "z-10 opacity-100 animate-slide-out-bottom animate-delay-100 "
             : "z-0 opacity-0 animate-slide-in-bottom transition-opacity ease-out delay-200 duration-200"
         }`}
       >
-        <Phase2
+        {phase != 4 && (
+          <Phase2
+            player1={player1}
+            player2={player2}
+            result={result1}
+            setResult={setResult1}
+            setPhase={setPhase4}
+          />
+        )}
+      </div>
+      <div>
+      {phase === 4 && (
+        <Phase4
           player1={player1}
           player2={player2}
           result={result1}
-          setResult={setResult1}
         />
+      )}
       </div>
     </div>
   );
@@ -98,7 +108,7 @@ function Phase1({ player1, player2, targetDate }) {
   );
 }
 
-function Phase2({ result, setResult }) {
+function Phase2({ result, setResult, setPhase }) {
   const increaseBlue = () => setResult({ ...result, blue: result.blue + 1 });
   const decreaseBlue = () =>
     setResult({ ...result, blue: Math.max(0, result.blue - 1) });
@@ -184,7 +194,10 @@ function Phase2({ result, setResult }) {
           </button>
         </div>
         {/* Submit score */}
-        <button className="bg-yellow-500 shadow-yellow-50-700-sm text-white font-bold  text-md md:text-xl font-lilita-one border-2 border-black w-16 mr-14 sm:mr-12 h-7 sm:w-24 sm:h-8 text-sm sm:text-xl -skew-x-[8deg] rounded-lg relative active:translate-y-[2px]">
+        <button
+          onClick={setPhase}
+          className="bg-yellow-500 shadow-yellow-50-700-sm text-white font-bold  text-md md:text-xl font-lilita-one border-2 border-black mr-9 sm:mr-1 w-16  h-7 sm:w-24 sm:h-8 text-sm sm:text-xl -skew-x-[8deg] rounded-lg relative active:translate-y-[2px]"
+        >
           <span
             className="inline-block skew-x-[8deg]"
             style={{
@@ -269,20 +282,18 @@ function Phase5({ player1, player2, result }) {
     result.blue < result.red ? "left-[45%]" : "left-[72%]";
 
   return (
-    <div className="relative flex w-full max-w-4xl h-28 overflow-visible bg-invisible">
+    <div className="relative flex w-full max-w-4xl h-28 overflow-visible bg-gray-800">
       {/* Card Body */}
-      <div className="relative flex w-full h-14 sm:h-16 -skew-x-[8deg]">
+      <div className="relative flex w-full h-14 sm:h-16 m-2 parallelogram">
         {/* Blue card */}
         <div
-          className={`relative flex items-center justify-between bg-accent-blue-light ${blueCardSize} px-3 py-2 text-black`}
+          className={`relative flex items-center justify-between bg-blue-500 ${blueCardSize} px-3 py-2 text-black`}
         >
           {/* Blue score */}
           <div
-            className="absolute sm:right-4 right-2 top-1/2 skew-x-[8deg] -translate-y-1/2 bg-black text-white p-1 px-2 rounded w-6 h-7 sm:w-7 sm:h-8 flex items-center justify-center" // absolute right-9"
+            className="absolute sm:right-4 right-2 top-1/2 -translate-y-1/2 bg-black text-white p-1 px-2 rounded w-6 h-7 sm:w-7 sm:h-8 flex items-center justify-center" // absolute right-9"
           >
-            <span className="font-bold text-sm skew-x-[8deg] sm:text-lg">
-              {result.blue}
-            </span>{" "}
+            <span className="font-bold text-sm sm:text-lg">{result.blue}</span>{" "}
           </div>
         </div>
 
@@ -291,15 +302,13 @@ function Phase5({ player1, player2, result }) {
 
         {/* Red card */}
         <div
-          className={`relative flex items-center justify-center ${redCardSize} bg-accent-red-light px-3 py-2 text-black`}
+          className={`relative flex items-center justify-center ${redCardSize} bg-red-500 px-3 py-2 text-black`}
         >
           {/* Red score */}
           <div
-            className="absolute sm:left-4 left-2 top-1/2 skew-x-[8deg] -translate-y-1/2 bg-black text-white p-1 px-2 rounded w-6 h-7 sm:w-7 sm:h-8 flex items-center justify-center" // absolute right-9"
+            className="absolute sm:left-4 left-2 top-1/2 -translate-y-1/2 bg-black text-white p-1 px-2 rounded w-6 h-7 sm:w-7 sm:h-8 flex items-center justify-center" // absolute right-9"
           >
-            <span className="font-bold text-sm skew-x-[8deg] sm:text-lg">
-              {result.red}
-            </span>{" "}
+            <span className="font-bold text-sm sm:text-lg">{result.red}</span>{" "}
           </div>
         </div>
 
@@ -308,18 +317,18 @@ function Phase5({ player1, player2, result }) {
           <img
             src={player1.image}
             alt={player1.name}
-            className={`absolute ${blueImagePosition} translate-x-1/2 skew-x-[8deg] w-12 sm:w-14 rounded-full border-2 border-black mr-3`}
+            className={`absolute ${blueImagePosition} translate-x-1/2 w-12 sm:w-14 rounded-full border-2 border-black mr-3`}
           />
           <img
             src={player2.image}
             alt={player2.name}
-            className={`absolute ${redImagePosition} translate-x-1/2 skew-x-[8deg] w-12 sm:w-14 rounded-full border-2 border-black`}
+            className={`absolute ${redImagePosition} translate-x-1/2 w-12 sm:w-14 rounded-full border-2 border-black`}
           />
         </div>
 
         {/* Crown Icon */}
         <div
-          className={`absolute ${crownPosition} translate-x-[50%] skew-x-[8deg] flex justify-center w-1/3`}
+          className={`absolute ${crownPosition} translate-x-[50%] flex justify-center w-1/3`}
         >
           <img src={CrownIcon} alt="Crown Icon" className="w-14 sm:w-16" />
         </div>
