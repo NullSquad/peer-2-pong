@@ -16,7 +16,6 @@ services:
     environment:
       PORT: ${BACKEND_PORT}
       DB_URI: mongodb://${DB_USER}:${DB_PASS}@database:27017
-      CLIENT_URI: http://frontend:${FRONTEND_PORT}
       CLIENT_ID: ${CLIENT_ID}
       CLIENT_SECRET: ${CLIENT_SECRET}
       CALLBACK_URL: ${CALLBACK_URL}
@@ -40,7 +39,7 @@ services:
       - "${FRONTEND_PORT}:${FRONTEND_PORT}"
     environment:
       PORT: ${FRONTEND_PORT}
-      VITE_API_URI: http://backend:${BACKEND_PORT}
+      API_URI: http://backend:${BACKEND_PORT}
     depends_on:
       - backend
     networks:
