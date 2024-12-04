@@ -4,7 +4,8 @@ import CountdownTimer from "./CountdownTimer";
 
 export function MatchCard({ player1, player2, targetDate }) {
   const [phase, setPhase] = useState(1);
-  const [result, setResult] = useState({ blue: 0, red: 0 });
+  const [result1, setResult1] = useState({ blue: 0, red: 0 });
+  const [result2, setResult2] = useState({ blue: 11, red: 3 });
 
   const nextPhase = () => setPhase((prev) => (prev < 5 ? prev + 1 : 1));
   const prevPhase = () => setPhase((prev) => (prev > 1 ? prev - 1 : 5));
@@ -29,15 +30,15 @@ export function MatchCard({ player1, player2, targetDate }) {
         <Phase2
           player1={player1}
           player2={player2}
-          result={result}
-          setResult={setResult}
+          result={result1}
+          setResult={setResult1}
         />
       </div>
       <Phase4
         player1={player1}
         player2={player2}
-        result={result}
-        setResult={setResult}
+        result={result2}
+        setResult={setResult2}
       />
     </div>
   );
@@ -234,7 +235,7 @@ function Phase4({ player1, player2, result }) {
         <div className="w-1"></div>
 
         {/* Player 2 Side */}
-        <div className="relative flex items-center justify-center bg-accent-red-light w-1/2 px-3 py-2 text-black">
+        <div className="relative flex items-center justify-center bg-red-500 w-1/2 px-3 py-2 text-black">
           {/* Score Section for Player 2 */}
           <div className="absolute top-1/2 left-4 -translate-y-1/2 skew-x-[8deg] bg-black text-white p-1 px-2 rounded w-6 h-7 sm:w-7 sm:h-8 flex items-center justify-center">
             <span className="font-bold text-sm sm:text-lg">{result.red}</span>
