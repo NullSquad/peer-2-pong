@@ -8,7 +8,3 @@ export const getSession = () => {
     return response.json();
   });
 };
-
-export const getLoginUrl = () => {
-  return `${VITE_API_URI}/auth/`;
-};
