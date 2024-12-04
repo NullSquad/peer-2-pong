@@ -162,10 +162,65 @@ function Phase3() {
   return <div>Fase 3: Confirmación del resultado</div>;
 }
 
-function Phase4() {
-  return <div>Fase 4: Análisis o resumen</div>;
-}
+function Phase4({ player1, player2, targetDate }) {
+  return (
+    <div className="relative flex w-full max-w-4xl h-[86px] sm:h-[94px] md:h-28 overflow-visible bg-gray-800">
+      {/* Card Body with clip-path */}
+      <div className="relative flex w-full h-14 sm:h-16 -skew-x-[8deg]">
+        {/* Player 1 Side */}
+        <div className="flex items-center justify-center bg-accent-blue-light w-1/2 px-3 py-2 text-black">
+          <img
+            src={player1.image}
+            alt={player1.name}
+            className="w-12 sm:w-14 rounded-full border-2 skew-x-[8deg] border-black mr-2"
+          />
+          <span className="text-sm md:text-lg font-bold skew-x-[8deg]">{player1.name}</span>
+        </div>
 
+        {/* VS Section */}
+        <div
+          className="absolute inset-0 flex items-center justify-center text-white text-2xl md:text-3xl font-extrabold"
+          style={{
+            textShadow: "2px 2px 4px black",
+          }}
+        >
+        {/*Scores Section*/}
+        <div className="flex items-center justify-center bg-black px-4 py-2 border-2 border-black text-white">
+        <span className="text-xl md:text-2xl font-bold">11</span>
+        <span className="px-1 mx-2 md:text-2xl font-bold">-</span>
+        <span className="text-xl md:text-2xl font-bold">5</span>
+        </div>
+        </div>
+
+        {/* Space between blue and red */}
+        <div className="w-1"></div>
+
+        {/* Player 2 Side */}
+        <div className="flex items-center justify-center bg-accent-red-light w-1/2 px-3 py-2 text-black">
+          <span className="text-sm md:text-lg skew-x-[8deg] font-bold mr-2">
+            {player2.name}
+          </span>
+          <img
+            src={player2.image}
+            alt={player2.name}
+            className="w-12 sm:w-14 rounded-full border-2 skew-x-[8deg] border-black"
+          />
+        </div>
+      </div>
+
+      {/* Time Left Container */}
+      <div
+        className="absolute right-2 bottom-[5px] sm:bottom-[2px] md:right-[26px] md:bottom-[12px] bg-gray-900 text-white text-xs sm:text-sm md:text-sm p-1 md:p-2 rounded-lg z-10"
+        style={{
+          width: "max-content",
+        }}
+      >
+        Time left: <CountdownTimer targetDate={targetDate} />
+      </div>
+    </div>
+  );
+}
+  
 function Phase5({ player1, player2, result }) {
   const blueCardSize = result.blue > result.red ? "w-9/12" : "w-5/12";
   const redCardSize = result.red > result.blue ? "w-9/12" : "w-5/12";
