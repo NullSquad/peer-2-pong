@@ -12,12 +12,17 @@ export function MatchCard({ player1, player2, targetDate }) {
 
   return (
     <div className="relative flex flex-col w-full max-w-4xl overflow-visible bg-gray-800">
-      <button onClick={togglePhase} >
-        <Phase1 player1={player1} player2={player2} targetDate={phase === 1 ? targetDate : ""} />
+      <button onClick={togglePhase}>
+        <Phase1
+          player1={player1}
+          player2={player2}
+          targetDate={phase === 1 ? targetDate : ""}
+        />
       </button>
       <div
         className={` animation-opacity ${
-          phase === 2 ? "opacity-100 animate-slide-out-bottom animate-delay-100 animate-duration-normal "
+          phase === 2
+            ? "opacity-100 animate-slide-out-bottom animate-delay-100 animate-duration-normal "
             : "opacity-0 animate-slide-in-bottom transition-opacity ease-out delay-200 duration-200"
         }`}
       >
@@ -28,6 +33,12 @@ export function MatchCard({ player1, player2, targetDate }) {
           setResult={setResult}
         />
       </div>
+      <Phase4
+        player1={player1}
+        player2={player2}
+        result={result}
+        setResult={setResult}
+      />
     </div>
   );
 }
@@ -77,30 +88,33 @@ function Phase1({ player1, player2, targetDate }) {
         </div>
 
         {/* Time Left Container */}
-    {targetDate && <div
-          className="absolute right-2 bottom-[5px] sm:bottom-[2px] md:right-[26px] md:bottom-[12px] bg-gray-900 text-white text-xs sm:text-sm md:text-sm p-1 md:p-2 rounded-lg z-10"
-          style={{
-            width: "max-content",
-          }}
-        >
-          Time left: <CountdownTimer targetDate={targetDate} />
-        </div>}
+        {targetDate && (
+          <div
+            className="absolute right-2 bottom-[5px] sm:bottom-[2px] md:right-[26px] md:bottom-[12px] bg-gray-900 text-white text-xs sm:text-sm md:text-sm p-1 md:p-2 rounded-lg z-10"
+            style={{
+              width: "max-content",
+            }}
+          >
+            Time left: <CountdownTimer targetDate={targetDate} />
+          </div>
+        )}
       </div>
     </>
   );
 }
 
 function Phase2({ result, setResult }) {
-
   const increaseBlue = () => setResult({ ...result, blue: result.blue + 1 });
-  const decreaseBlue = () => setResult({ ...result, blue: Math.max(0, result.blue - 1) });
+  const decreaseBlue = () =>
+    setResult({ ...result, blue: Math.max(0, result.blue - 1) });
 
   const increaseRed = () => setResult({ ...result, red: result.red + 1 });
-  const decreaseRed = () => setResult({ ...result, red: Math.max(0, result.red - 1) });
+  const decreaseRed = () =>
+    setResult({ ...result, red: Math.max(0, result.red - 1) });
 
   return (
     <div className="relative bottom-[3.7rem] left-[3rem] md:bottom-[5rem]">
-           {/* Controles de puntuación */}
+      {/* Controles de puntuación */}
       <div className="flex justify-center items-center mt-1 sm:mt-2 gap-1">
         <div className="flex items-center bg-accent-blue-light p-1  md:p2 rounded">
           {/* Decrease blue score*/}
@@ -132,19 +146,19 @@ function Phase2({ result, setResult }) {
             </span>
           </button>
           {/* Blue score */}
-          <div
-            className="bg-black text-white p-1 px-2 rounded w-6 h-7 sm:w-7 sm:h-8 flex items-center justify-center ml-2"
-          >
-            <span className="font-bold text-sm skew-x-[8deg] sm:text-lg">{result.blue}</span>
-          </div >
+          <div className="bg-black text-white p-1 px-2 rounded w-6 h-7 sm:w-7 sm:h-8 flex items-center justify-center ml-2">
+            <span className="font-bold text-sm skew-x-[8deg] sm:text-lg">
+              {result.blue}
+            </span>
+          </div>
         </div>
         <div className="flex items-center bg-red-500 p-1  rounded">
           {/* Red score */}
-          <div
-            className="bg-black text-white p-1 px-2 rounded w-6 h-7 sm:w-7 sm:h-8 flex items-center justify-center mr-2"
-          >
-            <span className="font-bold text-sm skew-x-[8deg] sm:text-lg">{result.red}</span>
-          </div >
+          <div className="bg-black text-white p-1 px-2 rounded w-6 h-7 sm:w-7 sm:h-8 flex items-center justify-center mr-2">
+            <span className="font-bold text-sm skew-x-[8deg] sm:text-lg">
+              {result.red}
+            </span>
+          </div>
           {/* Decrease red score*/}
           <button
             onClick={decreaseRed}
@@ -175,9 +189,7 @@ function Phase2({ result, setResult }) {
           </button>
         </div>
         {/* Submit score */}
-        <button
-          className="bg-yellow-500 shadow-yellow-50-700-sm text-white font-bold text-xl font-lilita-one border-2 border-black w-24 h-7 sm:w-22 sm:h-8 text-sm sm:text-xl -skew-x-[8deg] rounded-lg relative active:translate-y-[2px]"
-        >
+        <button className="bg-yellow-500 shadow-yellow-50-700-sm text-white font-bold text-xl font-lilita-one border-2 border-black w-24 h-7 sm:w-22 sm:h-8 text-sm sm:text-xl -skew-x-[8deg] rounded-lg relative active:translate-y-[2px]">
           <span
             className="inline-block skew-x-[8deg]"
             style={{
@@ -203,7 +215,7 @@ function Phase4({ player1, player2, result }) {
       {/* Card Body with clip-path */}
       <div className="relative flex w-full h-14 sm:h-16 -skew-x-[8deg]">
         {/* Player 1 Side */}
-        <div className="flex items-center justify-center bg-accent-blue-light w-1/2 px-3 py-2 text-black">
+        <div className="relative flex items-center justify-center bg-accent-blue-light w-1/2 px-3 py-2 text-black">
           <img
             src={player1.image}
             alt={player1.name}
@@ -212,20 +224,9 @@ function Phase4({ player1, player2, result }) {
           <span className="text-sm md:text-lg font-bold skew-x-[8deg]">
             {player1.name}
           </span>
-        </div>
-
-        {/* VS Section */}
-        <div
-          className="absolute inset-0 flex items-center justify-center text-white text-2xl md:text-3xl font-extrabold"
-          style={{
-            textShadow: "2px 2px 4px black",
-          }}
-        >
-          {/*Scores Section*/}
-          <div className="flex items-center justify-center bg-black px-4 py-2 border-2 border-black text-white">
-            <span className="text-xl md:text-2xl font-bold">{result.blue}</span>
-            <span className="px-1 mx-2 md:text-2xl font-bold">-</span>
-            <span className="text-xl md:text-2xl font-bold">{result.red}</span>
+          {/* Score Section for Player 1 */}
+          <div className="absolute top-1/2 right-4 -translate-y-1/2 skew-x-[8deg] bg-black text-white p-1 px-2 rounded w-6 h-7 sm:w-7 sm:h-8 flex items-center justify-center">
+            <span className="font-bold text-sm sm:text-lg">{result.blue}</span>
           </div>
         </div>
 
@@ -233,7 +234,11 @@ function Phase4({ player1, player2, result }) {
         <div className="w-1"></div>
 
         {/* Player 2 Side */}
-        <div className="flex items-center justify-center bg-accent-red-light w-1/2 px-3 py-2 text-black">
+        <div className="relative flex items-center justify-center bg-accent-red-light w-1/2 px-3 py-2 text-black">
+          {/* Score Section for Player 2 */}
+          <div className="absolute top-1/2 left-4 -translate-y-1/2 skew-x-[8deg] bg-black text-white p-1 px-2 rounded w-6 h-7 sm:w-7 sm:h-8 flex items-center justify-center">
+            <span className="font-bold text-sm sm:text-lg">{result.red}</span>
+          </div>
           <span className="text-sm md:text-lg skew-x-[8deg] font-bold mr-2">
             {player2.name}
           </span>
@@ -252,7 +257,7 @@ function Phase4({ player1, player2, result }) {
           width: "max-content",
         }}
       >
-        Waiting confirmation...
+        WAITING
       </div>
     </div>
   );
