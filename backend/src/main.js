@@ -1,11 +1,18 @@
 import express from "express";
+import cors from "cors";
 import index from "./routes/index.js";
 import users from "./routes/users.js";
 import auth from "./routes/auth.js";
 
-const { PORT = 5000 } = process.env;
+const { PORT = 5000, CLIENT_URI = "" } = process.env;
 const app = express();
 
+app.use(
+  cors({
+    origin: CLIENT_URI,
+    credentials: true,
+  }),
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
