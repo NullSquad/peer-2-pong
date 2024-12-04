@@ -9,7 +9,7 @@ const Home = () => {
   const { user } = useAuth();
 
   return (
-      <main className="relative inset-0 w-full h-full bg-pattern bg-cover ">
+      <main className="relative inset-0 w-full h-full mt-5 bg-pattern bg-cover ">
         <Header />
           <Slider className="min-h-screen flex flex-col gap-6">
             <Event

@@ -19,7 +19,7 @@ export const Header = () => {
           className="text-xl sm:text-2xl font-bold"
           style={{ WebkitTextStroke: '1px black', color: 'white' }}
         >
-          {user.login}
+          {user.login.toUpperCase()}
         </h1>
       </div>
     </header>

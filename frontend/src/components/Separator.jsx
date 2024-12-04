@@ -10,7 +10,7 @@ export const Separator = ({ children }) => {
         items-center border-t-[8px] border-t-yellow-50 border-b-[8px] border-b-yellow-700 border-r-[4px] border-r-black shadow-md transform -skew-x-[8deg]">
         <h2 className="text-xl sm:text-2xl font-bold skew-x-[8deg]"
           style={{ WebkitTextStroke: '1px black', color: 'white' }}>
-            {children}
+            {children.toUpperCase()}
         </h2>
       </div>
 
