@@ -39,7 +39,7 @@ services:
       - "${FRONTEND_PORT}:${FRONTEND_PORT}"
     environment:
       PORT: ${FRONTEND_PORT}
-      API_URI: http://backend:${BACKEND_PORT}
+      VITE_API_URI: http://backend:${BACKEND_PORT}
     depends_on:
       - backend
     networks:
