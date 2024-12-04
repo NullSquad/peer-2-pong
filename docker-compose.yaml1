@@ -1,0 +1,64 @@
+services:
+  database:
+    restart: always
+    image: mongo:8
+    volumes:
+      - data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASS}
+    networks:
+      - api-db
+
+  backend:
+    restart: always
+    build: backend
+    environment:
+      PORT: ${BACKEND_PORT}
+      DB_URI: mongodb://${DB_USER}:${DB_PASS}@database:27017
+      CLIENT_ID: ${CLIENT_ID}
+      CLIENT_SECRET: ${CLIENT_SECRET}
+      CALLBACK_URL: ${CALLBACK_URL}
+    depends_on:
+      - database
+    networks:
+      - api-db
+      - client-api
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./backend/src
+          target: /app/src
+        - action: rebuild
+          path: ./backend/package.json
+          target: /app
+
+  frontend:
+    build: frontend
+    ports:
+      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
+    environment:
+      PORT: ${FRONTEND_PORT}
+      API_URI: http://backend:${BACKEND_PORT}
+    depends_on:
+      - backend
+    networks:
+      - client-api
+    develop:
+      watch:
+        - action: sync
+          path: ./frontend/src
+          target: /app/src
+        - action: rebuild
+          path: ./frontend/package.json
+          target: /app
+
+volumes:
+  data:
+    driver: local
+
+networks:
+  api-db:
+    driver: bridge
+  client-api:
+    driver: bridge
