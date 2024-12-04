@@ -34,12 +34,11 @@ const Home = ({ user }) => {
           targetDate="2024-12-01T12:00:00"
         />
       </section>
-      <section className="space-y-6 py-6">
+      {/* <section className="space-y-6 py-6">
         <MatchCard
           player1={{
             name: user.login,
             image: user.image,
-
           }}
           player2={{
             name: user.login,
@@ -60,7 +59,7 @@ const Home = ({ user }) => {
           }}
           targetDate="2024-12-01T12:00:00"
         />
-      </section>
+      </section> */}
     </main>
   );
 };

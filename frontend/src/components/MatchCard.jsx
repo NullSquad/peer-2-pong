@@ -25,7 +25,7 @@ export function MatchCard({ player1, player2, targetDate }) {
       {phase === 3 && <Phase3 player1={player1} player2={player2} />}
       {phase === 4 && <Phase4 player1={player1} player2={player2} result={result} />}
       {phase === 5 && <Phase5 player1={player1} player2={player2} result={result} />}
-      
+
       <div className="absolute bottom-2 right-64 flex space-x-2">
         <button onClick={prevPhase} className="bg-gray-500 text-white p-2 rounded">
           Prev
@@ -92,17 +92,17 @@ function Phase1({ player1, player2, targetDate }) {
   );
 }
 
-// Fases 2-5, puedes personalizarlas en funciones separadas
 function Phase2({ player1, player2, result, setResult }) {
 
   const increaseBlue = () => setResult({ ...result, blue: result.blue + 1 });
   const decreaseBlue = () => setResult({ ...result, blue: Math.max(0, result.blue - 1) });
 
   const increaseRed = () => setResult({ ...result, red: result.red + 1 });
-  const decreaseRed = () => setResult({ ...result, red: Math.max(0, result.red - 1) }); 
+  const decreaseRed = () => setResult({ ...result, red: Math.max(0, result.red - 1) });
 
   return (
     <div className="w-full">
+      {/* fase 1 */}
       <div className="relative flex w-full max-w-4xl h-[86px] sm:h-[94px] md:h-28 overflow-visible bg-gray-800">
         <div className="relative flex w-full h-14 sm:h-16 -skew-x-[8deg]">
           <div className="flex items-center justify-center bg-accent-blue-light w-1/2 px-3 py-2 text-black">
@@ -137,21 +137,62 @@ function Phase2({ player1, player2, result, setResult }) {
       </div>
 
       {/* Controles de puntuación */}
-      <div className="flex justify-center items-center mt-2 gap-2 parallelogram">
+      <div className="flex justify-center items-center mt-2 gap-2">
         <div className="flex items-center bg-accent-blue-light p-2 rounded">
           <button onClick={decreaseBlue} className="bg-accent-red-light text-white px-2 py-1 rounded font-bold">-</button>
           <span className="text-black text-2xl font-extrabold mx-2">{result.blue}</span>
           <button onClick={increaseBlue} className="bg-blue-700 text-white px-2 py-1 rounded font-bold">+</button>
+          
         </div>
-
+        {/* Red score */}
         <div className="flex items-center bg-red-500 p-2 rounded">
-          <button onClick={decreaseRed} className="bg-accent-red-light text-white px-2 py-1 rounded font-bold">-</button>
-          <span className="text-black text-2xl font-extrabold mx-2">{result.red}</span>
-          <button onClick={increaseRed} className="bg-accent-blue-light text-white px-2 py-1 rounded font-bold">+</button>
+          <div
+            className="bg-black text-white p-1 px-2 rounded w-6 h-7 sm:w-7 sm:h-8 flex items-center justify-center mr-2"
+          >
+            <span className="font-bold text-sm skew-x-[8deg] sm:text-lg">{result.red}</span>
+          </div >
+          {/* Decrease red score*/}
+          <button
+            onClick={decreaseRed}
+            className="bg-accent-red shadow-red-light-dark border-2 border-black w-8 h-6 sm:w-9 sm:h-7 mr-1 rounded-md text-white text-sm sm:text-xl font-bold font-lilita-one active:translate-y-[1px] flex items-center justify-center -skew-x-[5deg]"
+          >
+            <span
+              className="inline-block relative top-[-1px] sm:top-[-2px] leading-none skew-x-[5deg]"
+              style={{
+                textShadow: "1px 1px 0px black",
+              }}
+            >
+              -
+            </span>
+          </button>
+          {/* Increase red score */}
+          <button
+            onClick={increaseRed}
+            className="bg-accent-blue shadow-blue-ocean border-2 border-black w-8 h-6 sm:w-9 sm:h-7 rounded-md text-white text-sm sm:text-xl font-bold font-lilita-one active:translate-y-[1px] flex items-center justify-center -skew-x-[5deg]"
+          >
+            <span
+              className="inline-block relative leading-none skew-x-[5deg]"
+              style={{
+                textShadow: "1px 1px 0px black",
+              }}
+            >
+              +
+            </span>
+          </button>
         </div>
-
-        <button className="bg-yellow-500 text-black font-bold px-4 py-2 rounded shadow-md">
-          SUBMIT
+        {/* Submit score */}
+        <button
+          className="bg-yellow-500 shadow-yellow-50-700 hover:bg-yellow-600 text-white font-bold text-xl font-lilita-one border-2 border-black px-6 py-2 -skew-x-[8deg] rounded-lg relative active:translate-y-[2px]"
+        >
+          <span
+            className="inline-block skew-x-[8deg]"
+            style={{
+              WebkitTextStroke: "1px black",
+              WebkitTextFillColor: "white",
+            }}
+          >
+            SUBMIT
+          </span>
         </button>
       </div>
     </div>
@@ -184,12 +225,12 @@ function Phase4({ player1, player2, result }) {
             textShadow: "2px 2px 4px black",
           }}
         >
-        {/*Scores Section*/}
-        <div className="flex items-center justify-center bg-black px-4 py-2 border-2 border-black text-white">
-        <span className="text-xl md:text-2xl font-bold">{result.blue}</span>
-        <span className="px-1 mx-2 md:text-2xl font-bold">-</span>
-        <span className="text-xl md:text-2xl font-bold">{result.red}</span>
-        </div>
+          {/*Scores Section*/}
+          <div className="flex items-center justify-center bg-black px-4 py-2 border-2 border-black text-white">
+            <span className="text-xl md:text-2xl font-bold">{result.blue}</span>
+            <span className="px-1 mx-2 md:text-2xl font-bold">-</span>
+            <span className="text-xl md:text-2xl font-bold">{result.red}</span>
+          </div>
         </div>
 
         {/* Space between blue and red */}
@@ -208,7 +249,7 @@ function Phase4({ player1, player2, result }) {
         </div>
       </div>
 
-      {/* Time Left Container */}
+      {/* Waiting confirmation box */}
       <div
         className="absolute right-2 bottom-[5px] sm:bottom-[2px] md:right-[26px] md:bottom-[12px] bg-gray-900 text-white text-xs sm:text-sm md:text-sm p-1 md:p-2 rounded-lg z-10"
         style={{
@@ -226,7 +267,7 @@ function Phase5({ player1, player2, result }) {
   const redCardSize = result.red > result.blue ? "w-9/12" : "w-5/12";
   const crownPosition = result.blue > result.red ? "right-[80%]" : "right-[20%]";
   const blueImagePosition = result.blue > result.red ? "right-[55%]" : "right-[82%]";
-  const redImagePosition =result.blue < result.red ? "left-[45%]" : "left-[72%]";
+  const redImagePosition = result.blue < result.red ? "left-[45%]" : "left-[72%]";
 
   return (
     <div className="relative flex w-full max-w-4xl h-28 overflow-visible bg-gray-800">

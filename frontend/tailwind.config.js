@@ -6,6 +6,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ["Fugaz One", "sans-serif"],
+        'lilita-one': ['"Lilita One"', 'cursive'],
       },
       colors: {
         transparent: "transparent",
