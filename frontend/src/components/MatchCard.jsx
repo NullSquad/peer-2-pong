@@ -13,11 +13,12 @@ export function MatchCard({ player1, player2, targetDate }) {
   return (
     <div className="relative flex flex-col w-full max-w-4xl overflow-visible bg-gray-800">
       <button onClick={togglePhase} >
-        <Phase1 player1={player1} player2={player2} targetDate={targetDate} />
+        <Phase1 player1={player1} player2={player2} targetDate={phase === 1 ? targetDate : ""} />
       </button>
       <div
-        className={` animation-shadow ${
-          phase === 2 ? "opacity-100 animate-slide-out-bottom " : "opacity-0"
+        className={` animation-opacity ${
+          phase === 2 ? "opacity-100 animate-slide-out-bottom animate-delay-100 animate-duration-normal "
+            : "opacity-0 animate-slide-in-bottom transition-opacity ease-out delay-200 duration-200"
         }`}
       >
         <Phase2
@@ -63,7 +64,7 @@ function Phase1({ player1, player2, targetDate }) {
           <div className="w-1"></div>
 
           {/* Player 2 Side */}
-          <div className="flex items-center justify-center bg-accent-red-light w-1/2 px-3 py-2 text-black">
+          <div className="flex items-center justify-center bg-red-500 w-1/2 px-3 py-2 text-black">
             <span className="text-sm md:text-lg skew-x-[8deg] font-bold mr-2">
               {player2.name}
             </span>
@@ -76,14 +77,14 @@ function Phase1({ player1, player2, targetDate }) {
         </div>
 
         {/* Time Left Container */}
-        <div
+    {targetDate && <div
           className="absolute right-2 bottom-[5px] sm:bottom-[2px] md:right-[26px] md:bottom-[12px] bg-gray-900 text-white text-xs sm:text-sm md:text-sm p-1 md:p-2 rounded-lg z-10"
           style={{
             width: "max-content",
           }}
         >
           Time left: <CountdownTimer targetDate={targetDate} />
-        </div>
+        </div>}
       </div>
     </>
   );
@@ -100,8 +101,8 @@ function Phase2({ result, setResult }) {
   return (
     <div className="relative bottom-[3.7rem] left-[3rem] md:bottom-[5rem]">
            {/* Controles de puntuación */}
-      <div className="flex justify-center items-center mt-2 gap-2">
-        <div className="flex items-center bg-accent-blue-light p-2 rounded">
+      <div className="flex justify-center items-center mt-1 sm:mt-2 gap-1">
+        <div className="flex items-center bg-accent-blue-light p-1  md:p2 rounded">
           {/* Decrease blue score*/}
           <button
             onClick={decreaseBlue}
@@ -137,7 +138,7 @@ function Phase2({ result, setResult }) {
             <span className="font-bold text-sm skew-x-[8deg] sm:text-lg">{result.blue}</span>
           </div >
         </div>
-        <div className="flex items-center bg-red-500 p-2 rounded">
+        <div className="flex items-center bg-red-500 p-1  rounded">
           {/* Red score */}
           <div
             className="bg-black text-white p-1 px-2 rounded w-6 h-7 sm:w-7 sm:h-8 flex items-center justify-center mr-2"
