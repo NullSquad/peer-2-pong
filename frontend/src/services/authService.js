@@ -6,3 +6,14 @@ export const getSession = () => {
     return response.json();
   });
 };
+
+export const logout = () => {
+  return fetch(`/api/auth/logout`, {
+    method: "POST",
+  }).then((response) => {
+    if (!response.ok) {
+      throw new Error("Failed to logout");
+    }
+    return response.json();
+  });
+};
