@@ -2,6 +2,7 @@ import { AuthProvider } from "./hooks/useAuth";
 import Router, { Route } from "preact-router";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
   return (
