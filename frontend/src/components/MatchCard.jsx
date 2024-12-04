@@ -111,7 +111,7 @@ function Phase2({ result, setResult }) {
     <div className="relative bottom-[3.7rem] left-[3rem] md:bottom-[5rem]">
       {/* Controles de puntuación */}
       <div className="flex justify-center items-center mt-1 sm:mt-2 gap-1">
-        <div className="flex items-center bg-accent-blue-light p-1  md:p2 rounded">
+        <div className="flex items-center bg-accent-blue-light p-1 md:p2 rounded">
           {/* Decrease blue score*/}
           <button
             onClick={decreaseBlue}
@@ -184,7 +184,7 @@ function Phase2({ result, setResult }) {
           </button>
         </div>
         {/* Submit score */}
-        <button className="bg-yellow-500 shadow-yellow-50-700-sm text-white font-bold text-xl font-lilita-one border-2 border-black w-24 h-7 sm:w-22 sm:h-8 text-sm sm:text-xl -skew-x-[8deg] rounded-lg relative active:translate-y-[2px]">
+        <button className="bg-yellow-500 shadow-yellow-50-700-sm text-white font-bold  text-md md:text-xl font-lilita-one border-2 border-black w-16 mr-14 sm:mr-12 h-7 sm:w-24 sm:h-8 text-sm sm:text-xl -skew-x-[8deg] rounded-lg relative active:translate-y-[2px]">
           <span
             className="inline-block skew-x-[8deg]"
             style={{

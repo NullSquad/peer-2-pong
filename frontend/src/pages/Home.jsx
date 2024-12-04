@@ -30,7 +30,7 @@ const Home = () => {
             </Event>
           </Slider>
           <Separator>Matches</Separator>
-          <section className="flex flex-col flex-wrap justify-center items-center mt-10">
+          <section className="flex flex-col flex-wrap justify-center items-center mx-5">
             <MatchCard
               player1={{
                 name: user.login,
@@ -43,7 +43,7 @@ const Home = () => {
               targetDate="2024-12-07T12:00:00"
             />
           </section>
-          <section className="flex flex-col flex-wrap justify-center items-center mt-10">
+          <section className="flex flex-col flex-wrap justify-center items-center mx-5">
             <MatchCard
               player1={{
                 name: user.login,
@@ -56,7 +56,7 @@ const Home = () => {
               targetDate="2024-12-29T12:00:00"
             />
           </section>
-          <section className="flex flex-col flex-wrap justify-center items-center mt-10">
+          <section className="flex flex-col flex-wrap justify-center items-center mx-5">
             <MatchCard
               player1={{
                 name: user.login,

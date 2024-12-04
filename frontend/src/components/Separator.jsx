@@ -3,7 +3,7 @@ import useAuth from "../hooks/useAuth";
 export const Separator = ({ children }) => {
   const { user } = useAuth();
   return (
-    <header className="relative">
+    <header className="relative mb-10">
       {/* Elemento principal (siempre encima) */}
       <div 
         className="absolute z-20 bg-yellow-500 text-white sm:mt-15 py-2 px-5 sm:px-10 sm:ml-[-1%] ml-[-2%] w-[55%] sm:w-[25%] flex justify-between 
