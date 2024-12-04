@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@midudev/tailwind-animations": "^0.1.0",
     "preact": "^10.24.3",
     "preact-router": "^4.1.2",
     "swiper": "^11.1.15"
