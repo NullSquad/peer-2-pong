@@ -8,7 +8,6 @@ const ProtectedRoute = (props) => {
 
   useEffect(() => {
     getSession()
-      .then((response) => response.json())
       .then((data) => {
         if (data.user) setUser(data.user);
         else route("/login", true);

@@ -1,5 +1,3 @@
-const { VITE_API_URI = "" } = import.meta.env;
-
 export const getSession = () => {
   return fetch(`/api/auth/session`).then((response) => {
     if (!response.ok) {
