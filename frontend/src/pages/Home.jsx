@@ -1,11 +1,10 @@
-import { useContext, useEffect } from "preact/hooks";
-import { AuthContext } from "../App";
+import useAuth from "../hooks/useAuth";
 import MatchCard from "../components/MatchCard";
 import Slider from "../components/Slider";
 import Event from "../components/Events";
 
 const Home = () => {
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
 
   return (
     <main className="min-h-screen bg-gray-800 text-white p-4">
