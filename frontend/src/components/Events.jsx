@@ -16,7 +16,7 @@ const Event = ({ type, isParticipating, status, children, targetDate }) => {
         </p>
 
         {/* status right text */}
-        <p className="text-xs sm:text-xs md:text-sm text-right skew-x-[8.2deg]">
+        <p className="text-xs text-neutral-grey-600 sm:text-xs md:text-sm text-right skew-x-[8.2deg]">
           {`${type} ${status} in: `}
           {/* Render Timer only if targetDate is defined*/}
           {targetDate && <CountdownTimer targetDate={targetDate} />}

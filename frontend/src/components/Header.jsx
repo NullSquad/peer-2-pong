@@ -5,9 +5,9 @@ export const Header = () => {
   return (
     <header
       className="relative bg-yellow-500 text-white sm:mt-15 py-1 px-5 sm:px-10 sm:ml-[-1%] ml-[-2%] w-[80%] sm:w-[50%] flex justify-between 
-      items-center border-t-[8px] border-t-yellow-50 border-b-[8px] border-b-yellow-700 border-r-[4px] border-r-black shadow-md transform skew-x-12"
+      items-center border-t-[8px] border-t-yellow-50 border-b-[8px] border-b-yellow-700 border-r-[4px] border-r-black shadow-md transform -skew-x-[8deg]"
     >
-      <div className="transform -skew-x-12 flex items-center w-full">
+      <div className="transform skew-x-[8deg] flex items-center w-full">
         {/* Imagen del Avatar */}
         <img
           src={user.image}

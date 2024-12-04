@@ -16,7 +16,7 @@ const Home = () => {
               type="league"
               isParticipating={true}
               status="ends"
-              targetDate="2024-12-04T16:59:59"
+              targetDate="2024-12-09T16:59:59"
             >
               LEAGUE
             </Event>
@@ -40,7 +40,7 @@ const Home = () => {
                 name: user.login,
                 image: user.image,
               }}
-              targetDate="2024-12-01T12:00:00"
+              targetDate="2024-12-07T12:00:00"
             />
           </section>
           <section className="flex flex-col flex-wrap justify-center items-center mt-10">
@@ -53,7 +53,7 @@ const Home = () => {
                 name: user.login,
                 image: user.image,
               }}
-              targetDate="2024-11-29T12:00:00"
+              targetDate="2024-12-29T12:00:00"
             />
           </section>
           <section className="flex flex-col flex-wrap justify-center items-center mt-10">
@@ -66,7 +66,7 @@ const Home = () => {
                 name: user.login,
                 image: user.image,
               }}
-              targetDate="2024-12-01T12:00:00"
+              targetDate="2024-12-10T12:00:00"
             />
           </section>
       </main>
