@@ -16,7 +16,7 @@ const ProtectedRoute = (props) => {
         console.error(error);
         route("/login", true);
       });
-  }, [user]);
+  }, []);
 
   return user ? <Route {...props} /> : null;
 };
