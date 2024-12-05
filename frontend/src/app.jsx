@@ -63,16 +63,12 @@ function	Banner()
 {
 	return (
 		<div className="w-80 h-9 relative">
-			<div className="w-72 border-4 border-black h-6 mt-1 left-[7.85px] parallelogram-banner rounded-r-md shadow-yellow-50-700 bg-primary-yellow top-[23.10px] absolute">
-			</div>                      
-			<div className="w-64 border-4 border-black h-6 left-[95px] parallelogram-banner rounded-r-md shadow-yellow-50-700 bg-primary-yellow top-[8.20px] absolute">
-			</div>                      
-			<div className="w-72 relative -left-10 border-4 border-black h-14 left-0 parallelogram-banner rounded-r-md shadow-yellow-50-700 bg-primary-yellow top-0 absolute">
-			</div>
+			<div className="w-72 relative after:right-top-side-triangle-[3.5rem] border-y-4 border-black h-14 left-0 shadow-yellow-50-700 bg-primary-yellow top-0 absolute"/>
 			<div className="w-44 left-[30px] top-[-14px] absolute text-white text-3xl font-normal font-['Fugaz One'] leading-loose"><h1 className="text-stroke-lg text-shadow-clear">MATCHES</h1></div>
 		</div>
 	);
 }
+// <div className="w-72 relative left-[1.5rem] border-4 border-black h-14 left-0 parallelogram-banner rounded-r-md shadow-yellow-50-700 bg-primary-yellow top-0 absolute"/>
 
 export function	App()
 {

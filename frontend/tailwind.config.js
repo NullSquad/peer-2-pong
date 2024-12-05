@@ -66,6 +66,7 @@ export default {
 				'h5': { fontSize: '1.25rem' },
 				'h6': { fontSize: '1rem' },
 			})
+
 			addComponents({
 				'.text-shadow-clear': {
 					textShadow: '0 .313rem 0 black'
@@ -92,13 +93,52 @@ export default {
         	clipPath: 'polygon(8% 0, 100% 0, 92% 100%, 0% 100%)'
 				}, 
 				'.parallelogram-banner': {
-        	transform: 'skew(-8deg, 0)'
+        	transform: 'skew(-8deg, 0)',
+					transformOrigin: 'right'
 				}, 
+				// '.right-top-side-triangle': {
+				// 		fontSize: '100px',
+				// 		textColor: `${theme('colors.accent.red.light')}`,
+				// 		position: 'absolute',
+				// 		display: 'block',
+				// 		width: '0%',
+				// 		height: '0%',
+				// 		backgroundColor: 'transparent',
+				// 		top: '0%',
+				// 		left: '100%',
+				// 		zIndex: '2',
+				// 		borderTop: `100px solid black`,
+				// 		borderLeft: `0px solid transparent`,
+				// 		borderRight: `calc(tan(8deg) * 100px) solid transparent`,
+				// 		borderBottom: `0 solid transparent`
+				// }
 			})
+	
+			matchComponents(
+				{
+					'right-top-side-triangle': (size) => ({
+						fontSize: '100px',
+						textColor: `${theme('colors.accent.red.light')}`,
+						position: 'absolute',
+						display: 'block',
+						width: '0%',
+						height: '0%',
+						backgroundColor: 'transparent',
+						top: '0%',
+						left: '100%',
+						zIndex: '2',
+						borderTop: `${size} solid ${theme('colors.primary.yellow.DEFAULT')}`,
+						borderLeft: `0px solid transparent`,
+						borderRight: `calc(tan(8deg) * ${size}) solid transparent`,
+						borderBottom: `0 solid transparent`
+					})
+				}
+			)
 		})
 	],
 
 }
+
 //plugin(({ matchUtilities, theme }) => {
 //			matchUtilities(
 //				{
