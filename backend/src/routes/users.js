@@ -14,7 +14,7 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   let collection = await db.collection("users");
-  let query = { _id: new ObjectId(req.params.id) };
+  let query = { _id: ObjectId.createFromTime(req.params.id) }; 
   let result = await collection.findOne(query);
 
   if (!result) res.send("Not found").status(404);
@@ -24,8 +24,10 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     let user = {
-      name: req.body.name,
+      _id: ObjectId.createFromTime(req.body.id),
       email: req.body.email,
+      login: req.body.login,
+      image: req.body.image,
     };
     let collection = await db.collection("users");
     let result = await collection.insertOne(user);
@@ -36,9 +38,29 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.patch("/:id", async (req, res) => {
+  try {
+    const query = { _id: ObjectId.createFromTime(req.params.id) };
+    const updates = {
+      $set: {
+        email: req.body.email,
+        login: req.body.login,
+        image: req.body.image,
+      },
+    };
+
+    let collection = await db.collection("users");
+    let result = await collection.updateOne(query, updates);
+    res.send(result).status(200);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error updating record");
+  }
+});
+
 router.delete("/:id", async (req, res) => {
   try {
-    const query = { _id: new ObjectId(req.params.id) };
+    const query = { _id: ObjectId.createFromTime(req.params.id) };
 
     const collection = db.collection("users");
     let result = await collection.deleteOne(query);
