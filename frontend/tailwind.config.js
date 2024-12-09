@@ -1,11 +1,14 @@
-const plugin = require("tailwindcss/plugin");
+import { Background } from "./src/components/Background";
 
+const plugin = require("tailwindcss/plugin");
+const animations = require('@midudev/tailwind-animations')
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       fontFamily: {
         sans: ["Fugaz One", "sans-serif"],
+        'lilita-one': ['"Lilita One"', 'cursive'],
       },
       colors: {
         transparent: "transparent",
@@ -50,12 +53,15 @@ export default {
           },
         },
       },
-      clipPath: {
-        paralel: "",
-      },
-    },
+	  backgroundImage: {
+	    'league': "url('./src/assets/league.svg')",
+		'tournament': "url('./src/assets/tournament.svg')",
+        'pattern' : "url('./src/assets/block.svg')",
+	  }
+	},
   },
   plugins: [
+    animations,
     plugin(function ({ addBase, addComponents, matchComponents, theme }) {
       addBase({
         h1: { fontSize: "2.5rem", textShadow: "1px 1px 2px black" },
@@ -69,6 +75,9 @@ export default {
         ".shadow-yellow-50-700": {
           boxShadow: `inset 0 .3em ${theme("colors.primary.yellow.50")}, inset 0 -.3em ${theme("colors.primary.yellow.700")}`,
         },
+        ".shadow-yellow-50-700-sm": {
+          boxShadow: `inset 0 .1em ${theme("colors.primary.yellow.50")}, inset 0 -.1em ${theme("colors.primary.yellow.700")}`,
+        },
         ".shadow-yellow-100-700": {
           boxShadow: `inset 0 .5em ${theme("colors.primary.yellow.100")}, inset 0 -.5em ${theme("colors.primary.yellow.700")}`,
         },
@@ -79,7 +88,7 @@ export default {
           boxShadow: `inset 0 .15em ${theme("colors.accent.red.light")}, inset 0 -.15em ${theme("colors.accent.red.dark")}`,
         },
         ".parallelogram": {
-          clipPath: "polygon(3% 15%, 100% 15%, 97% 85%, 0% 85%)",
+          clipPath: "polygon(3% 0%, 100% 0%, 97% 100%, 0% 100%)",
         },
         ".parallelogram-tuta": {
           clipPath: "polygon(8% 0, 100% 0, 92% 100%, 0% 100%)",
