@@ -31,10 +31,11 @@ passport.use(
           },
         });
         const data = await response.json();
-        const { login, email, image } = data;
+        const { id, email, login, image } = data;
         const user = {
-          login,
+	  id,
           email,
+          login,
           image: image.link,
         };
         return done(null, user);
