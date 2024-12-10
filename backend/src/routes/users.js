@@ -4,6 +4,14 @@ import { ObjectId } from "mongodb";
 
 const router = express.Router();
 
+/* 
+  The users collection will have the following fields:
+  - email: String
+  - login: String
+  - image: String
+  - campus: String
+*/
+
 router.get("/", async (req, res) => {
   try {
     let collection = await db.collection("users");

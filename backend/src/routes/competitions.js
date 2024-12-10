@@ -4,6 +4,11 @@ import { ObjectId } from "mongodb";
 
 const router = express.Router();
 
+/* 
+  The competitions collection will have the following fields:
+  - type: String (e.g. "League", "Tournament")
+*/
+
 router.get("/", async (req, res) => {
   try {
     let collection = await db.collection("competitions");
