@@ -12,7 +12,11 @@ const router = express.Router();
     - score: Number
   - date: Date
   - reportedBy: ObjectId
-  - status: String (e.g. "Pending", "Confirmed", "Reported")
+  - status:
+      default: "Ready to play"
+      after submit: "Waiting for confirmation"
+      after accepting score: "Finished"
+      after denying score: "Ready to play"
 */
 
 router.get("/", async (req, res) => {
@@ -81,19 +85,50 @@ router.post("/", async (req, res) => {
 // accept score: updates date (is the date when the match ends), and status (finished)
 // deny score: updates status (set -> to play), score (when deny -> set to 0)
 // to debate: should back give player num info to frontend,  (each player should see themselves as player 1 on the left)
-
+/*
+  - status:
+      default: "Ready to play"
+      after submit: "Waiting for confirmation" -> update status, score and reporter
+      after accepting score: "Finished" -> update date and status
+      after denying score: "Ready to play"
+*/
 router.patch("/:id", async (req, res) => {
   try {
     const query = { _id: new ObjectId(req.params.id) };
-    const updates = {
-      $set: {
-        
-      },
-    };
-
+    const updates = {};
+    if (req.body.status === "Waiting for confirmation") {
+      updates = {
+        $set: {
+          status: req.body.status,
+          players: req.body.players.map((player) => ({
+            id: new ObjectId(player.id),
+            score: player.score,
+          })),
+          reportedBy: new ObjectId(req.body.reportedBy),
+        },
+      };
+    }
+    else if (req.body.status === "Finished") {
+      updates = {
+        $set: {
+          status: req.body.status,
+          date: new Date(),
+        },
+      };
+    }
+    else if (req.body.status === "Ready to play") {
+      updates = {
+        $set: {
+          status: req.body.status,
+          players: req.body.players.map((player) => ({
+            id: new ObjectId(player.id),
+            score: 0,
+          })),
+        },
+      };
+    }
     let collection = await db.collection("matches");
-    let result = await collection.updateOne(query, updates);
-    res.send(result).status(200);
+    let oldMatch = await collection.findOne(query);
   } catch (err) {
     console.error(err);
     res.status(500).send("Error updating match");
