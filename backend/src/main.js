@@ -1,6 +1,8 @@
 import express from "express";
-import users from "./routes/users.js";
 import auth from "./routes/auth.js";
+import users from "./routes/users.js";
+import matches from "./routes/matches.js";
+import competitions from "./routes/competitions.js";
 
 const { PORT = 5000 } = process.env;
 const app = express();
@@ -8,8 +10,10 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/users", users);
 app.use("/auth", auth);
+app.use("/users", users);
+app.use("/matches", matches);
+app.use("/competitions", competitions);
 
 app.use((err, req, res, next) => {
   res.locals.message = err.message;

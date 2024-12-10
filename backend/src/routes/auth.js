@@ -2,6 +2,7 @@ import express from "express";
 import passport from "passport";
 import session from "express-session";
 import OAuth2Strategy from "passport-oauth2";
+import { ObjectId } from "mongodb";
 
 const { CALLBACK_URL, CLIENT_ID, CLIENT_SECRET } = process.env;
 const router = express.Router();
@@ -33,7 +34,7 @@ passport.use(
         const data = await response.json();
         const { id, email, login, image } = data;
         const user = {
-	  id,
+          id: ObjectId.createFromTime(id),
           email,
           login,
           image: image.link,
