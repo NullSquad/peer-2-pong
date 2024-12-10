@@ -1,7 +1,7 @@
 import { useState } from "preact/hooks"
 import Popup from "./Popup";
 
-const Join = () => {
+const Join = ( username, event_id ) => {
 	const [message, setMessage] = useState("");
 	const [isPopupOpen, setIsPopupOpen] = useState(false);
 
@@ -12,10 +12,7 @@ const Join = () => {
 				headers: {
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify({ // Datos a enviar
-					username: "username",
-					event_id: "event_id"
-				}),
+				body: JSON.stringify({ username, event_id }),
 			});
 
 			if (response.ok) {
