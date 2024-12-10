@@ -77,12 +77,17 @@ router.post("/", async (req, res) => {
   }
 });
 
+// submit button: updates (patch) status, score, reporter. If the status is waiting, nothing changes
+// accept score: updates date (is the date when the match ends), and status (finished)
+// deny score: updates status (set -> to play), score (when deny -> set to 0)
+// to debate: should back give player num info to frontend,  (each player should see themselves as player 1 on the left)
+
 router.patch("/:id", async (req, res) => {
   try {
     const query = { _id: new ObjectId(req.params.id) };
     const updates = {
       $set: {
-
+        
       },
     };
 
