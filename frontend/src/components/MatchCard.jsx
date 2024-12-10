@@ -2,48 +2,37 @@ import CrownIcon from "../assets/CrownIcon.svg";
 import { useState } from "preact/hooks";
 import CountdownTimer from "./CountdownTimer";
 
-export function MatchCard({ player1, player2, targetDate }) {
-  const [phase, setPhase] = useState(1);
-  const [result1, setResult1] = useState({ blue: 0, red: 0 });
 
-  const togglePhase = () => setPhase((prev) => (prev === 1 ? 2 : 1));
-  const setPhase4 = () => setPhase(4);
+export function MatchCard({ player1, player2, targetDate, status, score1, score2 }) {
+  const phaseMap = {
+    1: Phase1,
+    2: Phase2,
+    3: Phase3,
+    4: Phase4,
+    5: Phase5,
+  };
+
+  const getStatusNumber = (status) => {
+    const statusMap = {
+      "to play": 1,
+      "set result": 2,
+      "confirm": 3,
+      "waiting": 4,
+      "finished": 5,
+    };
+    return statusMap[status.toLowerCase()] || 0;
+  };
+
+  const [phaseNumber, setPhaseNumber] = useState(getStatusNumber(status));
+  const PhaseComponent = phaseMap[phaseNumber] || null; 
+  const [result, setResult] = useState({ blue: score1, red: score2 });
 
   return (
-    <div className="relative flex flex-col w-full max-w-4xl overflow-visible bg-invisible">
-      {phase != 4 && <button onClick={togglePhase}>
-        <Phase1
-          player1={player1}
-          player2={player2}
-          targetDate={phase === 1 ? targetDate : ""}
-        />
-      </button>}
-      <div
-        className={` animation-opacity ${
-          phase === 2 
-            ? "z-10 opacity-100 animate-slide-out-bottom animate-delay-100 "
-            : "z-0 opacity-0 animate-slide-in-bottom transition-opacity ease-out delay-200 duration-200"
-        }`}
-      >
-        {phase != 4 && (
-          <Phase2
-            player1={player1}
-            player2={player2}
-            result={result1}
-            setResult={setResult1}
-            setPhase={setPhase4}
-          />
-        )}
-      </div>
-      <div>
-      {phase === 4 && (
-        <Phase4
-          player1={player1}
-          player2={player2}
-          result={result1}
-        />
-      )}
-      </div>
+    <div className="relative flex w-full max-w-4xl h-[86px] sm:h-[94px] md:h-28 overflow-visible bg-invisible">
+      <PhaseComponent player1={player1} player2={player2} 
+                      targetDate={targetDate} status={status}
+                      result={result} setResult={setResult} setPhase={setPhaseNumber}
+      />
     </div>
   );
 }
