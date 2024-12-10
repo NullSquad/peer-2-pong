@@ -73,9 +73,15 @@ export default {
       });
       addComponents({
         ".shadow-yellow-50-700": {
-          boxShadow: `inset 0 .3em ${theme("colors.primary.yellow.50")}, inset 0 -.3em ${theme("colors.primary.yellow.700")}`,
+          boxShadow: `inset 0 .2em ${theme("colors.primary.yellow.50")}, inset 0 -.2em ${theme("colors.primary.yellow.700")}`, // 0.3rem -> 0.2rem
         },
         ".shadow-yellow-50-700-sm": {
+          boxShadow: `inset 0 .1em ${theme("colors.primary.yellow.50")}, inset 0 -.1em ${theme("colors.primary.yellow.700")}`,
+        },
+		".shadow-yellow-50-700-bot": {
+          boxShadow: `inset 0 -.2em ${theme("colors.primary.yellow.700")}`,
+        },
+		".shadow-yellow-50-700-bot-sm": {
           boxShadow: `inset 0 .1em ${theme("colors.primary.yellow.50")}, inset 0 -.1em ${theme("colors.primary.yellow.700")}`,
         },
         ".shadow-yellow-100-700": {
