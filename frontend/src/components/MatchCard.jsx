@@ -11,16 +11,18 @@ export function MatchCard({ player1, player2, targetDate }) {
 
   return (
     <div className="relative flex flex-col w-full max-w-4xl overflow-visible bg-invisible">
-      {phase != 4 && <button onClick={togglePhase}>
-        <Phase1
-          player1={player1}
-          player2={player2}
-          targetDate={phase === 1 ? targetDate : ""}
-        />
-      </button>}
+      {phase != 4 && (
+        <button onClick={togglePhase}>
+          <Phase1
+            player1={player1}
+            player2={player2}
+            targetDate={phase === 1 ? targetDate : ""}
+          />
+        </button>
+      )}
       <div
         className={` animation-opacity ${
-          phase === 2 
+          phase === 2
             ? "z-10 opacity-100 animate-slide-out-bottom animate-delay-100 "
             : "z-0 opacity-0 animate-slide-in-bottom transition-opacity ease-out delay-200 duration-200"
         }`}
@@ -36,13 +38,9 @@ export function MatchCard({ player1, player2, targetDate }) {
         )}
       </div>
       <div>
-      {phase === 4 && (
-        <Phase4
-          player1={player1}
-          player2={player2}
-          result={result1}
-        />
-      )}
+        {phase === 4 && (
+          <Phase4 player1={player1} player2={player2} result={result1} />
+        )}
       </div>
     </div>
   );

@@ -46,9 +46,9 @@ router.post("/", async (req, res) => {
 router.patch("/:id", async (req, res) => {
   try {
     const updates = {
-        email: req.body.email,
-        login: req.body.login,
-        image: req.body.image,
+      email: req.body.email,
+      login: req.body.login,
+      image: req.body.image,
     };
 
     let result = controller.update(req.params.id, updates);

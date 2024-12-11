@@ -107,16 +107,14 @@ router.patch("/:id", async (req, res) => {
           reportedBy: new ObjectId(req.body.reportedBy),
         },
       };
-    }
-    else if (req.body.status === "Finished") {
+    } else if (req.body.status === "Finished") {
       updates = {
         $set: {
           status: req.body.status,
           date: new Date(),
         },
       };
-    }
-    else if (req.body.status === "Ready to play") {
+    } else if (req.body.status === "Ready to play") {
       updates = {
         $set: {
           status: req.body.status,
