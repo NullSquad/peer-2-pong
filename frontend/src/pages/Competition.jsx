@@ -20,7 +20,7 @@ const Competition = ({id}) => {
 
 
 	return (
-    <div className="container w-screen h-screen">
+    <div className="container w-screen h-screen min-w-max">
 		<Separator>Leaderboard</Separator>
 		<div className="flex flex-col gap-4">
         {leaderboardData.map((player) => (
