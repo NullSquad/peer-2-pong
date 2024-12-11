@@ -224,15 +224,16 @@ function Phase3({ player1, player2, result }) {
     <div className="flex w-full max-w-full h-[128px] sm:h-[128px] md:h-28 overflow-hidden bg-invisible">
       <div className="relative flex w-full h-14 sm:h-16 -skew-x-[8deg]">
         {/* Blue Card */}
-        <div className="flex items-center justify-center bg-accent-blue-light flex-1 p-3 text-black">
+        <div className="flex items-center justify-center bg-accent-blue-light flex-1 text-black grid grid-cols-2 gap-4 px-3 py-2"> {/* si quieren que la tarjeta azul sea mas grande, anadir px-3 py-2 despues del flex-1 antes del text-black*/}
           {/* Image inside the blue card */}
           <img 
             src={player1.image}
             alt={player1.name}
-            className="w-12 sm:w-14 rounded-full border-2 skew-x-[8deg] border-black mr-2"
-          />
+            className="w-12 sm:w-14 rounded-full border-2 skew-x-[8deg] border-black col-start-1 -mt-1 ml-36"    
+          />  {/* ml-20 para mover la imagen a la izquierda */}
+
           {/* Counted blue score */}
-          <div className="bg-black text-white p-1 px-2 rounded w-6 h-7 sm:w-7 sm:h-8 flex items-center justify-center ml-2">
+          <div className="bg-black text-white p-1 px-2 rounded w-6 h-7 sm:w-7 sm:h-8 flex items-center justify-center col-start-3 mt-1 ml-24">
             {result.blue}
           </div>
         </div>
