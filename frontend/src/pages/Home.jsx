@@ -16,27 +16,39 @@ const Home = () => {
   const matches = [
     {
       player1: { name: user.login, image: user.image, score: 0 },
-      player2: { name: "sguzman", image: "https://cdn.intra.42.fr/users/b4c2641d99c5484f2cd86dd8b454c457/sguzman.png",
-       score: 0 },
+      player2: {
+        name: "sguzman",
+        image:
+          "https://cdn.intra.42.fr/users/b4c2641d99c5484f2cd86dd8b454c457/sguzman.png",
+        score: 0,
+      },
       targetDate: "2024-12-12T12:00:00",
       status: "to play",
-      matchID: 1
+      matchID: 1,
     },
     {
       player1: { name: user.login, image: user.image, score: 11 },
-      player2: { name: "rbarbier", image: "https://cdn.intra.42.fr/users/1cdba5317d27dac3cfb2b89ff10ebe67/rbarbier.png",
-       score: 8},
+      player2: {
+        name: "rbarbier",
+        image:
+          "https://cdn.intra.42.fr/users/1cdba5317d27dac3cfb2b89ff10ebe67/rbarbier.png",
+        score: 8,
+      },
       targetDate: "2024-12-29T12:00:00",
       status: "finished",
-      matchID: 2
+      matchID: 2,
     },
     {
       player1: { name: user.login, image: user.image, score: 0 },
-      player2: { name: "deordone", image: "https://cdn.intra.42.fr/users/b87ca409e3426d93cff377a3c1c3f031/deordone.png",
-       score: 11 },
+      player2: {
+        name: "deordone",
+        image:
+          "https://cdn.intra.42.fr/users/b87ca409e3426d93cff377a3c1c3f031/deordone.png",
+        score: 11,
+      },
       targetDate: "2024-12-11T12:00:00",
       status: "waiting",
-      matchID: 3
+      matchID: 3,
     },
   ];
 
@@ -58,7 +70,6 @@ const Home = () => {
       });
   }, []);
 
-
   return (
     <main className="relative inset-0 w-full h-full mt-5 bg-pattern bg-cover">
       <Header />
@@ -66,18 +77,18 @@ const Home = () => {
         {error ? (
           <p className="text-red-500">Error: {error}</p>
         ) : (
-            competitions.map((competition) => (
-              <Event
-                key={competition.id}
-                type={competition.type}
-                isParticipating={competition.isParticipating}
-                status={competition.status}
-                targetDate={competition.targetDate}
-              >
-                {competition.name.toUpperCase()}
-              </Event>
-            ))
-          )}
+          competitions.map((competition) => (
+            <Event
+              key={competition.id}
+              type={competition.type}
+              isParticipating={competition.isParticipating}
+              status={competition.status}
+              targetDate={competition.targetDate}
+            >
+              {competition.name.toUpperCase()}
+            </Event>
+          ))
+        )}
       </Slider>
       <Separator>Matches</Separator>
       <section className="flex flex-col flex-wrap justify-center items-center mx-5">
@@ -90,6 +101,7 @@ const Home = () => {
             status={match.status}
             score1={match.player1.score}
             score2={match.player2.score}
+            matchID={match.id}
           />
         ))}
       </section>
