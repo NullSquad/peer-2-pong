@@ -33,12 +33,6 @@ export const SignScore = ({Sign}) => {
 }
 
 export const ButtonScore = ({Sign, Operation, result, setResult, color, effect}) => {
-	const increaseBlue = () => setResult({ ...result, blue: result.blue + 1 });
-  const decreaseBlue = () =>
-    setResult({ ...result, blue: Math.max(0, result.blue - 1) });
-	const increaseRed = () => setResult({ ...result, red: result.red + 1 });
-  const decreaseRed = () =>
-    setResult({ ...result, red: Math.max(0, result.red - 1) });
 	return (
 	<>
 	 <button

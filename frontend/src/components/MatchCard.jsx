@@ -116,7 +116,6 @@ function Phase2({ result, setResult, setPhase }) {
   const increaseRed = () => setResult({ ...result, red: result.red + 1 });
   const decreaseRed = () =>
     setResult({ ...result, red: Math.max(0, result.red - 1) });
-
   return (
     <div className="relative bottom-[3.7rem] left-[3rem] md:bottom-[5rem]">
       {/* Controles de puntuación */}
@@ -192,7 +191,9 @@ function Phase4({ player1, player2, result }) {
         <div className="relative flex items-center justify-center bg-accent-blue-light w-1/2 px-3 py-2 text-black">
 		<AvatarCircle player={player1}/>      
 	  	<MatchText player={player1}/>
+	  <div className="absolute z-10 inset-y-4 right-0"> 
          <PlayerScore score={result.blue}/> 
+	  </div> 
       </div>
 
         {/* Space between blue and red */}
@@ -200,8 +201,10 @@ function Phase4({ player1, player2, result }) {
 
         {/* Player 2 Side */}
         <div className="relative flex items-center justify-center bg-red-500 w-1/2 px-3 py-2 text-black">
+	  <div className="absolute z-10 inset-y-4 left-2"> 
         <PlayerScore score={result.red}/> 
-	  	<MatchText player={player1}/>
+	  </div> 
+	  	<MatchText player={player2}/>
 		<AvatarCircle player={player2}/>      
         </div>
       </div>
