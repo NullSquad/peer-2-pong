@@ -12,7 +12,7 @@ const router = express.Router();
   - campus: String
 */
 
-router.use(ensureAuthenticated);
+//router.use(ensureAuthenticated);
 
 
 router.get("/", async (req, res) => {

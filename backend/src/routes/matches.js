@@ -19,7 +19,7 @@ const router = express.Router();
       after denying score: "Ready to play"
 */
 
-router.use(ensureAuthenticated);
+//router.use(ensureAuthenticated);
 
 router.get("/", async (req, res) => {
   try {
@@ -69,7 +69,7 @@ router.post("/", async (req, res) => {
 
 router.post("/report", async (req, res) => {
   try {
-    controller.report(req.body.match, req.user.id).then((result) => {
+    controller.report(req.body, req.user.id).then((result) => {
       res.send(result).status(200);
     }
     );
