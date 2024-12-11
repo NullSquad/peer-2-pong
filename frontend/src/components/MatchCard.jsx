@@ -80,7 +80,7 @@ function Phase1({ player1, player2, targetDate }) {
       <div className="z-10 relative flex w-full max-w-4xl h-[86px] sm:h-[94px] md:h-28 overflow-visible bg-invisible">
         <div className="relative flex w-full h-14 sm:h-16 -skew-x-[8deg]">
           {/* Player 1 Side */}
-          <div className="flex items-center justify-center bg-accent-blue-light w-1/2 px-3 py-2 text-black">
+          <div className="flex items-center justify-center bg-accent-blue-light w-1/2 px-3 py-2 text-white " style={{ WebkitTextStroke: '1px black', color: 'white' }}>
       		<AvatarCircle player={player1}/>      
 	  		<MatchText player={player1}/>
           </div>
@@ -191,9 +191,7 @@ function Phase4({ player1, player2, result }) {
         <div className="relative flex items-center justify-center bg-accent-blue-light w-1/2 px-3 py-2 text-black">
 		<AvatarCircle player={player1}/>      
 	  	<MatchText player={player1}/>
-	  <div className="absolute z-10 inset-y-4 right-0"> 
          <PlayerScore score={result.blue}/> 
-	  </div> 
       </div>
 
         {/* Space between blue and red */}
@@ -201,9 +199,7 @@ function Phase4({ player1, player2, result }) {
 
         {/* Player 2 Side */}
         <div className="relative flex items-center justify-center bg-red-500 w-1/2 px-3 py-2 text-black">
-	  <div className="absolute z-10 inset-y-4 left-2"> 
         <PlayerScore score={result.red}/> 
-	  </div> 
 	  	<MatchText player={player2}/>
 		<AvatarCircle player={player2}/>      
         </div>
