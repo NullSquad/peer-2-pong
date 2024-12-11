@@ -41,6 +41,7 @@ const Home = () => {
                 image: user.image,
               }}
               targetDate="2024-12-07T12:00:00"
+			  state={1}
             />
           </section>
           <section className="flex flex-col flex-wrap justify-center items-center mx-5">
@@ -54,6 +55,7 @@ const Home = () => {
                 image: user.image,
               }}
               targetDate="2024-12-29T12:00:00"
+			  state={1}
             />
           </section>
           <section className="flex flex-col flex-wrap justify-center items-center mx-5">
@@ -67,6 +69,7 @@ const Home = () => {
                 image: user.image,
               }}
               targetDate="2024-12-10T12:00:00"
+			  state={4}
             />
           </section>
       </main>

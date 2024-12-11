@@ -14,7 +14,7 @@ const Login = () => {
         className="bg-primary-yellow shadow-yellow-50-700 px-12 py-5 rounded-md text-white text-xl text-stroke border-2 border-black text-shadow tracking-tighter"
       >
         <h2>LOGIN</h2>
-      </Link>
+      </Link>  
     </main>
   );
 };
