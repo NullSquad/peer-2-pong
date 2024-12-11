@@ -13,30 +13,33 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
-    let results = controller.getAll();
-    res.send(results).status(200);
+    controller.getAll().then((results) => {
+      res.send(results).status(200);
+    });
   } catch (err) {
     console.error(err);
-    res.status(500).send("Error reading users");
+    res.status(500).send("Error getting users");
   }
 });
 
 router.get("/:id", async (req, res) => {
   try {
-    let result = controller.getById(req.params.id);
-
-    if (!result) res.send("Not found").status(404);
-    else res.send(result).status(200);
+    controller.getById(req.params.id).then((result) => {
+      if (!result) res.send("Not found").status(404);
+      else res.send(result).status(200);
+    }
+    );
   } catch (err) {
     console.error(err);
-    res.status(500).send("Error reading user");
+    res.status(500).send(" Error getting user");
   }
 });
 
 router.post("/", async (req, res) => {
   try {
-    let result = controller.add(req.body);
-    res.send(result).status(204);
+    controller.add(req.body).then((result) => {
+      res.send(result).status(201);
+    });
   } catch (err) {
     console.error(err);
     res.status(500).send("Error adding user");
@@ -45,14 +48,9 @@ router.post("/", async (req, res) => {
 
 router.patch("/:id", async (req, res) => {
   try {
-    const updates = {
-      email: req.body.email,
-      login: req.body.login,
-      image: req.body.image,
-    };
-
-    let result = controller.update(req.params.id, updates);
-    res.send(result).status(200);
+    controller.update(req.params.id, req.body).then((result) => {
+      res.send(result).status(200);
+    });
   } catch (err) {
     console.error(err);
     res.status(500).send("Error updating user");
@@ -61,9 +59,9 @@ router.patch("/:id", async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
   try {
-    let result = await collection.deleteOne(req.params.id);
-
-    res.send(result).status(200);
+    controller.delete(req.params.id).then((result) => {
+      res.send(result).status(200);
+    });
   } catch (err) {
     console.error(err);
     res.status(500).send("Error deleting user");

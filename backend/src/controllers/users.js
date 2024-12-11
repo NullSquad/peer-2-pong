@@ -5,25 +5,25 @@ const collection = db.collection("users");
 
 const controller = {
   async getAll() {
-    return await collection.find({}).toArray();
+    return collection.find({}).toArray();
   },
 
   async getById(id) {
-    return await collection.findOne({ _id: new ObjectId(id) });
+    return collection.findOne({ _id: new ObjectId(id) });
   },
 
-  async add(data) {
-    data._id = new ObjectId(data._id);
-    return await collection.insertOne(data);
+  async add(user) {
+    user._id = new ObjectId(user._id);
+    return collection.insertOne(user);
   },
 
   async update(id, updates) {
     updates = { $set: updates };
-    return await collection.updateOne({ _id: new ObjectId(id) }, updates);
+    return collection.updateOne({ _id: new ObjectId(id) }, updates);
   },
 
   async delete(id) {
-    return await collection.deleteOne({ _id: new ObjectId(id) });
+    return collection.deleteOne({ _id: new ObjectId(id) });
   },
 };
 

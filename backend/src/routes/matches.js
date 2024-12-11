@@ -1,6 +1,5 @@
 import express from "express";
-import db from "../db/connection.js";
-import { ObjectId } from "mongodb";
+import controller from "../controllers/matches.js";
 
 const router = express.Router();
 
@@ -21,9 +20,9 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
-    let collection = await db.collection("matches");
-    let results = await collection.find({}).toArray();
-    res.send(results).status(200);
+    controller.getAll().then((results) => {
+      res.send(results).status(200);
+    });
   } catch (err) {
     console.error(err);
     res.status(500).send("Error reading matches");
@@ -32,52 +31,49 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
-    let collection = await db.collection("matches");
-    let query = { _id: new ObjectId(req.params.id) };
-    let result = await collection.findOne(query);
-
-    if (!result) res.send("Not found").status(404);
-    else res.send(result).status(200);
+    controller.getById(req.params.id).then((result) => {
+      if (!result) res.send("Not found").status(404);
+      else res.send(result).status(200);
+    }
+    );
   } catch (err) {
     console.error(err);
     res.status(500).send("Error reading match");
   }
 });
 
-router.get("/competition/:id", async (req, res) => {
-  try {
-    let collection = await db.collection("matches");
-    let query = { competition: new ObjectId(req.params.id) };
-    let results = await collection.find(query).toArray();
-    res.send(results).status(200);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Error reading matches");
-  }
-});
+// router.get("/competition/:id", async (req, res) => {
+//   try {
+//     let collection = await db.collection("matches");
+//     let query = { competition: new ObjectId(req.params.id) };
+//     let results = await collection.find(query).toArray();
+//     res.send(results).status(200);
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).send("Error reading matches");
+//   }
+// });
 
 router.post("/", async (req, res) => {
   try {
-    let match = {
-      competition: new ObjectId(req.body.competition),
-      players: req.body.players.map((player) => ({
-        id: new ObjectId(player.id),
-        score: player.score,
-      })),
-      date: new Date(),
-      reportedBy: null,
-      // if reportedBy is null, the match is not yet reported
-      // if reportedBy is not null, the match is reported
-      // and the value is the id of the user who reported it
-      // 3 status values: "reported", "confirmed", "pending"
-      status: "pending",
-    };
-    let collection = await db.collection("matches");
-    let result = await collection.insertOne(match);
-    res.send(result).status(204);
+    controller.add(req.body).then((result) => {
+      res.send(result).status(201);
+    });
   } catch (err) {
     console.error(err);
     res.status(500).send("Error adding match");
+  }
+});
+
+router.post("/report", async (req, res) => {
+  try {
+    controller.report(req.body.match, req.body.reportedBy).then((result) => {
+      res.send(result).status(200);
+    }
+    );
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error reporting match");
   }
 });
 
@@ -92,41 +88,12 @@ router.post("/", async (req, res) => {
       after accepting score: "Finished" -> update date and status
       after denying score: "Ready to play"
 */
+
 router.patch("/:id", async (req, res) => {
   try {
-    const query = { _id: new ObjectId(req.params.id) };
-    const updates = {};
-    if (req.body.status === "Waiting for confirmation") {
-      updates = {
-        $set: {
-          status: req.body.status,
-          players: req.body.players.map((player) => ({
-            id: new ObjectId(player.id),
-            score: player.score,
-          })),
-          reportedBy: new ObjectId(req.body.reportedBy),
-        },
-      };
-    } else if (req.body.status === "Finished") {
-      updates = {
-        $set: {
-          status: req.body.status,
-          date: new Date(),
-        },
-      };
-    } else if (req.body.status === "Ready to play") {
-      updates = {
-        $set: {
-          status: req.body.status,
-          players: req.body.players.map((player) => ({
-            id: new ObjectId(player.id),
-            score: 0,
-          })),
-        },
-      };
-    }
-    let collection = await db.collection("matches");
-    let oldMatch = await collection.findOne(query);
+    controller.update(req.params.id, req.body).then((result) => {
+      res.send(result).status(200);
+    });
   } catch (err) {
     console.error(err);
     res.status(500).send("Error updating match");
@@ -135,12 +102,9 @@ router.patch("/:id", async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
   try {
-    const query = { _id: new ObjectId(req.params.id) };
-
-    const collection = db.collection("matches");
-    let result = await collection.deleteOne(query);
-
-    res.send(result).status(200);
+    controller.delete(req.params.id).then((result) => {
+      res.send(result).status(200);
+    });
   } catch (err) {
     console.error(err);
     res.status(500).send("Error deleting match");
