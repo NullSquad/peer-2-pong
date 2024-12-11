@@ -50,6 +50,7 @@ export default {
             light: "#EB5151",
             DEFAULT: "#E52424",
             dark: "#B71515",
+            ocean: "#E93333",
           },
         },
       },
