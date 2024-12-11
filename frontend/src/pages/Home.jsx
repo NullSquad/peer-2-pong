@@ -4,7 +4,6 @@ import Slider from "../components/Slider";
 import Event from "../components/Events";
 import { Header } from "../components/Header";
 import { Separator } from "../components/Separator";
-import Join from "../components/Join";
 
 const Home = () => {
   const { user } = useAuth();
@@ -73,9 +72,6 @@ const Home = () => {
 			  state={2}
             />
           </section>
-		  <Join
-		  	username={user.login}
-			event_id={1}></Join>
       </main>
   );
 };

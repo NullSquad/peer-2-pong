@@ -1,6 +1,6 @@
 export const joinCompetition = async (username, event_id) => {
 	try {
-		const response = await fetch(`/api/competition/${event_id}`, {
+		const response = await fetch(`http://localhost:8000/competition/${event_id}/participants`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
