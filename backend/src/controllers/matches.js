@@ -12,6 +12,10 @@ const controller = {
     return collection.findOne({ _id: new ObjectId(id) });
   },
 
+  async getByCompetition(id) {
+    return collection.find({ competition: new ObjectId(id) }).toArray();
+  },
+
   async add(match) {
     return collection.insertOne(match);
   },
@@ -20,6 +24,8 @@ const controller = {
     updates = { $set: updates };
     return collection.updateOne({ _id: new ObjectId(id) }, updates);
   },
+
+  
 
   async report(match, reportedBy) {
     if (match.status === "Ready to play") {

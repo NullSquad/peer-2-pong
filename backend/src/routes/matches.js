@@ -45,17 +45,16 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// router.get("/competition/:id", async (req, res) => {
-//   try {
-//     let collection = await db.collection("matches");
-//     let query = { competition: new ObjectId(req.params.id) };
-//     let results = await collection.find(query).toArray();
-//     res.send(results).status(200);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).send("Error reading matches");
-//   }
-// });
+router.get("/competition/:id", async (req, res) => {
+  try {
+    controller.getByCompetition(req.params.id).then((results) => {
+      res.send(results).status(200);
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error reading matches");
+  }
+});
 
 router.post("/", async (req, res) => {
   try {
