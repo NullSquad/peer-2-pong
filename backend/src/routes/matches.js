@@ -1,14 +1,31 @@
 import express from "express";
-import db from "../db/connection.js";
-import { ObjectId } from "mongodb";
+import controller from "../controllers/matches.js";
+import ensureAuthenticated from "../middleware/auth.js";
 
 const router = express.Router();
 
+/* 
+  The matches collection will have the following fields:
+  - competition: ObjectId
+  - players: Array of objects with the following fields:
+    - id: ObjectId
+    - score: Number
+  - date: Date
+  - reportedBy: ObjectId
+  - status:
+      default: "Ready to play"
+      after submit: "Waiting for confirmation"
+      after accepting score: "Finished"
+      after denying score: "Ready to play"
+*/
+
+// router.use(ensureAuthenticated);
+
 router.get("/", async (req, res) => {
   try {
-    let collection = await db.collection("matches");
-    let results = await collection.find({}).toArray();
-    res.send(results).status(200);
+    controller.getAll().then((results) => {
+      res.send(results).status(200);
+    });
   } catch (err) {
     console.error(err);
     res.status(500).send("Error reading matches");
@@ -17,44 +34,69 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
-    let collection = await db.collection("matches");
-    let query = { _id: new ObjectId(req.params.id) };
-    let result = await collection.findOne(query);
-
-    if (!result) res.send("Not found").status(404);
-    else res.send(result).status(200);
+    controller.getById(req.params.id).then((result) => {
+      if (!result) res.send("Not found").status(404);
+      else res.send(result).status(200);
+    }
+    );
   } catch (err) {
     console.error(err);
     res.status(500).send("Error reading match");
   }
 });
 
+router.get("/competition/:id", async (req, res) => {
+  try {
+    controller.getByCompetition(req.params.id).then((results) => {
+      res.send(results).status(200);
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error reading matches");
+  }
+});
+
 router.post("/", async (req, res) => {
   try {
-    let match = {
-      type: req.body.type,
-    };
-    let collection = await db.collection("matches");
-    let result = await collection.insertOne(match);
-    res.send(result).status(204);
+    controller.add(req.body).then((result) => {
+      res.send(result).status(201);
+    });
   } catch (err) {
     console.error(err);
     res.status(500).send("Error adding match");
   }
 });
 
+router.post("/report", async (req, res) => {
+  try {
+		console.log(req.session);
+    controller.report(req.body, req.user).then((result) => {
+      res.send(result).status(200);
+    }
+    );
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error reporting match");
+  }
+});
+
+// submit button: updates (patch) status, score, reporter. If the status is waiting, nothing changes
+// accept score: updates date (is the date when the match ends), and status (finished)
+// deny score: updates status (set -> to play), score (when deny -> set to 0)
+// to debate: should back give player num info to frontend,  (each player should see themselves as player 1 on the left)
+/*
+  - status:
+      default: "Ready to play"
+      after submit: "Waiting for confirmation" -> update status, score and reporter
+      after accepting score: "Finished" -> update date and status
+      after denying score: "Ready to play"
+*/
+
 router.patch("/:id", async (req, res) => {
   try {
-    const query = { _id: new ObjectId(req.params.id) };
-    const updates = {
-      $set: {
-        type: req.body.type,
-      },
-    };
-
-    let collection = await db.collection("matches");
-    let result = await collection.updateOne(query, updates);
-    res.send(result).status(200);
+    controller.update(req.params.id, req.body).then((result) => {
+      res.send(result).status(200);
+    });
   } catch (err) {
     console.error(err);
     res.status(500).send("Error updating match");
@@ -63,12 +105,9 @@ router.patch("/:id", async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
   try {
-    const query = { _id: new ObjectId(req.params.id) };
-
-    const collection = db.collection("matches");
-    let result = await collection.deleteOne(query);
-
-    res.send(result).status(200);
+    controller.delete(req.params.id).then((result) => {
+      res.send(result).status(200);
+    });
   } catch (err) {
     console.error(err);
     res.status(500).send("Error deleting match");

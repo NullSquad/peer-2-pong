@@ -4,53 +4,55 @@ import Slider from "../components/Slider";
 import Event from "../components/Events";
 import { Header } from "../components/Header";
 import { Separator } from "../components/Separator";
-import getCompetitions from "../services/competitionsService";
+import {getCompetitions} from "../services/competitionsService";
+import {getMatches, reportMatch} from "../services/matchesService";
 import { useEffect, useState } from "react";
 
 const Home = () => {
   const { user } = useAuth();
   const [competitions, setCompetitions] = useState([]);
+  const [matches, setMatches] = useState([]);
   const [error, setError] = useState(null);
 
   // matches should be fetched from the backend
-  const matches = [
-    {
-      player1: { name: user.login, image: user.image, score: 0 },
-      player2: {
-        name: "sguzman",
-        image:
-          "https://cdn.intra.42.fr/users/b4c2641d99c5484f2cd86dd8b454c457/sguzman.png",
-        score: 0,
-      },
-      targetDate: "2024-12-12T12:00:00",
-      status: "to play",
-      matchID: 1,
-    },
-    {
-      player1: { name: user.login, image: user.image, score: 11 },
-      player2: {
-        name: "rbarbier",
-        image:
-          "https://cdn.intra.42.fr/users/1cdba5317d27dac3cfb2b89ff10ebe67/rbarbier.png",
-        score: 8,
-      },
-      targetDate: "2024-12-29T12:00:00",
-      status: "finished",
-      matchID: 2,
-    },
-    {
-      player1: { name: user.login, image: user.image, score: 0 },
-      player2: {
-        name: "deordone",
-        image:
-          "https://cdn.intra.42.fr/users/b87ca409e3426d93cff377a3c1c3f031/deordone.png",
-        score: 11,
-      },
-      targetDate: "2024-12-11T12:00:00",
-      status: "waiting",
-      matchID: 3,
-    },
-  ];
+  // const matches = [
+  //   {
+  //     player1: { name: user.login, image: user.image, score: 0 },
+  //     player2: {
+  //       name: "sguzman",
+  //       image:
+  //         "https://cdn.intra.42.fr/users/b4c2641d99c5484f2cd86dd8b454c457/sguzman.png",
+  //       score: 0,
+  //     },
+  //     targetDate: "2024-12-12T12:00:00",
+  //     status: "to play",
+  //     matchID: 1,
+  //   },
+  //   {
+  //     player1: { name: user.login, image: user.image, score: 11 },
+  //     player2: {
+  //       name: "rbarbier",
+  //       image:
+  //         "https://cdn.intra.42.fr/users/1cdba5317d27dac3cfb2b89ff10ebe67/rbarbier.png",
+  //       score: 8,
+  //     },
+  //     targetDate: "2024-12-29T12:00:00",
+  //     status: "finished",
+  //     matchID: 2,
+  //   },
+  //   {
+  //     player1: { name: user.login, image: user.image, score: 0 },
+  //     player2: {
+  //       name: "deordone",
+  //       image:
+  //         "https://cdn.intra.42.fr/users/b87ca409e3426d93cff377a3c1c3f031/deordone.png",
+  //       score: 11,
+  //     },
+  //     targetDate: "2024-12-11T12:00:00",
+  //     status: "waiting",
+  //     matchID: 3,
+  //   },
+  // ];
 
   useEffect(() => {
     getCompetitions()
@@ -64,6 +66,23 @@ const Home = () => {
           targetDate: competition.date,
         }));
         setCompetitions(formattedCompetitions);
+      })
+      .catch((err) => {
+        setError(err.message);
+      });
+  }, []);
+
+  useEffect(() => {
+    getMatches()
+      .then((data) => {
+        const formattedMatches = data.map((matches) => ({
+          matchID: matches._id,
+          competition: matches.competition,
+          player1: matches.players[0],
+          player2: matches.players[1],
+          status: matches.status,
+        }));
+        setMatches(formattedMatches);
       })
       .catch((err) => {
         setError(err.message);
@@ -93,6 +112,8 @@ const Home = () => {
       <Separator>Matches</Separator>
       <section className="flex flex-col flex-wrap justify-center items-center mx-5">
         {matches.map((match) => (
+          console.log(match),
+          console.log(reportMatch(match)),
           <MatchCard
             key={match.matchID}
             player1={match.player1}
@@ -101,7 +122,7 @@ const Home = () => {
             status={match.status}
             score1={match.player1.score}
             score2={match.player2.score}
-            matchID={match.id}
+            matchID={match.matchID}
           />
         ))}
       </section>

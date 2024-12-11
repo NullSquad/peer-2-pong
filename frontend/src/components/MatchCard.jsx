@@ -14,13 +14,13 @@ export function MatchCard({ player1, player2, targetDate, status, score1, score2
 
   const getStatusNumber = (status) => {
     const statusMap = {
-      "to play": 1,
+      "Ready to play": 1,
       "set result": 2,
       "confirm": 3,
       "waiting": 4,
       "finished": 5,
     };
-    return statusMap[status.toLowerCase()] || 0;
+    return statusMap[status] || 0;
   };
 
   const [phaseNumber, setPhaseNumber] = useState(getStatusNumber(status));

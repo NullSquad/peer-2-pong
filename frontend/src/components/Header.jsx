@@ -1,7 +1,7 @@
 import useAuth from "../hooks/useAuth";
 
 export const Header = () => {
-	  const { user } = useAuth();
+  const { user } = useAuth();
   return (
     <header
       className="relative bg-yellow-500 text-white sm:mt-15 py-1 px-5 sm:px-10 sm:ml-[-1%] ml-[-2%] w-[80%] sm:w-[50%] flex justify-between 
@@ -17,11 +17,11 @@ export const Header = () => {
         {/* Eslogan */}
         <h1
           className="text-xl sm:text-2xl font-bold"
-          style={{ WebkitTextStroke: '1px black', color: 'white' }}
+          style={{ WebkitTextStroke: "1px black", color: "white" }}
         >
           {user.login.toUpperCase()}
         </h1>
       </div>
     </header>
   );
-}
+};

@@ -70,9 +70,9 @@ router.get(
 
 router.get("/session", (req, res) => {
   if (req.isAuthenticated()) {
-    res.json({ user: req.user });
+    res.send(req.user);
   } else {
-    res.status(401).json({ message: "Unauthorized" });
+    res.status(401).send("Unauthorized");
   }
 });
 
