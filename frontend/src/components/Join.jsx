@@ -1,30 +1,14 @@
-import { useState } from "preact/hooks"
+import { useState } from "preact/hooks";
 import Popup from "./Popup";
+import { joinCompetition } from "../services/competitionService";
 
-const Join = ( username, event_id ) => {
+const Join = ({ username, event_id }) => {
 	const [message, setMessage] = useState("");
 	const [isPopupOpen, setIsPopupOpen] = useState(false);
 
 	const handleClick = async () => {
-		try {
-			const response = await fetch("https://api.example.com/endpoint", { // Cambiar url
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ username, event_id }),
-			});
-
-			if (response.ok) {
-				const data = await response.json();
-				setMessage(`Éxito: ${data.message || "Joibed successfully"}`);
-			} else {
-				const errorData = await response.json();
-				setMessage(`Error: ${errorData.message || "Failed to join"}`);
-			}
-		} catch (error) {
-			setMessage(`Error: ${error.message}`);
-		}
+		const result = await joinCompetition(username, event_id);
+		setMessage(result.message);
 		setIsPopupOpen(true);
 	};
 

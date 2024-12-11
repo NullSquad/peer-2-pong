@@ -4,12 +4,13 @@ import Slider from "../components/Slider";
 import Event from "../components/Events";
 import { Header } from "../components/Header";
 import { Separator } from "../components/Separator";
+import Join from "../components/Join";
 
 const Home = () => {
   const { user } = useAuth();
 
   return (
-      <main className="relative inset-0 w-full h-full mt-5 bg-pattern bg-cover ">
+      <main className="relative inset-0 w-full h-full mt-5">
         <Header />
           <Slider className="min-h-screen flex flex-col gap-6">
             <Event
@@ -69,9 +70,12 @@ const Home = () => {
                 image: user.image,
               }}
               targetDate="2024-12-10T12:00:00"
-			  state={4}
+			  state={2}
             />
           </section>
+		  <Join
+		  	username={user.login}
+			event_id={1}></Join>
       </main>
   );
 };
