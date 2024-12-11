@@ -1,5 +1,6 @@
 import express from "express";
 import controller from "../controllers/users.js";
+import ensureAuthenticated from "../middleware/auth.js";
 
 const router = express.Router();
 
@@ -10,6 +11,9 @@ const router = express.Router();
   - image: String
   - campus: String
 */
+
+router.use(ensureAuthenticated);
+
 
 router.get("/", async (req, res) => {
   try {

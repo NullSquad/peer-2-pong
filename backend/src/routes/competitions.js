@@ -1,6 +1,7 @@
 import express from "express";
 import db from "../db/connection.js";
 import { ObjectId } from "mongodb";
+import ensureAuthenticated from "../middleware/auth.js";
 
 const router = express.Router();
 
@@ -11,6 +12,8 @@ const router = express.Router();
 */
 
 // how many points do you win/lose when u win/lose/tie a match
+
+router.use(ensureAuthenticated);
 
 router.get("/", async (req, res) => {
   try {

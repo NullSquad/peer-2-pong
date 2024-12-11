@@ -22,15 +22,20 @@ const controller = {
   },
 
   async report(match, reportedBy) {
-    if (match.status === null) {
+    if (match.status === "Ready to play") {
       const score = match.players.map((player) => player.score);
       if (score[0] !== 0 || score[1] !== 0) {
-        match.status = false;
+        match.status = "Waiting for confirmation";
         match.reportedBy = reportedBy;
-      }
-      else {
+      } else {
         throw new Error("Score must be different from 0-0");
       }
+    }
+    else if (match.status === "Waiting for confirmation") {
+      if (match.reportedBy === reportedBy) {
+        throw new Error("You cannot confirm your own score");
+      }
+      match.status = "Finished";
     }
     return collection.findOneAndUpdate( { _id: new ObjectId(match._id) }, { $set: match }, { returnDocument: "after" });
   },
