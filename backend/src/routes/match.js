@@ -4,13 +4,27 @@ import { ObjectId } from "mongodb";
 
 const router = express.Router();
 
-// Función auxiliar para verificar la existencia de un documento por ID
+/**
+ * Verifica la existencia de un documento en una colección por su ID.
+ * @param {string} collection - Nombre de la colección.
+ * @param {string} id - ID del documento.
+ * @returns {Promise<boolean>} - Retorna true si el documento existe, de lo contrario false.
+ */
 async function checkExistence(collection, id) {
     const document = await db.collection(collection).findOne({ _id: ObjectId.createFromHexString(id) });
     return !!document;
 }
 
-// Ruta para crear un nuevo partido
+/**
+ * Crea un nuevo partido.
+ * @route POST /matches
+ * @param {string} competition - ID de la competición.
+ * @param {string} status - Estado del partido.
+ * @param {string} date - Fecha del partido.
+ * @param {Array} players - Lista de jugadores.
+ * @param {string} reporter - ID del reportero.
+ * @returns {Object} - Mensaje de éxito y ID del partido creado.
+ */
 router.post("/", async (req, res) => {
     try {
         const { competition, status, date, players, reporter } = req.body;
@@ -70,7 +84,11 @@ router.post("/", async (req, res) => {
     }
 });
 
-// Ruta para obtener todos los partidos
+/**
+ * Obtiene todos los partidos.
+ * @route GET /matches
+ * @returns {Array} - Lista de partidos.
+ */
 router.get("/", async (req, res) => {
     try {
         const matches = await db.collection("matches").find({}).toArray();
@@ -81,7 +99,12 @@ router.get("/", async (req, res) => {
     }
 });
 
-// Ruta para obtener un partido por ID
+/**
+ * Obtiene un partido por su ID.
+ * @route GET /matches/:id
+ * @param {string} id - ID del partido.
+ * @returns {Object} - Datos del partido.
+ */
 router.get("/:id", async (req, res) => {
     try {
         const matchId = req.params.id;
@@ -96,65 +119,17 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-// // Ruta para actualizar un partido
-// router.put("/:id", async (req, res) => {
-//     try {
-//         const { competition, status, date, players, reporter } = req.body;
-//         const matchId = req.params.id;
-
-//         const matchExists = await db.collection("matches").findOne({ _id: ObjectId.createFromHexString(matchId) });
-//         if (!matchExists) return res.status(404).json({ error: "Partido no encontrado" });
-
-//         const updatedMatch = {};
-
-//         if (competition) updatedMatch.competition = ObjectId.createFromHexString(competition);
-//         if (status) updatedMatch.status = status;
-//         if (date) updatedMatch.date = new Date(date);
-//         if (players) {
-//             if (!Array.isArray(players)) {
-//                 return res.status(400).json({ error: "El campo 'players' debe ser un array" });
-//             }
-//             updatedMatch.players = players.map(player => ({
-//                 userId: ObjectId.createFromHexString(player.userId),
-//                 score: player.score
-//             }));
-//         }
-
-//         // Validar existencia del reportero
-//         if (reporter) {
-//             const reporterExists = await checkExistence("users", reporter);
-//             if (!reporterExists) return res.status(404).json({ error: "Reportero no encontrado" });
-
-//             // Validar que el reportero sea uno de los jugadores
-//             let reporterIsPlayer = false;
-//             for (const player of players) {
-//                 if (player.userId === reporter) {
-//                     reporterIsPlayer = true;
-//                     break;
-//                 }
-//             }
-
-//             if (!reporterIsPlayer) {
-//                 return res.status(400).json({ error: "El reportero debe ser uno de los jugadores" });
-//             }
-
-//             updatedMatch.reporter = ObjectId.createFromHexString(reporter);
-//         }
-
-//         const result = await db.collection("matches").updateOne(
-//             { _id: ObjectId.createFromHexString(matchId) },
-//             { $set: updatedMatch }
-//         );
-
-//         if (result.matchedCount === 0) {
-//             return res.status(404).json({ error: "No se encontró el partido para actualizar" });
-//         }
-//         res.status(200).json({ message: "Partido actualizado con éxito" });
-//     } catch (error) {
-//         console.error("Error actualizando partido:", error);
-//         res.status(500).json({ error: "No se pudo actualizar el partido" });
-//     }
-// });
+/**
+ * Actualiza un partido por su ID.
+ * @route PUT /matches/:id
+ * @param {string} id - ID del partido.
+ * @param {string} [competition] - ID de la competición.
+ * @param {string} [status] - Estado del partido.
+ * @param {string} [date] - Fecha del partido.
+ * @param {Array} [players] - Lista de jugadores.
+ * @param {string} [reporter] - ID del reportero.
+ * @returns {Object} - Mensaje de éxito.
+ */
 router.put("/:id", async (req, res) => {
     try {
         const { competition, status, date, players, reporter } = req.body;
@@ -225,8 +200,12 @@ router.put("/:id", async (req, res) => {
     }
 });
 
-
-// Ruta para eliminar un partido
+/**
+ * Elimina un partido por su ID.
+ * @route DELETE /matches/:id
+ * @param {string} id - ID del partido.
+ * @returns {Object} - Mensaje de éxito.
+ */
 router.delete("/:id", async (req, res) => {
     try {
         const matchId = req.params.id;

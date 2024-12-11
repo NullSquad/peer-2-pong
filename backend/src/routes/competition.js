@@ -16,26 +16,75 @@ async function checkExistence(collection, id) {
 }
 
 /**
+ * Validar la configuración de una competición
+ * @param {Object} settings - Configuración de la competición
+ * @returns {boolean} - True si la configuración es válida
+ */
+function validateCompetitionSettings(settings) {
+    return (
+        settings &&
+        typeof settings.maxParticipants === 'number' &&
+        settings.maxParticipants > 0 &&
+        ['weekly', 'biweekly', 'monthly'].includes(settings.frequency) &&
+        typeof settings.quantity === 'number' &&
+        settings.quantity > 0
+    );
+}
+
+/**
  * Ruta para crear una nueva competición.
  * @route POST /competitions
- * @body { name: string, createdBy: string } - Nombre de la competición y ID del creador.
+ * @body { 
+ *   name: string, 
+ *   type: string, 
+ *   startDate: date, 
+ *   endDate: date, 
+ *   settings: object 
+ * }
  * @returns {Object} - Resultado de la creación de la competición.
  */
 router.post("/", async (req, res) => {
     try {
-        const { name, createdBy } = req.body;
+        const { 
+            name,
+            type,
+            startDate,
+            endDate,
+            settings
+        } = req.body;
 
         // Validación de los datos
-        if (!name || !createdBy) {
+        if (!name || !type || !startDate || !endDate || !settings) {
             return res.status(400).json({ error: "Faltan datos para crear la competición" });
+        }
+
+        // Validar fechas
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        
+        if (isNaN(start.getTime()) || isNaN(end.getTime()) || start >= end) {
+            return res.status(400).json({ error: "Fechas de competición inválidas" });
+        }
+
+        // Validar configuración
+        if (!validateCompetitionSettings(settings)) {
+            return res.status(400).json({ error: "Configuración de competición inválida" });
         }
 
         // Crear un nuevo objeto de competición
         const newCompetition = {
             name,
-            createdBy: new ObjectId(createdBy),
+            type,
+            startDate: start,
+            endDate: end,
             participants: [], // Lista vacía al iniciar
-            matches: [] // Lista vacía para los partidos
+            matches: [], // Lista vacía para los partidos
+            settings: {
+                maxParticipants: settings.maxParticipants,
+                frequency: settings.frequency,
+                quantity: settings.quantity
+            },
+            status: 'pending' // Estado inicial de la competición
         };
 
         // Insertar la competición en la base de datos
@@ -47,11 +96,7 @@ router.post("/", async (req, res) => {
     }
 });
 
-/**
- * Ruta para obtener todas las competiciones.
- * @route GET /competitions
- * @returns {Array} - Lista de competiciones.
- */
+// Resto de las rutas permanecen igual (sin cambios)
 router.get("/", async (req, res) => {
     try {
         const competitions = await db.collection("competitions").find({}).toArray();
@@ -62,12 +107,6 @@ router.get("/", async (req, res) => {
     }
 });
 
-/**
- * Ruta para obtener una competición por ID.
- * @route GET /competitions/:id
- * @param {string} id - ID de la competición.
- * @returns {Object} - Competición encontrada.
- */
 router.get("/:id", async (req, res) => {
     try {
         const { id } = req.params;
@@ -82,7 +121,6 @@ router.get("/:id", async (req, res) => {
         if (!competition) {
             return res.status(404).json({ error: "Competición no encontrada" });
         }
-
         res.status(200).json(competition);
     } catch (error) {
         console.error("Error obteniendo competición:", error);
@@ -90,13 +128,6 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-/**
- * Ruta para agregar un participante a una competición.
- * @route POST /competitions/:id/participants
- * @param {string} id - ID de la competición.
- * @body { user_id: string } - ID del usuario a agregar.
- * @returns {Object} - Mensaje de éxito o error.
- */
 router.post("/:id/participants", async (req, res) => {
     try {
         const { id } = req.params;
