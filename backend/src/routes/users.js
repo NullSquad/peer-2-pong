@@ -1,6 +1,5 @@
 import express from "express";
-import db from "../db/connection.js";
-import { ObjectId } from "mongodb";
+import controller from "../controllers/users.js";
 
 const router = express.Router();
 
@@ -14,8 +13,7 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
-    let collection = await db.collection("users");
-    let results = await collection.find({}).toArray();
+    let results = controller.getAll();
     res.send(results).status(200);
   } catch (err) {
     console.error(err);
@@ -25,9 +23,7 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
-    let collection = await db.collection("users");
-    let query = { _id: new ObjectId(req.params.id) };
-    let result = await collection.findOne(query);
+    let result = controller.getById(req.params.id);
 
     if (!result) res.send("Not found").status(404);
     else res.send(result).status(200);
@@ -39,15 +35,7 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    let user = {
-      _id: new ObjectId(req.body.id),
-      email: req.body.email,
-      login: req.body.login,
-      image: req.body.image,
-      campus: req.body.campus,
-    };
-    let collection = await db.collection("users");
-    let result = await collection.insertOne(user);
+    let result = controller.add(req.body);
     res.send(result).status(204);
   } catch (err) {
     console.error(err);
@@ -57,17 +45,13 @@ router.post("/", async (req, res) => {
 
 router.patch("/:id", async (req, res) => {
   try {
-    const query = { _id: new ObjectId(req.params.id) };
     const updates = {
-      $set: {
         email: req.body.email,
         login: req.body.login,
         image: req.body.image,
-      },
     };
 
-    let collection = await db.collection("users");
-    let result = await collection.updateOne(query, updates);
+    let result = controller.update(req.params.id, updates);
     res.send(result).status(200);
   } catch (err) {
     console.error(err);
@@ -77,10 +61,7 @@ router.patch("/:id", async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
   try {
-    const query = { _id: new ObjectId(req.params.id) };
-
-    const collection = db.collection("users");
-    let result = await collection.deleteOne(query);
+    let result = await collection.deleteOne(req.params.id);
 
     res.send(result).status(200);
   } catch (err) {
