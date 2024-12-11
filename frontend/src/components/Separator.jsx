@@ -31,17 +31,24 @@ import useAuth from "../hooks/useAuth";
 export const Separator = ({ children }) => {
   const { user } = useAuth();
   return (
-    <header className="relative flex flex-col justify-center overflow-hidden bg-gray-50 py-6 sm:py-12 ">
-      {/* Elemento principal (siempre encima) */}
-      <div 
-        className="flex z-20 bg-yellow-500 text-white sm:mt-15 py-2 px-5 sm:px-10 sm:ml-[-1%] ml-[-2%] w-[55%] sm:w-[25%] flex justify-between 
-        items-center border-t-[8px] border-t-yellow-50 border-b-[8px] border-b-yellow-700 border-r-[4px] border-r-black shadow-md transform -skew-x-[8deg]">
-        <h2 className="flex text-xl sm:text-2xl font-bold skew-x-[8deg]"
-          style={{ WebkitTextStroke: '1px black', color: 'white' }}>
-            {children.toUpperCase()}
-        </h2>
-      </div>
-
-    </header>
+	  <header className="relative flex flex-col justify-left overflow-hidden bg-gray-50 py-6 sm:py-12">
+	  {/* Responsive Container */}
+	  <div className="flex z-20 bg-yellow-500 text-white py-2 px-5 sm:px-10 mx-auto w-[90%] sm:w-[60%] md:w-[40%] lg:w-[30%]
+	  				justify-between items-center border-t-[8px] border-t-yellow-50 border-b-[8px] border-b-yellow-700 
+	  				border-r-[4px] border-r-black shadow-md transform -skew-x-[8deg]">
+    {/* Responsive Text */}
+    <h2
+      className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold skew-x-[8deg]"
+      style={{
+        WebkitTextStroke: "1px black",
+        color: "white",
+        wordWrap: "break-word",
+        textAlign: "center",
+      }}
+    >
+      {children.toUpperCase()}
+    </h2>
+  </div>
+</header>
   );
 };
