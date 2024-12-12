@@ -34,7 +34,7 @@ passport.use(
           email,
           login,
           image: image.link,
-          campus: campus.first().name,
+          campus: campus[0].name,
         };
         return done(null, user);
       } catch (error) {
