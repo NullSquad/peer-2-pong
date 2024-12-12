@@ -27,6 +27,7 @@ export function MatchCard({ player1, player2, targetDate, status, score1, score2
   const PhaseComponent = phaseMap[phaseNumber] || null; 
   const [result, setResult] = useState({ blue: score1, red: score2 });
 
+
   return (
     <div className="relative flex w-full max-w-4xl h-[86px] sm:h-[94px] md:h-28 overflow-visible bg-invisible">
       <PhaseComponent player1={player1} player2={player2} 
