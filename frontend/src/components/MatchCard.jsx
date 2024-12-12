@@ -10,8 +10,10 @@ import { ButtonScore } from "./PlayerScore.jsx";
 import { PlayerScore } from "./PlayerScore.jsx";
 import { SubmitScore } from "./PlayerScore.jsx";
 import CountdownTimer from "./CountdownTimer";
+import { confirmMatch } from "../services/matchesService"
 
 export function MatchCard({ match }) {
+  // setear phase dependiendo del status
   const phaseMap = {
     1: Phase1,
     2: Phase2,
@@ -31,6 +33,7 @@ export function MatchCard({ match }) {
     return statusMap[status] || 0;
   };
 
+  // pija.... pija es el match en crudo, como una buena pija
   const pija = {
   matchID: match._id,
   competition: match.competition,
@@ -53,6 +56,7 @@ export function MatchCard({ match }) {
   );
 }
 
+// fase1, la fase relacionada con el status "scheduled"
 function Phase1({ match }) {
   return (
     <div className="z-10 relative flex w-full max-w-4xl h-[86px] sm:h-[94px] md:h-28 overflow-visible bg-invisible">
@@ -87,9 +91,12 @@ function Phase1({ match }) {
   );
 }
 
+// fase2..... la fase del submit.... esta horrible y funciona como el orto (la matchcard)
+// pero el submit funciona fenomenal
 function Phase2({ match, pija }) {
   const [result, setResult] = useState({blue: pija.players[0].score, red:pija.players[1].score})
-  console.log(pija.players)
+
+  // tuqui la logica de subir o bajar el score xd xd 
 
   const increaseBlue = () => {
     setResult((prevResult) => {
@@ -140,6 +147,9 @@ function Phase2({ match, pija }) {
       red: Math.max(0, prevResult.red - 1),
     }));
   };
+
+  //esto era para revisar si el resultado era aceptable o no.
+  //no se usa porque en principio lo tienen que hacer los backend boys
 
   const isValidResult = () => {
     if (result.blue === result.red || (result.blue < 11 && result.red < 11)) {
@@ -205,6 +215,8 @@ function Phase2({ match, pija }) {
   );
 }
 
+// la fase3 es la de totototototootototottony, costo pero se pudo (grande tony tkm <3).
+// muestra el boton de accept or deny
 function Phase3({ match }) {
   return (
     <div className="flex w-full max-w-full h-[128px] sm:h-[128px] md:h-28 overflow-visible bg-invisible">
@@ -230,7 +242,9 @@ function Phase3({ match }) {
 
           {/* Buttons container */}
           <div className="flex relative left-[12rem] items-center justify-center skew-x-[8deg] ml-3">
-            <button className="bg-accent-blue shadow-blue-light-dark border-2 border-black w-8 h-6 sm:w-9 sm:h-7 mr-1 rounded-md text-white text-sm sm:text-xl font-bold font-lilita-one active:translate-y-[1px] flex items-center justify-center -skew-x-[5deg]">
+            <button 
+              onClick= { () => {confirmMatch(match._id, true)}}
+              className="bg-accent-blue shadow-blue-light-dark border-2 border-black w-8 h-6 sm:w-9 sm:h-7 mr-1 rounded-md text-white text-sm sm:text-xl font-bold font-lilita-one active:translate-y-[1px] flex items-center justify-center -skew-x-[5deg]">
               <span
                 className="inline-block relative top-[-1px] skew-x-[8deg] sm:top-[-2px] leading-none skew-x-[5deg]"
                 style={{ textShadow: "1px 1px 0px black" }}
@@ -238,7 +252,9 @@ function Phase3({ match }) {
                 ✓
               </span>
             </button>
-            <button className="bg-accent-red shadow-red-light-dark border-2 border-black w-8 h-6 sm:w-9 sm:h-7 mr-1 rounded-md text-white text-sm sm:text-xl font-bold font-lilita-one active:translate-y-[1px] flex items-center justify-center -skew-x-[5deg]">
+            <button 
+              onClick= { () => {confirmMatch(match._id, false)}}
+              className="bg-accent-red shadow-red-light-dark border-2 border-black w-8 h-6 sm:w-9 sm:h-7 mr-1 rounded-md text-white text-sm sm:text-xl font-bold font-lilita-one active:translate-y-[1px] flex items-center justify-center -skew-x-[5deg]">
               <span
                 className="inline-block relative top-[-1px] sm:top-[-2px] skew-x-[8deg] leading-none skew-x-[5deg]"
                 style={{ textShadow: "1px 1px 0px black" }}
@@ -255,6 +271,7 @@ function Phase3({ match }) {
   );
 }
 
+// fase 4, fase picada, relacionada con el status pending
 function Phase4({ match }) {
   return (
     <div className="relative flex w-full max-w-4xl h-[86px] sm:h-[94px] md:h-28 overflow-visible bg-invisible">
@@ -283,6 +300,7 @@ function Phase4({ match }) {
   );
 }
 
+// fase5, alta fase pa, te muestra que ganaste
 function Phase5({ match }) {
   const blueCardSize = match.player1.score > match.player2.score ? "w-9/12" : "w-5/12";
   const redCardSize = match.player2.score > match.player1.score ? "w-9/12" : "w-5/12";

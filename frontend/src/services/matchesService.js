@@ -34,13 +34,13 @@ export const reportMatch = (match) => {
   });
 };
 
-export const confirmMatch = (match) => {
-  return fetch(`/api/matches/${_id}/report`, {
+export const confirmMatch = (id, tuvieja) => {
+  return fetch(`/api/matches/${id}/report`, {
     method: "POST",
 	headers: {
 		'Content-Type': 'application/json',
 	},
-	body: JSON.stringify( {match} ),
+	body: JSON.stringify( tuvieja ),
   }).then((response) => {
     if (!response.ok) {
 				console.error(response);
