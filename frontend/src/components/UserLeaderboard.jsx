@@ -14,7 +14,12 @@ const UserLeaderboard = ({ index, photo, login, score }) => {
                 <img
                     src={photo}
                     alt={`${login}'s avatar`}
-                    className={`${index <= 2 ? "border-[0.2em] border-yellow-400" : "border-2 border-gray-700"} w-10 h-10 rounded-full  cursor-pointer mx-auto`}
+                    className={`
+						${index <= 2
+							? "border-[0.2em] border-yellow-400"
+							: "border-2 border-gray-700"}
+							w-10 h-10 rounded-full  cursor-pointer mx-auto`
+					}
                 />
             </td>
             <td className="align-middle py-1 w-1/4">{login}</td>
