@@ -14,7 +14,10 @@ const controller = {
 
   async add(match) {
     match.competition = new ObjectId(match.competition);
-    match.players = match.players.map((id) => new ObjectId(id));
+    match.players = match.players.map((player) => ({
+      ...player,
+      player: new ObjectId(player.player),
+    })); 
     return collection.insertOne(match);
   },
 
@@ -22,7 +25,10 @@ const controller = {
     if (updates.competition)
       updates.competition = new ObjectId(updates.competition);
     if (updates.players)
-      updates.players = updates.players.map((id) => new ObjectId(id));
+      updates.players = updates.players.map((player) => ({
+        ...player,
+        player: new ObjectId(player.player),
+      }));
     return collection.findOneAndUpdate(
       { _id: new ObjectId(id) },
       { $set: updates },
