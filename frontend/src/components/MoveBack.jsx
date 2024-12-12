@@ -24,15 +24,7 @@ const MoveBack = ({ username, event_id }) => {
                sm:h-8 sm:text-2xl -skew-x-[8deg] rounded-lg relative active:translate-y-[2px] 
                flex justify-center items-center"
   >
-    <span
-      className="inline-block skew-x-[8deg]"
-      style={{
-        WebkitTextStroke: "1px black",
-        WebkitTextFillColor: "white",
-      }}
-    >
-		;)
-    </span>
+        <img src="../assets/goBack.svg" alt="arrow-left" className="w-6 h-6 mr-2" />
   </button>
   {isPopupOpen && <Popup message={message} onClose={closePopup} />}
 </div>

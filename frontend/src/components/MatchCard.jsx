@@ -1,11 +1,9 @@
 import CrownIcon from "../assets/CrownIcon.svg";
-import BaseCard from "./BaseCard.jsx";
 import VS from "./VS.jsx";
 import { AvatarCircle } from "./AvatarCircle.jsx";
 import InfoMatchBox from "./InfoMatchBox.jsx";
 import { MatchText } from "./Text.jsx";
 import { useState } from "preact/hooks";
-import { SignScore } from "./PlayerScore.jsx";
 import { ButtonScore } from "./PlayerScore.jsx";
 import { PlayerScore } from "./PlayerScore.jsx";
 import { SubmitScore } from "./PlayerScore.jsx";
@@ -24,8 +22,8 @@ export function MatchCard({ match }) {
 
   const getStatusNumber = (status) => {
     const statusMap = {
-      scheduled: 2,
-      "set result": 2,
+      scheduled: 1,
+      // "set result": 2,
       pending: 3,
       reported: 4,
       confirmed: 5,
@@ -33,7 +31,7 @@ export function MatchCard({ match }) {
     return statusMap[status] || 0;
   };
 
-  // pija.... pija es el match en crudo, como una buena pija
+  // pija.... "pija es el match pero con un nombre mas lindo" -Copilot
   const pija = {
   matchID: match._id,
   competition: match.competition,
@@ -57,7 +55,7 @@ export function MatchCard({ match }) {
 }
 
 // fase1, la fase relacionada con el status "scheduled"
-function Phase1({ match }) {
+function Phase1({ match, pija }) {
   return (
     <div className="z-10 relative flex w-full max-w-4xl h-[86px] sm:h-[94px] md:h-28 overflow-visible bg-invisible">
       <div className="relative flex w-full h-14 sm:h-16 -skew-x-[8deg]">
@@ -87,6 +85,7 @@ function Phase1({ match }) {
           Time left: <CountdownTimer targetDate={match.targetDate} />
         </InfoMatchBox>
       )}
+    <Phase2 match={match} pija={pija} />
     </div>
   );
 }
@@ -97,7 +96,6 @@ function Phase2({ match, pija }) {
   const [result, setResult] = useState({blue: pija.players[0].score, red:pija.players[1].score})
 
   // tuqui la logica de subir o bajar el score xd xd 
-
   const increaseBlue = () => {
     setResult((prevResult) => {
       const newBlue = prevResult.blue + 1;
@@ -167,7 +165,7 @@ function Phase2({ match, pija }) {
   };
 
   return (
-    <div className="relative bottom-[3.7rem] left-[3rem] md:bottom-[5rem]">
+    <div className="relative md:bottom-[5rem]">
       {/* Controles de puntuación */}
       <div className="flex justify-center items-center mt-1 sm:mt-2 gap-1">
         {/* Player 1 Score */}
