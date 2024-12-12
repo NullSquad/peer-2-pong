@@ -1,41 +1,33 @@
-import {useState, useEffect } from "preact/hooks"
 import { Separator } from "../components/Separator";
+import  Join   from "../components/Join";
+import  LeaderboardTable  from "../components/LeaderboardTable";
+import { getCompetitionById } from "../services/competitionsService";
+import { useEffect, useState } from "preact/hooks";
 
+export const Competition = ({id}) => {
 
-const Competition = ({id}) => {
+  console.log(id);
+  const [competition, setCompetition] = useState(null);
+  useEffect(() => {
+    getCompetitionById(id) 
+    .then((data) => {
+      setCompetition(data);
+    })
+    
+  }, [id]);
 
-	const [leaderboardData, setLeaderbordData] = useState([]);
-
-	useEffect(() => {
-
-		// we need to call the backend to ask for competition with id [id]
-		const mockData = [
-			{rank: 1, name : "player1", score: id},
-			{rank: 3, name : "player2", score: id},
-			{rank: 3, name : "player3", score: id}
-		];
-
-		setLeaderbordData(mockData);
-	}, []);
-
+  if (!competition) {
+    return <div>Loading...</div>;
+  }
 
 	return (
-    <div className="container w-screen h-screen">
+    <main className="relative container w-screen h-screen min-w-max">
+		<div className="flex  justify-between items-center  px-4 py-2">
+			<Join />
+		</div>
 		<Separator>Leaderboard</Separator>
-		<div className="flex flex-col gap-4">
-        {leaderboardData.map((player) => (
-          <div
-            key={player.rank}
-            className="flex justify-between items-center bg-gray-800 text-white px-4 py-2 rounded shadow"
-          >
-            <span>#{player.rank}</span>
-            <span>{player.name}</span>
-            <span>{player.score} pts</span>
-          </div>
-        ))}
-      </div>
-    </div>
+		<LeaderboardTable competitionPlayers={competition.players}/>
+    </main>
   );
 };
 
-export default Competition;

@@ -1,9 +1,9 @@
-
 import CountdownTimer from "./CountdownTimer";
 
 // Event component with two info sections and a countdown timer
 const Event = ({ type, isParticipating, status, children, targetDate }) => {
-  let bgType = type.toLowerCase() === "tournament" ? "bg-tournament" : "bg-league";
+  let bgType =
+    type.toLowerCase() === "tournament" ? "bg-tournament" : "bg-league";
   return (
     <div className="relative">
       {/* Container that holds both left and right info */}
@@ -32,9 +32,9 @@ const Event = ({ type, isParticipating, status, children, targetDate }) => {
           lg:min-w-[28rem] lg:min-h-[16rem]
         `}
       >
-          <div
-            className={`flex ${bgType}  scale-[1.1] -translate-x-1 absolute inset-0 skew-x-6 bg-cover bg-bottom`}
-          />
+        <div
+          className={`flex ${bgType}  scale-[1.1] -translate-x-1 absolute inset-0 skew-x-6 bg-cover bg-bottom`}
+        />
         <div className="flex justify-center translate-y-[1.2rem] md:translate-y-8">
           <div className="text-white skew-x-6">
             <h1 className="text-2xl text-stroke-sm md:text-stroke sm:text-3xl md:text-4xl lg:text-5xl font-bold drop-shadow-lg">

@@ -1,78 +1,65 @@
 import express from "express";
-import db from "../db/connection.js";
-import { ObjectId } from "mongodb";
+import controller from "../controllers/matches.js";
 
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  try {
-    let collection = await db.collection("matches");
-    let results = await collection.find({}).toArray();
-    res.send(results).status(200);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Error reading matches");
-  }
+  controller
+    .getAll()
+    .then((results) => res.status(200).send(results))
+    .catch((err) => res.status(500).send(err.message));
 });
 
 router.get("/:id", async (req, res) => {
-  try {
-    let collection = await db.collection("matches");
-    let query = { _id: new ObjectId(req.params.id) };
-    let result = await collection.findOne(query);
-
-    if (!result) res.send("Not found").status(404);
-    else res.send(result).status(200);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Error reading match");
-  }
+  controller
+    .getById(req.params.id)
+    .then((result) => {
+      if (!result) res.status(404).send("Not found");
+      else res.status(200).send(result);
+    })
+    .catch((err) => res.status(500).send(err.message));
 });
 
 router.post("/", async (req, res) => {
-  try {
-    let match = {
-      type: req.body.type,
-    };
-    let collection = await db.collection("matches");
-    let result = await collection.insertOne(match);
-    res.send(result).status(204);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Error adding match");
-  }
+  controller
+    .add(req.body)
+    .then((result) => res.status(201).send(result))
+    .catch((err) => res.status(500).send(err.message));
 });
 
 router.patch("/:id", async (req, res) => {
-  try {
-    const query = { _id: new ObjectId(req.params.id) };
-    const updates = {
-      $set: {
-        type: req.body.type,
-      },
-    };
-
-    let collection = await db.collection("matches");
-    let result = await collection.updateOne(query, updates);
-    res.send(result).status(200);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Error updating match");
-  }
+  controller
+    .update(req.params.id, req.body)
+    .then((result) => res.status(200).send(result))
+    .catch((err) => res.status(500).send(err.message));
 });
 
 router.delete("/:id", async (req, res) => {
-  try {
-    const query = { _id: new ObjectId(req.params.id) };
+  controller
+    .delete(req.params.id)
+    .then((result) => res.status(200).send(result))
+    .catch((err) => res.status(500).send(err.message));
+});
 
-    const collection = db.collection("matches");
-    let result = await collection.deleteOne(query);
+router.get("/competition/:id/me", async (req, res) => {
+  controller
+    .getMyMatchesByCompetition(req.user.id, req.params.id)
+    .then((results) => res.status(200).send(results))
+    .catch((err) => res.status(500).send(err.message));
+});
 
-    res.send(result).status(200);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Error deleting match");
-  }
+router.post("/:id/report", async (req, res) => {
+  controller
+    .report(req.params.id, req.user.id, req.body)
+    .then((result) => res.status(201).send(result))
+    .catch((err) => res.status(500).send(err.message));
+});
+
+router.post("/:id/confirm", async (req, res) => {
+  controller
+    .confirm(req.params.id, req.user.id, req.body)
+    .then((result) => res.status(201).send(result))
+    .catch((err) => res.status(500).send(err.message));
 });
 
 export default router;

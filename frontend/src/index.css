@@ -3,10 +3,15 @@
 @tailwind utilities;
 
 @layer components {
-	.text-stroke-sm {
-		-webkit-text-stroke: 0.5px black;
-	}
-	.text-stroke {
-		-webkit-text-stroke: 1.5px black;
-	}
+  .text-stroke-sm {
+    -webkit-text-stroke: 0.5px black;
+  }
+  .text-stroke {
+    -webkit-text-stroke: 1.5px black;
+  }
 }
+
+body {
+	@apply bg-pattern bg-cover bg-no-repeat m-0 w-full min-h-screen;
+}
+  
