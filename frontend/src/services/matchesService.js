@@ -7,6 +7,15 @@ export const getMatches = () => {
   });
 };
 
+export const getMyMatchesByCompetition = (competitionID) => {
+  return fetch(`/api/matches/competition/${competitionID}/me`).then((response) => {
+    if (!response.ok) {
+      throw new Error("Failed to fetch my matches");
+    }
+    return response.json();
+  });
+};
+
 export const reportMatch = (match) => {
   return fetch(`/api/matches/report`, {
     method: "POST",

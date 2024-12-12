@@ -5,16 +5,14 @@ import Event from "../components/Events";
 import { Header } from "../components/Header";
 import { Separator } from "../components/Separator";
 import {getCompetitions} from "../services/competitionsService";
-import {getMatches, reportMatch} from "../services/matchesService";
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "preact/hooks";
 import Matches from "../components/Matches"; 
 
 const Home = () => {
   const { user } = useAuth();
   const [competitions, setCompetitions] = useState([]);
-  const [matches, setMatches] = useState([]);
   const [error, setError] = useState(null);
-  const [currentSwipe, setCurrentSwipe] = useState(0);
+  const [currentCompetition, setCurrentCompetition] = useState(0);
 
   useEffect(() => {
     getCompetitions()
@@ -34,38 +32,10 @@ const Home = () => {
       });
   }, []);
 
-  useEffect(() => {
-    getMatches()
-      .then((data) => {
-        const formattedMatches = data.map((matches) => ({
-          matchID: matches._id,
-          competition: matches.competition,
-          player1: matches.players[0],
-          player2: matches.players[1],
-          status: matches.status,
-        }));
-        setMatches(formattedMatches);
-      })
-      .catch((err) => {
-        setError(err.message);
-      });
-  }, []);
-
-  const currentCompetitionId = competitions[currentSwipe]?.id;
-  const filteredMatches = matches.filter(
-    (match) => match.competition === currentCompetitionId
-  );
-
-  useEffect(() => {
-    if (competitions[currentSwipe]) {
-      console.log("ID de la competición actual:", competitions[currentSwipe].id);
-    }
-  }, [currentSwipe, competitions]);
-
   return (
     <main className="relative inset-0 w-full h-full mt-5 bg-pattern bg-cover">
       <Header />
-      <Slider setSwipe={setCurrentSwipe}>
+      <Slider setSwipe={setCurrentCompetition}>
         {error ? (
           <p className="text-red-500">Error: {error}</p>
         ) : (
@@ -83,7 +53,7 @@ const Home = () => {
         )}
       </Slider>
       <Separator>Matches</Separator>
-      <Matches matches={filteredMatches} />
+      <Matches competitionID={competitions[currentCompetition]?.id} />
     </main>
   );
 };

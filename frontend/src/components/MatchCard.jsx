@@ -2,7 +2,6 @@ import CrownIcon from "../assets/CrownIcon.svg";
 import { useState } from "preact/hooks";
 import CountdownTimer from "./CountdownTimer";
 
-
 export function MatchCard({ player1, player2, targetDate, status, score1, score2, matchID }) {
   const phaseMap = {
     1: Phase1,
@@ -14,8 +13,8 @@ export function MatchCard({ player1, player2, targetDate, status, score1, score2
 
   const getStatusNumber = (status) => {
     const statusMap = {
-      "Ready to play": 1,
-      "set result": 2,
+      "scheduled": 1,
+      // "set result": 2,
       "confirm": 3,
       "waiting": 4,
       "finished": 5,

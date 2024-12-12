@@ -3,7 +3,7 @@ import { EffectCards, EffectCoverflow } from "swiper/modules";
 import { Children } from "react";
 import "swiper/css";
 
-export const Slider = ({ children, setSwipe }) => {
+export const Slider = ({ children, setCompetition }) => {
   const count = Children.count(children);
   return (
     <article className="w-full bg-blue py-4 sm:py-6 md:py-8 px-2 sm:px-4 md:px-8">
@@ -19,7 +19,7 @@ export const Slider = ({ children, setSwipe }) => {
         }}
         effect={"cards"}
         grabCursor={true}
-        onSlideChange={(swiper) => setSwipe(swiper.activeIndex)}
+        onSlideChange={(swiper) => setCompetition(swiper.activeIndex)}
         className="flex justify-center items-center"
       >
         {Children.map(children, (child, index) => (
