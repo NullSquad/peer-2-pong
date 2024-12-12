@@ -1,0 +1,87 @@
+{
+  "bsonType": "object",
+  "required": ["type", "startDate", "endDate", "players", "settings"],
+  "properties": {
+    "type": {
+      "bsonType": "string",
+      "enum": ["league", "tournament"],
+      "description": "can be 'league' or 'tournament' and is required"
+    },
+    "startDate": {
+      "bsonType": "date",
+      "description": "must be a date and is required"
+    },
+    "endDate": {
+      "bsonType": "date",
+      "description": "must be a date and is required"
+    },
+    "players": {
+      "bsonType": "array",
+      "items": {
+        "bsonType": "object",
+        "required": ["player"],
+        "properties": {
+          "player": {
+            "bsonType": "objectId",
+            "description": "must be an ObjectId and is required"
+          },
+          "score": {
+            "bsonType": "int",
+            "description": "must be an integer and is optional"
+          },
+          "active": {
+            "bsonType": "bool",
+            "description": "must be a boolean and is optional"
+          }
+        }
+      }
+    },
+    "settings": {
+      "bsonType": "object",
+			"required": ["frequency", "quantity", "points"],
+			"properties": {
+				"frequency": {
+					"bsonType": "object",
+					"required": ["quantity", "unit"],
+					"properties": {
+							"quantity": {
+							"bsonType": "int",
+							"description": "must be an int and is required"
+						},
+							"unit": {
+							"bsonType": "string",
+							"enum": ["second", "minute", "hour", "day", "week", "month", "year"],
+							"description": "can be 'second', 'minute', 'hour', 'day', 'week', 'month', 'year' and is required"
+						}
+					}
+				},
+				"quantity": {
+					"bsonType": "int",
+					"description": "must be an int and is required"
+				},
+				"maxParticipants": {
+					"bsonType": "int",
+					"description": "must be an int and is optional"
+				},
+				"points": {
+					"bsonType": "object",
+					"required": ["winner", "loser", "tie"],
+					"properties": {
+						"winner": {
+							"bsonType": "int",
+							"description": "must be an int and is required"
+						},
+						"loser": {
+							"bsonType": "int",
+							"description": "must be an int and is required"
+						},
+						"tie": {
+							"bsonType": "int",
+							"description": "must be an int and is required"
+						}
+					}
+				}
+			}
+		}
+  }
+}
