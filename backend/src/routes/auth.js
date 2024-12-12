@@ -1,8 +1,8 @@
 import express from "express";
 import passport from "passport";
-import session from "express-session";
 import OAuth2Strategy from "passport-oauth2";
 import { ObjectId } from "mongodb";
+import verifyAuth from "../middleware/auth";
 
 const { CALLBACK_URL, CLIENT_ID, CLIENT_SECRET } = process.env;
 const router = express.Router();
@@ -10,10 +10,6 @@ const router = express.Router();
 const AUTHORIZATION_URL = "https://api.intra.42.fr/oauth/authorize";
 const TOKEN_URL = "https://api.intra.42.fr/oauth/token";
 const USER_INFO_URL = "https://api.intra.42.fr/v2/me";
-
-router.use(
-  session({ secret: CLIENT_SECRET, resave: false, saveUninitialized: true }),
-);
 
 passport.use(
   new OAuth2Strategy(
@@ -32,12 +28,13 @@ passport.use(
           },
         });
         const data = await response.json();
-        const { id, email, login, image } = data;
+        const { id, email, login, image, campus } = data;
         const user = {
           id: ObjectId.createFromTime(id),
           email,
           login,
           image: image.link,
+          campus: campus.first().name,
         };
         return done(null, user);
       } catch (error) {
@@ -68,12 +65,8 @@ router.get(
   }),
 );
 
-router.get("/session", (req, res) => {
-  if (req.isAuthenticated()) {
-    res.send(req.user);
-  } else {
-    res.status(401).send("Unauthorized");
-  }
+router.get("/session", verifyAuth, (req, res) => {
+  res.send(req.user);
 });
 
 router.post("/logout", (req, res, next) => {

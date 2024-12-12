@@ -37,8 +37,7 @@ router.get("/:id", async (req, res) => {
     controller.getById(req.params.id).then((result) => {
       if (!result) res.send("Not found").status(404);
       else res.send(result).status(200);
-    }
-    );
+    });
   } catch (err) {
     console.error(err);
     res.status(500).send("Error reading match");
@@ -71,8 +70,7 @@ router.post("/report", async (req, res) => {
   try {
     controller.report(req.body, req.user.id).then((result) => {
       res.send(result).status(200);
-    }
-    );
+    });
   } catch (err) {
     console.error(err);
     res.status(500).send("Error reporting match");

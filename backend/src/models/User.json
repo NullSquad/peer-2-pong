@@ -1,0 +1,27 @@
+{
+  "bsonType": "object",
+  "required": ["_id", "email", "login", "image", "campus"],
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+      "description": "must be an ObjectId and is required"
+    },
+    "email": {
+      "bsonType": "string",
+      "pattern": "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$",
+      "description": "must be a string and match the email format"
+    },
+    "login": {
+      "bsonType": "string",
+      "description": "must be a string and is required"
+    },
+    "image": {
+      "bsonType": "string",
+      "description": "must be a string and is required"
+    },
+    "campus": {
+      "bsonType": "string",
+      "description": "must be a string and is required"
+    }
+  }
+}

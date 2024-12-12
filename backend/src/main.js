@@ -1,4 +1,5 @@
 import express from "express";
+import session from "express-session";
 import auth from "./routes/auth.js";
 import users from "./routes/users.js";
 import matches from "./routes/matches.js";
@@ -9,6 +10,13 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(
+  session({
+    secret: CLIENT_SECRET,
+    resave: false,
+    saveUninitialized: true,
+  }),
+);
 
 app.use("/auth", auth);
 app.use("/users", users);

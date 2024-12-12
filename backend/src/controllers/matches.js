@@ -25,8 +25,6 @@ const controller = {
     return collection.updateOne({ _id: new ObjectId(id) }, updates);
   },
 
-  
-
   async report(match, reportedBy) {
     // if (match.status === "Ready to play") {
     //   const score = match.players.map((player) => player.score);
@@ -43,7 +41,11 @@ const controller = {
     //   }
     //   match.status = "Finished";
     // }
-    return collection.findOneAndUpdate( { _id: new ObjectId(match._id) }, { $set: match }, { returnDocument: "after" });
+    return collection.findOneAndUpdate(
+      { _id: new ObjectId(match._id) },
+      { $set: match },
+      { returnDocument: "after" },
+    );
   },
 
   async delete(id) {

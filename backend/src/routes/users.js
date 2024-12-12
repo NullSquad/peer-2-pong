@@ -1,19 +1,10 @@
 import express from "express";
 import controller from "../controllers/users.js";
-import ensureAuthenticated from "../middleware/auth.js";
+import verifyAuth from "../middleware/auth.js";
 
 const router = express.Router();
 
-/* 
-  The users collection will have the following fields:
-  - email: String
-  - login: String
-  - image: String
-  - campus: String
-*/
-
-//router.use(ensureAuthenticated);
-
+router.use(verifyAuth);
 
 router.get("/", async (req, res) => {
   try {
@@ -31,8 +22,7 @@ router.get("/:id", async (req, res) => {
     controller.getById(req.params.id).then((result) => {
       if (!result) res.send("Not found").status(404);
       else res.send(result).status(200);
-    }
-    );
+    });
   } catch (err) {
     console.error(err);
     res.status(500).send(" Error getting user");
