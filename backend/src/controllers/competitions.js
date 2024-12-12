@@ -13,7 +13,8 @@ const controller = {
   },
 
   async add(competition) {
-    competition.players = competition.players.map((p) => ({ player: new ObjectId(p.player), score: 0 }));
+    if (competition.players)
+      competition.players = competition.players.map((p) => ({ player: new ObjectId(p.player), score: 0 }));
     return collection.insertOne(competition);
   },
 
