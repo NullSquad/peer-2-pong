@@ -13,10 +13,10 @@ try {
   await db.command({ ping: 1 });
   console.log("You successfully connected to MongoDB!");
 
-  const collections = await db
+  const collections = db
     .listCollections()
     .toArray()
-    .map((c) => c.name);
+    .then((collections) => collections.map((c) => c.name));
 
   if (!collections.includes("users")) {
     await db.createCollection("users", {
