@@ -14,7 +14,13 @@ const controller = {
 
   async add(match) {
     match.competition = new ObjectId(match.competition);
-    match.players = match.players.map((id) => new ObjectId(id));
+    match.players = match.players.map((player) => ({
+      ...player,
+      player: new ObjectId(player.player),
+      score: player.score ?? null,
+      reported: player.reported ?? false,
+    }));
+    match.status = match.status ?? "scheduled";
     return collection.insertOne(match);
   },
 
@@ -22,7 +28,10 @@ const controller = {
     if (updates.competition)
       updates.competition = new ObjectId(updates.competition);
     if (updates.players)
-      updates.players = updates.players.map((id) => new ObjectId(id));
+      updates.players = updates.players.map((player) => ({
+        ...player,
+        player: new ObjectId(player.player),
+      }));
     return collection.findOneAndUpdate(
       { _id: new ObjectId(id) },
       { $set: updates },
@@ -54,10 +63,7 @@ const controller = {
   },
 
   async report(id, userId, report) {
-    const match = await this.getById(id);
-    if (!match) throw new Error("Match not found");
-
-    const index = match.players.findIndex((p) =>
+    const index = report.players.findIndex((p) =>
       p.player.equals(new ObjectId(userId)),
     );
     if (index === -1) throw new Error("Player not found");
@@ -69,30 +75,27 @@ const controller = {
     )
       throw new Error("Invalid score");
 
-    report.player[index].reported = true;
+    report.players[index].reported = true;
     report.status = "reported";
 
-    return this.update(id, match);
+    return this.update(id, report);
   },
 
   async confirm(id, userId, confirm) {
-    const match = await this.getById(id);
-    if (!match) throw new Error("Match not found");
-
-    const index = match.players.findIndex((p) =>
+    const index = confirm.players.findIndex((p) =>
       p.player.equals(new ObjectId(userId)),
     );
     if (index === -1) throw new Error("Player not found");
 
     if (confirm) {
-      match.status = "confirmed";
-      match.date = new Date();
+      confirm.status = "confirmed";
+      confirm.date = new Date();
     } else {
-      match.status = "scheduled";
-      match.players.forEach((player) => (player.reported = false));
+      confirm.status = "scheduled";
+      confirm.players.forEach((player) => (player.reported = false));
     }
 
-    return this.update(id, match);
+    return this.update(id, confirm);
   },
 };
 

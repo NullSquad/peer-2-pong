@@ -13,17 +13,26 @@ try {
   await db.command({ ping: 1 });
   console.log("You successfully connected to MongoDB!");
 
-  await db.createCollection("users", {
-    validator: {
-      $jsonSchema: UserSchema,
-    },
-  });
+  const collections = db
+    .listCollections()
+    .toArray()
+    .then((collections) => collections.map((c) => c.name));
 
-  await db.createCollection("matches", {
-    validator: {
-      $jsonSchema: MatchSchema,
-    },
-  });
+  if (!collections.includes("users")) {
+    await db.createCollection("users", {
+      validator: {
+        $jsonSchema: UserSchema,
+      },
+    });
+  }
+
+  if (!collections.includes("matches")) {
+    await db.createCollection("matches", {
+      validator: {
+        $jsonSchema: MatchSchema,
+      },
+    });
+  }
 } catch (err) {
   console.error(err);
 }
