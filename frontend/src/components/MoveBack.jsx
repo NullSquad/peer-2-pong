@@ -31,7 +31,7 @@ const MoveBack = ({ username, event_id }) => {
         WebkitTextFillColor: "white",
       }}
     >
-	;))
+		;)
     </span>
   </button>
   {isPopupOpen && <Popup message={message} onClose={closePopup} />}
