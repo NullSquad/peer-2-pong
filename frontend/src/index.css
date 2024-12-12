@@ -10,3 +10,8 @@
     -webkit-text-stroke: 1.5px black;
   }
 }
+
+body {
+	@apply bg-pattern bg-cover bg-no-repeat m-0 w-full min-h-screen;
+}
+  
