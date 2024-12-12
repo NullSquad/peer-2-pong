@@ -44,10 +44,11 @@ const controller = {
   },
 
   async getMyMatchesByCompetition(userId, competitionId) {
+	console.log(userId, competitionId);
     const matches = await collection
       .find({
         competition: new ObjectId(competitionId),
-        "players.player": new ObjectId(userId),
+		players: { $elemMatch: { player: new ObjectId(userId) } },
       })
       .toArray();
 
@@ -55,7 +56,7 @@ const controller = {
       const userPlayer = match.players.find((p) =>
         p.player.equals(new ObjectId(userId)),
       );
-      if (userPlayer && !userPlayer.reported) match.status = "pending";
+      if (userPlayer && !userPlayer.reported && match.status === "reported") match.status = "pending";
       return match;
     });
   },

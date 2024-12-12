@@ -43,7 +43,7 @@ router.delete("/:id", async (req, res) => {
 
 router.get("/competition/:id/me", async (req, res) => {
   controller
-    .getMyMatchesByCompetition(req.params.id, req.user.id)
+    .getMyMatchesByCompetition(req.user.id, req.params.id)
     .then((results) => res.status(200).send(results))
     .catch((err) => res.status(500).send(err.message));
 });
