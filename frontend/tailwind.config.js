@@ -47,17 +47,10 @@ export default {
             button: "#2373ff",
           },
           red: {
-<<<<<<< HEAD
-            light: "#f3605d",
-            DEFAULT: "#eb5151",
-            dark: "#b41642",
-			button: "#e1362f"
-=======
             light: "#EB5151",
             DEFAULT: "#E52424",
             dark: "#B71515",
             ocean: "#E93333",
->>>>>>> 74-dividir-en-componentes-mas-pequeños-todo
           },
         },
       },
