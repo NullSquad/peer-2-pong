@@ -34,13 +34,23 @@ const controller = {
     return collection.deleteOne({ _id: new ObjectId(id) });
   },
 
-  async getMyMatchesByCompetition(competitionId, userId) {
-    return collection
+  async getMyMatchesByCompetition(userId, competitionId) {
+    const matches = await collection
       .find({
         competition: new ObjectId(competitionId),
-        players: { $elemMatch: { player: new ObjectId(userId) } },
+        "players.player": new ObjectId(userId),
       })
       .toArray();
+
+    return matches.map((match) => {
+      const userPlayer = match.players.find((p) =>
+        p.player.equals(new ObjectId(userId)),
+      );
+      return {
+        ...match,
+        reportedByUser: userPlayer ? userPlayer.reported : false,
+      };
+    });
   },
 
   async report(id, userId, report) {
