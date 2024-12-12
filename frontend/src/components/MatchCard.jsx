@@ -84,7 +84,7 @@ function Phase1({ match, pija }) {
         </div>
       </div>
       {/* Time Left Container */}
-      {match.targetDate && (
+      {match.targetDate && !showPhase2 && (
         <InfoMatchBox>
           Time left: <CountdownTimer targetDate={match.targetDate} />
         </InfoMatchBox>
