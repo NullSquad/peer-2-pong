@@ -33,7 +33,7 @@ const Event = ({ type, isParticipating, status, children, targetDate }) => {
         `}
       >
         <div
-          className={`flex ${bgType}  scale-[1.1] -translate-x-1 absolute inset-0 skew-x-6 bg-cover bg-bottom`}
+          className={`flex ${bgType} scale-[1.1] -translate-x-1 absolute inset-0 skew-x-6 bg-cover bg-bottom`}
         />
         <div className="flex justify-center translate-y-[1.2rem] md:translate-y-8">
           <div className="text-white skew-x-6">
