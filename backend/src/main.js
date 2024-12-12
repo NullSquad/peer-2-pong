@@ -4,6 +4,7 @@ import auth from "./routes/auth.js";
 import users from "./routes/users.js";
 import matches from "./routes/matches.js";
 import competitions from "./routes/competitions.js";
+import verifyAuth from "./middleware/auth.js";
 
 const { PORT = 5000, CLIENT_SECRET } = process.env;
 const app = express();
@@ -19,9 +20,9 @@ app.use(
 );
 
 app.use("/auth", auth);
-app.use("/users", users);
-app.use("/matches", matches);
-app.use("/competitions", competitions);
+app.use("/users", verifyAuth, users);
+app.use("/matches", verifyAuth, matches);
+app.use("/competitions", verifyAuth, competitions);
 
 app.use((err, req, res, next) => {
   res.locals.message = err.message;

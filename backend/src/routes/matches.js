@@ -1,6 +1,5 @@
 import express from "express";
 import controller from "../controllers/matches.js";
-import ensureAuthenticated from "../middleware/auth.js";
 
 const router = express.Router();
 
@@ -18,8 +17,6 @@ const router = express.Router();
       after accepting score: "Finished"
       after denying score: "Ready to play"
 */
-
-//router.use(ensureAuthenticated);
 
 router.get("/", async (req, res) => {
   try {

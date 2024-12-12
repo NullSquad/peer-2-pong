@@ -1,10 +1,7 @@
 import express from "express";
 import controller from "../controllers/users.js";
-import verifyAuth from "../middleware/auth.js";
 
 const router = express.Router();
-
-router.use(verifyAuth);
 
 router.get("/", async (req, res) => {
   controller
