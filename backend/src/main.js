@@ -1,4 +1,5 @@
 import express from "express";
+import passport from "passport";
 import session from "express-session";
 import auth from "./routes/auth.js";
 import users from "./routes/users.js";
@@ -18,6 +19,8 @@ app.use(
     saveUninitialized: true,
   }),
 );
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use("/auth", auth);
 app.use("/users", verifyAuth, users);

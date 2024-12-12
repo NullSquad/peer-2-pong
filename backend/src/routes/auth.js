@@ -52,9 +52,6 @@ passport.deserializeUser((obj, done) => {
   done(null, obj);
 });
 
-router.use(passport.initialize());
-router.use(passport.session());
-
 router.get("/", passport.authenticate("oauth2"));
 
 router.get(
