@@ -15,24 +15,29 @@ const MoveBack = ({ username, event_id }) => {
 	const closePopup = () => setIsPopupOpen(false);
 
 	return (
-		<div>
-			<button
-				onClick={handleClick}
-				className="bg-primary-yellow shadow-yellow-50-700-sm text-white font-bold text-xl font-lilita-one border-2 border-black mr-1 w-24 h-8 sm:w-36 sm:h-10 sm:text-2xl -skew-x-[8deg] rounded-lg relative active:translate-y-[2px]"
-			>
-				<span
-					className="inline-block skew-x-[8deg]"
-					style={{
-						WebkitTextStroke: "1px black",
-						WebkitTextFillColor: "white",
-					}}
-				>
-					BACK
-				</span>
-			</button>
-			{isPopupOpen && <Popup message={message} onClose={closePopup} />}
-		</div>
+		
+<div>
+  <button
+    onClick={handleClick}
+    className="bg-primary-yellow shadow-yellow-50-700 px-8 py-5 rounded-md text-white font-bold 
+               text-xl text-stroke text-shadow font-lilita-one border-2 border-black w-[10%] h-6 sm:w-36 
+               sm:h-8 sm:text-2xl -skew-x-[8deg] rounded-lg relative active:translate-y-[2px] 
+               flex justify-center items-center"
+  >
+    <span
+      className="inline-block skew-x-[8deg]"
+      style={{
+        WebkitTextStroke: "1px black",
+        WebkitTextFillColor: "white",
+      }}
+    >
+	;))
+    </span>
+  </button>
+  {isPopupOpen && <Popup message={message} onClose={closePopup} />}
+</div>
 	);
 };
+
 
 export default MoveBack;

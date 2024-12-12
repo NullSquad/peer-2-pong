@@ -10,7 +10,7 @@ const App = () => {
     <AuthProvider>
       <Router>
         <ProtectedRoute path="/" component={Home} />
-        <ProtectedRoute path="/competition" component={Competition} />
+        <ProtectedRoute path="/competition/:id" component={Competition} />
 		<Route path="/login" component={Login} />
       </Router>
     </AuthProvider>
