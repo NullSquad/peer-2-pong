@@ -18,8 +18,7 @@ const controller = {
   },
 
   async update(id, updates) {
-    updates = { $set: updates };
-    return collection.updateOne({ _id: new ObjectId(id) }, updates);
+    return collection.updateOne({ _id: new ObjectId(id) }, { $set: updates });
   },
 
   async delete(id) {

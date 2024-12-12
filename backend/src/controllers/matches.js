@@ -12,40 +12,87 @@ const controller = {
     return collection.findOne({ _id: new ObjectId(id) });
   },
 
-  async getByCompetition(id) {
-    return collection.find({ competition: new ObjectId(id) }).toArray();
-  },
-
   async add(match) {
+    match.competition = new ObjectId(match.competition);
+    match.players = match.players.map((id) => new ObjectId(id));
     return collection.insertOne(match);
   },
 
   async update(id, updates) {
-    updates = { $set: updates };
-    return collection.updateOne({ _id: new ObjectId(id) }, updates);
-  },
-
-  async report(match, reportedBy) {
-    if (match.status === "Ready to play") {
-      const score = match.players.map((player) => player.score);
-      if (score[0] !== 0 || score[1] !== 0) {
-        match.status = "Waiting for confirmation";
-        match.reportedBy = reportedBy;
-      } else {
-        throw new Error("Score must be different from 0-0");
-      }
-    }
-    else if (match.status === "Waiting for confirmation") {
-      if (match.reportedBy === reportedBy) {
-        throw new Error("You cannot confirm your own score");
-      }
-      match.status = "Finished";
-    }
-    return collection.findOneAndUpdate( { _id: new ObjectId(match._id) }, { $set: match }, { returnDocument: "after" });
+    if (updates.competition)
+      updates.competition = new ObjectId(updates.competition);
+    if (updates.players)
+      updates.players = updates.players.map((id) => new ObjectId(id));
+    return collection.findOneAndUpdate(
+      { _id: new ObjectId(id) },
+      { $set: updates },
+      { returnDocument: "after" },
+    );
   },
 
   async delete(id) {
     return collection.deleteOne({ _id: new ObjectId(id) });
+  },
+
+  async getMyMatchesByCompetition(userId, competitionId) {
+    const matches = await collection
+      .find({
+        competition: new ObjectId(competitionId),
+        "players.player": new ObjectId(userId),
+      })
+      .toArray();
+
+    return matches.map((match) => {
+      const userPlayer = match.players.find((p) =>
+        p.player.equals(new ObjectId(userId)),
+      );
+      return {
+        ...match,
+        reportedByUser: userPlayer ? userPlayer.reported : false,
+      };
+    });
+  },
+
+  async report(id, userId, report) {
+    const match = await this.getById(id);
+    if (!match) throw new Error("Match not found");
+
+    const index = match.players.findIndex((p) =>
+      p.player.equals(new ObjectId(userId)),
+    );
+    if (index === -1) throw new Error("Player not found");
+
+    if (
+      report.score[0] === report.score[1] ||
+      report.score[0] < 0 ||
+      report.score[1] < 0
+    )
+      throw new Error("Invalid score");
+
+    report.player[index].reported = true;
+    report.status = "reported";
+
+    return this.update(id, match);
+  },
+
+  async confirm(id, userId, confirm) {
+    const match = await this.getById(id);
+    if (!match) throw new Error("Match not found");
+
+    const index = match.players.findIndex((p) =>
+      p.player.equals(new ObjectId(userId)),
+    );
+    if (index === -1) throw new Error("Player not found");
+
+    if (confirm) {
+      match.status = "confirmed";
+      match.date = new Date();
+    } else {
+      match.status = "scheduled";
+      match.players.forEach((player) => (player.reported = false));
+    }
+
+    return this.update(id, match);
   },
 };
 
