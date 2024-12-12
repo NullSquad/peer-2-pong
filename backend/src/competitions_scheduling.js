@@ -10,7 +10,12 @@ agenda.define("start competition", (job) => {
 	const	{ competitionId } = job.attr.data;
 	const	competition = get_competition({competitionId});
 
-	agenda.every(competition.settings.frequency, "update competition matches", {competitionId});
+	agenda.every(competition.settings.frequency, "update competition matches", {
+			competitionId
+		}, {
+			startDate: competition.startDate,
+			endDate: competition.endDate
+		});
 	return ;
 });
 
@@ -38,7 +43,6 @@ function	schedule_competition({competitionId})
 	const	competition = get_competition({competitionId});
 
 	agenda.schedule(competition.startDate, "start competition", {competitionId});
-	agenda.schedule(competition.endDate, "finish competition", {competitionId});
 	return ;
 }
 
