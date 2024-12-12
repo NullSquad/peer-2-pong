@@ -13,8 +13,10 @@ try {
   await db.command({ ping: 1 });
   console.log("You successfully connected to MongoDB!");
 
-  const collections = await db.listCollections().toArray()
-  .map((c) => c.name);
+  const collections = await db
+    .listCollections()
+    .toArray()
+    .map((c) => c.name);
 
   if (!collections.includes("users")) {
     await db.createCollection("users", {
@@ -24,16 +26,13 @@ try {
     });
   }
 
-  if (!collections.includes("matches"))
-  {
+  if (!collections.includes("matches")) {
     await db.createCollection("matches", {
       validator: {
         $jsonSchema: MatchSchema,
       },
     });
   }
-
-
 } catch (err) {
   console.error(err);
 }
