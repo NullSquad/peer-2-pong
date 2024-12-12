@@ -323,7 +323,7 @@ function Phase5({ match }) {
       <div className="relative flex w-full h-14 sm:h-16 m-2 -skew-x-[8deg]">
         {/* Blue card */}
         <div
-          className={`relative flex items-center justify-between bg-blue-500 ${blueCardSize} px-3 py-2 text-black`}
+          className={`relative flex items-center justify-between bg-accent-blue-light ${blueCardSize} px-3 py-2 text-black`}
         >
           {/* Blue score */}
           <div
