@@ -19,9 +19,15 @@ const controller = {
   },
 
   async update(id, updates) {
-    if (updates.competition) updates.competition = new ObjectId(updates.competition);
-    if (updates.players) updates.players = updates.players.map((id) => new ObjectId(id));
-    return collection.findOneAndUpdate({ _id: new ObjectId(id) }, { $set: updates }, { returnDocument: "after" });
+    if (updates.competition)
+      updates.competition = new ObjectId(updates.competition);
+    if (updates.players)
+      updates.players = updates.players.map((id) => new ObjectId(id));
+    return collection.findOneAndUpdate(
+      { _id: new ObjectId(id) },
+      { $set: updates },
+      { returnDocument: "after" },
+    );
   },
 
   async delete(id) {
@@ -29,23 +35,55 @@ const controller = {
   },
 
   async getMyMatchesByCompetition(competitionId, userId) {
-    return collection.find({ competition: new ObjectId(competitionId), players: { $elemMatch: { player: new ObjectId(userId) } } }).toArray();
+    return collection
+      .find({
+        competition: new ObjectId(competitionId),
+        players: { $elemMatch: { player: new ObjectId(userId) } },
+      })
+      .toArray();
   },
 
   async report(id, userId, report) {
     const match = await this.getById(id);
     if (!match) throw new Error("Match not found");
 
-    const index = match.players.findIndex(p => p.player.equals(new ObjectId(userId)));
+    const index = match.players.findIndex((p) =>
+      p.player.equals(new ObjectId(userId)),
+    );
     if (index === -1) throw new Error("Player not found");
 
-    if (report.score[0] === report.score[1] || report.score[0] < 0 || report.score[1] < 0) throw new Error("Invalid score");
+    if (
+      report.score[0] === report.score[1] ||
+      report.score[0] < 0 ||
+      report.score[1] < 0
+    )
+      throw new Error("Invalid score");
 
     report.player[index].reported = true;
     report.status = "reported";
 
     return this.update(id, match);
-  }
+  },
+
+  async confirm(id, userId, confirm) {
+    const match = await this.getById(id);
+    if (!match) throw new Error("Match not found");
+
+    const index = match.players.findIndex((p) =>
+      p.player.equals(new ObjectId(userId)),
+    );
+    if (index === -1) throw new Error("Player not found");
+
+    if (confirm) {
+      match.status = "confirmed";
+      match.date = new Date();
+    } else {
+      match.status = "scheduled";
+      match.players.forEach((player) => (player.reported = false));
+    }
+
+    return this.update(id, match);
+  },
 };
 
 export default controller;

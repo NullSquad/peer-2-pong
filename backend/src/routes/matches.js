@@ -41,7 +41,7 @@ router.delete("/:id", async (req, res) => {
     .catch((err) => res.status(500).send(err.message));
 });
 
-router.get("/competition/:id", async (req, res) => {
+router.get("/competition/:id/me", async (req, res) => {
   controller
     .getMyMatchesByCompetition(req.params.id, req.user.id)
     .then((results) => res.status(200).send(results))
@@ -51,6 +51,13 @@ router.get("/competition/:id", async (req, res) => {
 router.post("/:id/report", async (req, res) => {
   controller
     .report(req.params.id, req.user.id, req.body)
+    .then((result) => res.status(201).send(result))
+    .catch((err) => res.status(500).send(err.message));
+});
+
+router.post("/:id/confirm", async (req, res) => {
+  controller
+    .confirm(req.params.id, req.user.id, req.body)
     .then((result) => res.status(201).send(result))
     .catch((err) => res.status(500).send(err.message));
 });
