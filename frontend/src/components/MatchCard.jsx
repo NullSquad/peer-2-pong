@@ -223,35 +223,91 @@ function Phase2({ match, pija }) {
 // muestra el boton de accept or deny
 function Phase3({ match }) {
   return (
-    <div className="flex relative w-full max-w-full h-[128px] sm:h-[128px] md:h-28 overflow-visible bg-invisible">
+    <div className="z-10 relative flex w-full max-w-4xl h-[86px] sm:h-[94px] md:h-28 overflow-visible bg-invisible">
       <div className="relative flex w-full h-14 sm:h-16 -skew-x-[8deg]">
         {/* Blue Card */}
-        <div className="flex relative items-center justify-center bg-accent-blue-light flex-1 p-3 text-black">
-          {/* Image inside the blue card */}
-          <AvatarCircle player={match.player1} />
-          {/* Counted blue score */}
-          <div className="bg-black text-white p-1 px-2 rounded w-6 h-7 sm:w-7 sm:h-8 flex items-center justify-center ml-2">
-            {match.player1.score}
+        <div className="relative flex items-center justify-between bg-accent-blue-light w-5/12 px-3 py-2 text-black">
+          {/* Blue image */}
+          <div className="flex items-center justify-center w-full">
+            <img
+              src={match.player1.image}
+              alt={match.player1.name}
+              className="w-12 sm:w-14 rounded-full skew-x-[8deg] border-2 border-black mr-4"
+            />
+          </div>
+
+          {/* Blue score */}
+          <div className="absolute sm:right-4 right-2 top-1/2 -translate-y-1/2 bg-black text-white p-1 px-2 rounded w-6 h-7 skew-x-[8deg] sm:w-7 sm:h-8 flex items-center justify-center">
+            <span className="font-bold text-sm sm:text-lg skew-x-[8deg]">
+              {match.player1.score}
+            </span>
           </div>
         </div>
+
         {/* Space between blue and red */}
         <div className="w-1"></div>
 
         {/* Red Card */}
-        <div className="flex relative items-center justify-center bg-red-500 flex-[1.8] p-3 text-black">
-          {/* Counted red score */}
-          <div className="bg-black text-white p-1 px-2 rounded w-6 h-7 sm:w-7 sm:h-8 flex items-center justify-center mr-2">
-            {match.player2.score}
+        <div className="relative flex items-center justify-between bg-red-500 w-9/12 px-3 py-2 text-black">
+          {/* Red score */}
+          <div
+            className="absolute sm:left-4 left-2 top-1/2 -translate-y-1/2 skew-x-[8deg] bg-black text-white p-1 px-2 rounded w-6 h-7 sm:w-7 sm:h-8 flex items-center justify-center" // absolute right-9"
+          >
+            <span className="font-bold text-sm sm:text-lg skew-x-[8deg]">
+              {match.player2.score}
+            </span>{" "}
+          </div>
+          {/* Red image */}
+          <div className="flex items-center justify-center w-full">
+            <img
+              src={match.player2.image}
+              alt={match.player2.name}
+              className="w-12 sm:w-14 rounded-full skew-x-[8deg] border-2 border-black ml-4"
+            />
           </div>
 
           {/* Buttons container */}
-          <div className="flex relative left-[12rem] skew-x-[8deg] ml-3">
-            <ButtonScore Sign="✓" color="blue" effect="ocean" />
-            <ButtonScore Sign="X" color="red" effect="light-dark" />
-          </div>
+          <div className="relative flex flex-col items-center justify-center w-full h-full">
+            {/* Buttons */}
+            <div className="flex items-center">
+              {/* Accept Button */}
+              <button
+                onClick={() => confirmMatch(match._id, true)}
+                className="bg-accent-blue-button shadow-blue mr-2 border-2 border-black w-8 h-6 sm:w-9 sm:h-7 mt-1 -mb-1 rounded-md text-white text-sm sm:text-xl font-lilita-one active:translate-y-[1px] flex items-center justify-center"
+              >
+                <span
+                  className="inline-block relative leading-none skew-x-[8deg]"
+                  style={{
+                    textShadow: "1px 1px 0px black",
+                  }}
+                >
+                  ✓
+                </span>
+              </button>
 
-          {/* Image inside the red card */}
-          <AvatarCircle player={match.player2} />
+              {/* Deny Button */}
+              <button
+                onClick={() => confirmMatch(match._id, false)}
+                className="bg-accent-red-button shadow-red border-2 border-black w-8 h-6 sm:w-9 sm:h-7 rounded-md mt-1 -mb-1 text-white text-sm sm:text-xl font-lilita-one active:translate-y-[1px] flex items-center justify-center"
+              >
+                <span
+                  className="inline-block relative leading-none skew-x-[8deg]"
+                  style={{
+                    textShadow: "1px 1px 0px black",
+                  }}
+                >
+                  X
+                </span>
+              </button>
+            </div>
+
+            {/* Question mark below buttons */}
+            <div>
+              <span className="text-black text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl inline-block whitespace-nowrap skew-x-[8deg] font-lilita-one">
+                Accept score?
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
