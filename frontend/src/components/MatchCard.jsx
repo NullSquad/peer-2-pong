@@ -2,51 +2,125 @@ import CrownIcon from "../assets/CrownIcon.svg";
 import { useState } from "preact/hooks";
 import CountdownTimer from "./CountdownTimer";
 
-export function MatchCard({ player1, player2, targetDate }) {
-  const [phase, setPhase] = useState(1);
-  const [result1, setResult1] = useState({ blue: 0, red: 0 });
+export function MatchCard({ player1, player2, targetDate, status, score1, score2, matchID }) {
+  const phaseMap = {
+    1: Phase1,
+    2: Phase1,
+    3: Phase3,
+    4: Phase4,
+    5: Phase5,
+  };
 
-  const togglePhase = () => setPhase((prev) => (prev === 1 ? 2 : 1));
-  const setPhase4 = () => setPhase(4);
+  const getStatusNumber = (status) => {
+    const statusMap = {
+      "scheduled": 1,
+      // "set result": 2,
+      "pending": 3,
+      "reported": 4,
+      "confirmed": 5,
+    };
+    return statusMap[status] || 0;
+  };
+
+  const [phaseNumber, setPhaseNumber] = useState(getStatusNumber(status));
+  const PhaseComponent = phaseMap[phaseNumber] || null; 
+  const [result, setResult] = useState({ blue: score1, red: score2 });
 
   return (
-    <div className="relative flex flex-col w-full max-w-4xl overflow-visible bg-invisible">
-      {phase != 4 && (
-        <button onClick={togglePhase}>
-          <Phase1
-            player1={player1}
-            player2={player2}
-            targetDate={phase === 1 ? targetDate : ""}
-          />
-        </button>
-      )}
-      <div
-        className={` animation-opacity ${
-          phase === 2
-            ? "z-10 opacity-100 animate-slide-out-bottom animate-delay-100 "
-            : "z-0 opacity-0 animate-slide-in-bottom transition-opacity ease-out delay-200 duration-200"
-        }`}
-      >
-        {phase != 4 && (
-          <Phase2
-            player1={player1}
-            player2={player2}
-            result={result1}
-            setResult={setResult1}
-            setPhase={setPhase4}
-          />
-        )}
-      </div>
-      <div>
-        {phase === 4 && (
-          <Phase4 player1={player1} player2={player2} result={result1} />
-        )}
-      </div>
+    <div className="relative flex w-full max-w-4xl h-[86px] sm:h-[94px] md:h-28 overflow-visible bg-invisible">
+      <PhaseComponent player1={player1} player2={player2} 
+                      targetDate={targetDate} status={status}
+                      matchID={matchID}
+                      result={result} setResult={setResult} setPhase={setPhaseNumber}
+      />
     </div>
   );
 }
 
-function Phase1({ player1, player2, targetDate }) {
+function Phase1({ player1, player2, targetDate, setResult, status, result, setPhase, matchID }) {
+  
+  const increaseBlue = () => {
+    setResult((prevResult) => {
+      const newBlue = prevResult.blue + 1;
+
+      if (prevResult.red < 10) {
+        if (newBlue <= 11) {
+          return { ...prevResult, blue: newBlue };
+        }
+      } else {
+        if (newBlue - prevResult.red <= 2) {
+          return { ...prevResult, blue: newBlue };
+        }
+      }
+
+      return prevResult;
+    });
+  };
+
+  const decreaseBlue = () => {
+    setResult((prevResult) => ({ ...prevResult, blue: Math.max(0, prevResult.blue - 1) }));
+  };
+
+  const increaseRed = () => {
+    setResult((prevResult) => {
+      const newRed = prevResult.red + 1;
+
+      if (prevResult.blue < 10) {
+        if (newRed <= 11) {
+          return { ...prevResult, red: newRed };
+        }
+      } else {
+        if (newRed - prevResult.blue <= 2) {
+          return { ...prevResult, red: newRed };
+        }
+      }
+
+      return prevResult;
+    });
+  };
+
+  const decreaseRed = () => {
+    setResult((prevResult) => ({ ...prevResult, red: Math.max(0, prevResult.red - 1) }));
+  };
+
+  const isValidResult = () => {
+    if (result.blue === result.red || (result.blue < 11 && result.red < 11)) {
+      return false;
+    }
+
+    if (Math.abs(result.blue - result.red) >= 2 && (result.blue > 10 || result.red > 10)) {
+      return true;
+    }
+
+    return false;
+  };
+
+  const handleSubmit = async () => {
+    const data = {
+      player1: result.blue,
+      player2: result.red,
+      matchID: matchID
+    };
+
+    try {
+      const response = await fetch('/api/submit', {
+        method: 'POST', //or patch
+        // headers: {
+        //   'Content-Type': 'application/json',
+        // },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        console.log('Match result uploaded successfully');
+      } else {
+        console.error('Failed to upload match result');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
   return (
     <>
       <div className="z-10 relative flex w-full max-w-4xl h-[86px] sm:h-[94px] md:h-28 overflow-visible bg-invisible">
@@ -101,118 +175,114 @@ function Phase1({ player1, player2, targetDate }) {
             Time left: <CountdownTimer targetDate={targetDate} />
           </div>
         )}
+
+        {/* Phase2 xdxddxddxxddx*/}
+      { status === "set result" &&
+
+      <div className="relative bottom-[3.7rem] left-[3rem] md:bottom-[5rem]">
+        {/* Controles de puntuación */}
+        <div className="flex justify-center items-center mt-1 sm:mt-2 gap-1">
+          <div className="flex items-center bg-accent-blue-light p-1 md:p2 rounded">
+            {/* Decrease blue score*/}
+            <button
+              onClick={decreaseBlue}
+              className="bg-accent-red shadow-red-light-dark border-2 border-black w-8 h-6 sm:w-9 sm:h-7 mr-1 rounded-md text-white text-sm sm:text-xl font-bold font-lilita-one active:translate-y-[1px] flex items-center justify-center -skew-x-[5deg]"
+            >
+              <span
+                className="inline-block relative top-[-1px] sm:top-[-2px] leading-none skew-x-[5deg]"
+                style={{
+                  textShadow: "1px 1px 0px black",
+                }}
+              >
+                -
+              </span>
+            </button>
+            {/* Increase blue score */}
+            <button
+              onClick={increaseBlue}
+              className="bg-accent-blue shadow-blue-ocean border-2 border-black w-8 h-6 sm:w-9 sm:h-7 rounded-md text-white text-sm sm:text-xl font-bold font-lilita-one active:translate-y-[1px] flex items-center justify-center -skew-x-[5deg]"
+            >
+              <span
+                className="inline-block relative leading-none skew-x-[5deg]"
+                style={{
+                  textShadow: "1px 1px 0px black",
+                }}
+              >
+                +
+              </span>
+            </button>
+            {/* Blue score */}
+            <div className="bg-black text-white p-1 px-2 rounded w-6 h-7 sm:w-7 sm:h-8 flex items-center justify-center ml-2">
+              <span className="font-bold text-sm skew-x-[8deg] sm:text-lg">
+                {result.blue}
+              </span>
+            </div>
+          </div>
+          <div className="flex items-center bg-red-500 p-1  rounded">
+            {/* Red score */}
+            <div className="bg-black text-white p-1 px-2 rounded w-6 h-7 sm:w-7 sm:h-8 flex items-center justify-center mr-2">
+              <span className="font-bold text-sm skew-x-[8deg] sm:text-lg">
+                {result.red}
+              </span>
+            </div>
+            {/* Decrease red score*/}
+            <button
+              onClick={decreaseRed}
+              className="bg-accent-red shadow-red-light-dark border-2 border-black w-8 h-6 sm:w-9 sm:h-7 mr-1 rounded-md text-white text-sm sm:text-xl font-bold font-lilita-one active:translate-y-[1px] flex items-center justify-center -skew-x-[5deg]"
+            >
+              <span
+                className="inline-block relative top-[-1px] sm:top-[-2px] leading-none skew-x-[5deg]"
+                style={{
+                  textShadow: "1px 1px 0px black",
+                }}
+              >
+                -
+              </span>
+            </button>
+            {/* Increase red score */}
+            <button
+              onClick={increaseRed}
+              className="bg-accent-blue shadow-blue-ocean border-2 border-black w-8 h-6 sm:w-9 sm:h-7 rounded-md text-white text-sm sm:text-xl font-bold font-lilita-one active:translate-y-[1px] flex items-center justify-center -skew-x-[5deg]"
+            >
+              <span
+                className="inline-block relative leading-none skew-x-[5deg]"
+                style={{
+                  textShadow: "1px 1px 0px black",
+                }}
+              >
+                +
+              </span>
+            </button>
+          </div>
+          {/* Submit score */}
+          <button
+                onClick={ (result, matchID) => {
+                  if (isValidResult(result.blue, result.red)){
+                    handleSubmit();
+                  }
+                }
+              }
+            className="bg-yellow-500 shadow-yellow-50-700-sm text-white font-bold  text-md md:text-xl font-lilita-one border-2 border-black mr-9 sm:mr-1 w-16  h-7 sm:w-24 sm:h-8 text-sm sm:text-xl -skew-x-[8deg] rounded-lg relative active:translate-y-[2px]"
+          >
+            <span
+              className="inline-block skew-x-[8deg]"
+              style={{
+                WebkitTextStroke: "1px black",
+                WebkitTextFillColor: "white",
+              }}
+            >
+              SUBMIT
+            </span>
+          </button>
+        </div>
+      </div> }
       </div>
     </>
   );
 }
 
-function Phase2({ result, setResult, setPhase }) {
-  const increaseBlue = () => setResult({ ...result, blue: result.blue + 1 });
-  const decreaseBlue = () =>
-    setResult({ ...result, blue: Math.max(0, result.blue - 1) });
-
-  const increaseRed = () => setResult({ ...result, red: result.red + 1 });
-  const decreaseRed = () =>
-    setResult({ ...result, red: Math.max(0, result.red - 1) });
-
-  return (
-    <div className="relative bottom-[3.7rem] left-[3rem] md:bottom-[5rem]">
-      {/* Controles de puntuación */}
-      <div className="flex justify-center items-center mt-1 sm:mt-2 gap-1">
-        <div className="flex items-center bg-accent-blue-light p-1 md:p2 rounded">
-          {/* Decrease blue score*/}
-          <button
-            onClick={decreaseBlue}
-            className="bg-accent-red shadow-red-light-dark border-2 border-black w-8 h-6 sm:w-9 sm:h-7 mr-1 rounded-md text-white text-sm sm:text-xl font-bold font-lilita-one active:translate-y-[1px] flex items-center justify-center -skew-x-[5deg]"
-          >
-            <span
-              className="inline-block relative top-[-1px] sm:top-[-2px] leading-none skew-x-[5deg]"
-              style={{
-                textShadow: "1px 1px 0px black",
-              }}
-            >
-              -
-            </span>
-          </button>
-          {/* Increase blue score */}
-          <button
-            onClick={increaseBlue}
-            className="bg-accent-blue shadow-blue-ocean border-2 border-black w-8 h-6 sm:w-9 sm:h-7 rounded-md text-white text-sm sm:text-xl font-bold font-lilita-one active:translate-y-[1px] flex items-center justify-center -skew-x-[5deg]"
-          >
-            <span
-              className="inline-block relative leading-none skew-x-[5deg]"
-              style={{
-                textShadow: "1px 1px 0px black",
-              }}
-            >
-              +
-            </span>
-          </button>
-          {/* Blue score */}
-          <div className="bg-black text-white p-1 px-2 rounded w-6 h-7 sm:w-7 sm:h-8 flex items-center justify-center ml-2">
-            <span className="font-bold text-sm skew-x-[8deg] sm:text-lg">
-              {result.blue}
-            </span>
-          </div>
-        </div>
-        <div className="flex items-center bg-red-500 p-1  rounded">
-          {/* Red score */}
-          <div className="bg-black text-white p-1 px-2 rounded w-6 h-7 sm:w-7 sm:h-8 flex items-center justify-center mr-2">
-            <span className="font-bold text-sm skew-x-[8deg] sm:text-lg">
-              {result.red}
-            </span>
-          </div>
-          {/* Decrease red score*/}
-          <button
-            onClick={decreaseRed}
-            className="bg-accent-red shadow-red-light-dark border-2 border-black w-8 h-6 sm:w-9 sm:h-7 mr-1 rounded-md text-white text-sm sm:text-xl font-bold font-lilita-one active:translate-y-[1px] flex items-center justify-center -skew-x-[5deg]"
-          >
-            <span
-              className="inline-block relative top-[-1px] sm:top-[-2px] leading-none skew-x-[5deg]"
-              style={{
-                textShadow: "1px 1px 0px black",
-              }}
-            >
-              -
-            </span>
-          </button>
-          {/* Increase red score */}
-          <button
-            onClick={increaseRed}
-            className="bg-accent-blue shadow-blue-ocean border-2 border-black w-8 h-6 sm:w-9 sm:h-7 rounded-md text-white text-sm sm:text-xl font-bold font-lilita-one active:translate-y-[1px] flex items-center justify-center -skew-x-[5deg]"
-          >
-            <span
-              className="inline-block relative leading-none skew-x-[5deg]"
-              style={{
-                textShadow: "1px 1px 0px black",
-              }}
-            >
-              +
-            </span>
-          </button>
-        </div>
-        {/* Submit score */}
-        <button
-          onClick={setPhase}
-          className="bg-yellow-500 shadow-yellow-50-700-sm text-white font-bold  text-md md:text-xl font-lilita-one border-2 border-black mr-9 sm:mr-1 w-16  h-7 sm:w-24 sm:h-8 text-sm sm:text-xl -skew-x-[8deg] rounded-lg relative active:translate-y-[2px]"
-        >
-          <span
-            className="inline-block skew-x-[8deg]"
-            style={{
-              WebkitTextStroke: "1px black",
-              WebkitTextFillColor: "white",
-            }}
-          >
-            SUBMIT
-          </span>
-        </button>
-      </div>
-    </div>
-  );
-}
-
 function Phase3() {
-  return <div>Fase 3: Confirmación del resultado</div>;
+  return (<div>Fase 3: Confirmación del resultado</div>);
 }
 
 function Phase4({ player1, player2, result }) {

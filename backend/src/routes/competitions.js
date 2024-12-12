@@ -41,6 +41,9 @@ router.post("/", async (req, res) => {
   try {
     let match = {
       type: req.body.type,
+      status: req.body.status,
+      participating: req.body.participating,
+      date: req.body.date,
     };
     let collection = await db.collection("competitions");
     let result = await collection.insertOne(match);
