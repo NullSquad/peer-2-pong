@@ -56,12 +56,18 @@ export function MatchCard({ match }) {
 
 // fase1, la fase relacionada con el status "scheduled"
 function Phase1({ match, pija }) {
+  const [showPhase2, setShowPhase2] = useState(false);
+
+  const togglePhase2 = () => {
+    setShowPhase2(!showPhase2);
+  };
+
   return (
     <div className="z-10 relative flex w-full max-w-4xl h-[86px] sm:h-[94px] md:h-28 overflow-visible bg-invisible">
-      <div className="relative flex w-full h-14 sm:h-16 -skew-x-[8deg]">
+      <div className="relative flex w-full h-14 sm:h-16 -skew-x-[8deg]" onClick={togglePhase2}>
         {/* Player 1 Side */}
         <div
-          className="flex items-center justify-center bg-accent-blue-light w-1/2 px-3 py-2 text-white "
+          className="flex items-center justify-center bg-accent-blue-light w-1/2 px-3 py-2 text-white"
           style={{ WebkitTextStroke: "1px black", color: "white" }}
         >
           <AvatarCircle player={match.player1} />
@@ -71,31 +77,37 @@ function Phase1({ match, pija }) {
         <VS />
         {/* Space between blue and red */}
         <div className="w-1"></div>
-
         {/* Player 2 Side */}
         <div className="flex items-center justify-center bg-red-500 w-1/2 px-3 py-2 text-black">
           <MatchText player={match.player2} />
           <AvatarCircle player={match.player2} />
         </div>
       </div>
-
       {/* Time Left Container */}
       {match.targetDate && (
         <InfoMatchBox>
           Time left: <CountdownTimer targetDate={match.targetDate} />
         </InfoMatchBox>
       )}
-    <Phase2 match={match} pija={pija} />
+      <div
+        className={`animation-opacity ${
+          showPhase2
+            ? "z-10 opacity-100 animate-slide-in-top absolute bottom-10 left-1/2 transform mb-4"
+            : "z-0 opacity-0 animate-slide-out-bottom absolute bottom-10 left-1/2 transform mb-4"
+        }`}
+      >
+        <Phase2 match={match} pija={pija} />
+      </div>
     </div>
   );
 }
 
+
 // fase2..... la fase del submit.... esta horrible y funciona como el orto (la matchcard)
 // pero el submit funciona fenomenal
 function Phase2({ match, pija }) {
-  const [result, setResult] = useState({blue: pija.players[0].score, red:pija.players[1].score})
+  const [result, setResult] = useState({ blue: pija.players[0].score, red: pija.players[1].score });
 
-  // tuqui la logica de subir o bajar el score xd xd 
   const increaseBlue = () => {
     setResult((prevResult) => {
       const newBlue = prevResult.blue + 1;
@@ -146,9 +158,6 @@ function Phase2({ match, pija }) {
     }));
   };
 
-  //esto era para revisar si el resultado era aceptable o no.
-  //no se usa porque en principio lo tienen que hacer los backend boys
-
   const isValidResult = () => {
     if (result.blue === result.red || (result.blue < 11 && result.red < 11)) {
       return false;
@@ -165,7 +174,7 @@ function Phase2({ match, pija }) {
   };
 
   return (
-    <div className="relative md:bottom-[5rem]">
+    <div className="absolute transform -translate-x-[35%] mb-4">
       {/* Controles de puntuación */}
       <div className="flex justify-center items-center mt-1 sm:mt-2 gap-1">
         {/* Player 1 Score */}
@@ -212,7 +221,6 @@ function Phase2({ match, pija }) {
     </div>
   );
 }
-
 // la fase3 es la de totototototootototottony, costo pero se pudo (grande tony tkm <3).
 // muestra el boton de accept or deny
 function Phase3({ match }) {
