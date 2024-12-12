@@ -1,0 +1,40 @@
+{
+  "bsonType": "object",
+  "required": ["competition", "players", "date"],
+  "properties": {
+    "competition": {
+      "bsonType": "objectId",
+      "description": "must be an ObjectId and is required"
+    },
+    "players": {
+      "bsonType": "array",
+      "items": {
+        "bsonType": "object",
+        "required": ["player"],
+        "properties": {
+          "player": {
+            "bsonType": "objectId",
+            "description": "must be an ObjectId and is required"
+          },
+          "score": {
+            "bsonType": "int",
+            "description": "must be an integer and is optional"
+          },
+          "reported": {
+            "bsonType": "bool",
+            "description": "must be a boolean and is optional"
+          }
+        }
+      }
+    },
+    "status": {
+      "bsonType": "string",
+      "enum": ["scheduled", "reported", "confirmed"],
+      "description": "can be 'scheduled', 'reported', or 'confirmed' and is required"
+    },
+    "date": {
+      "bsonType": "date",
+      "description": "must be a date and is required"
+    }
+  }
+}

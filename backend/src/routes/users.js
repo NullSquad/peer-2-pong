@@ -1,84 +1,44 @@
 import express from "express";
-import db from "../db/connection.js";
-import { ObjectId } from "mongodb";
+import controller from "../controllers/users.js";
 
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  try {
-    let collection = await db.collection("users");
-    let results = await collection.find({}).toArray();
-    res.send(results).status(200);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Error reading users");
-  }
+  controller
+    .getAll()
+    .then((results) => res.status(200).send(results))
+    .catch((err) => res.status(500).send(err.message));
 });
 
 router.get("/:id", async (req, res) => {
-  try {
-    let collection = await db.collection("users");
-    let query = { _id: new ObjectId(req.params.id) };
-    let result = await collection.findOne(query);
-
-    if (!result) res.send("Not found").status(404);
-    else res.send(result).status(200);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Error reading user");
-  }
+  controller
+    .getById(req.params.id)
+    .then((result) => {
+      if (!result) res.status(404).send("Not found");
+      else res.status(200).send(result);
+    })
+    .catch((err) => res.status(500).send(err.message));
 });
 
 router.post("/", async (req, res) => {
-  try {
-    let user = {
-      _id: new ObjectId(req.body.id),
-      email: req.body.email,
-      login: req.body.login,
-      image: req.body.image,
-      campus: req.body.campus,
-    };
-    let collection = await db.collection("users");
-    let result = await collection.insertOne(user);
-    res.send(result).status(204);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Error adding user");
-  }
+  controller
+    .add(req.body)
+    .then((result) => res.status(201).send(result))
+    .catch((err) => res.status(500).send(err.message));
 });
 
 router.patch("/:id", async (req, res) => {
-  try {
-    const query = { _id: new ObjectId(req.params.id) };
-    const updates = {
-      $set: {
-        email: req.body.email,
-        login: req.body.login,
-        image: req.body.image,
-      },
-    };
-
-    let collection = await db.collection("users");
-    let result = await collection.updateOne(query, updates);
-    res.send(result).status(200);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Error updating user");
-  }
+  controller
+    .update(req.params.id, req.body)
+    .then((result) => res.status(200).send(result))
+    .catch((err) => res.status(500).send(err.message));
 });
 
 router.delete("/:id", async (req, res) => {
-  try {
-    const query = { _id: new ObjectId(req.params.id) };
-
-    const collection = db.collection("users");
-    let result = await collection.deleteOne(query);
-
-    res.send(result).status(200);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Error deleting user");
-  }
+  controller
+    .delete(req.params.id)
+    .then((result) => res.status(200).send(result))
+    .catch((err) => res.status(500).send(err.message));
 });
 
 export default router;

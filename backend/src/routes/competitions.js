@@ -4,6 +4,14 @@ import { ObjectId } from "mongodb";
 
 const router = express.Router();
 
+/* 
+  The competitions collection will have the following fields:
+  - type: String (e.g. "League", "Tournament")
+
+*/
+
+// how many points do you win/lose when u win/lose/tie a match
+
 router.get("/", async (req, res) => {
   try {
     let collection = await db.collection("competitions");

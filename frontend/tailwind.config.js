@@ -1,14 +1,14 @@
 import { Background } from "./src/components/Background";
 
 const plugin = require("tailwindcss/plugin");
-const animations = require('@midudev/tailwind-animations')
+const animations = require("@midudev/tailwind-animations");
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       fontFamily: {
         sans: ["Fugaz One", "sans-serif"],
-        'lilita-one': ['"Lilita One"', 'cursive'],
+        "lilita-one": ['"Lilita One"', "cursive"],
       },
       colors: {
         transparent: "transparent",
@@ -53,12 +53,12 @@ export default {
           },
         },
       },
-	  backgroundImage: {
-	    'league': "url('./src/assets/league.svg')",
-		'tournament': "url('./src/assets/tournament.svg')",
-        'pattern' : "url('./src/assets/block.svg')",
-	  }
-	},
+      backgroundImage: {
+        league: "url('./src/assets/league.svg')",
+        tournament: "url('./src/assets/tournament.svg')",
+        pattern: "url('./src/assets/block.svg')",
+      },
+    },
   },
   plugins: [
     animations,
