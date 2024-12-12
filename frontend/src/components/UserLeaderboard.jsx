@@ -1,8 +1,11 @@
+import useAuth from "../hooks/useAuth";
+
 const UserLeaderboard = ({ index, photo, login, score }) => {
+	const { user } = useAuth();
     return (
         <tr
 			className={`border border-black ${
-				index === 10
+				login === user.login
 					? "bg-yellow-500/80"
 					: index % 2 === 0
 					? "bg-gray-200/70"
