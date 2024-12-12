@@ -17,9 +17,30 @@ export const getMyMatchesByCompetition = (competitionID) => {
 };
 
 export const reportMatch = (match) => {
-  return fetch(`/api/matches/report`, {
+	console.log(match);
+	const { _id, ...matchWithoutID } = match;
+  return fetch(`/api/matches/${_id}/report`, {
     method: "POST",
-	body: JSON.stringify({ match }),
+	headers: {
+		'Content-Type': 'application/json',
+	},
+	body: JSON.stringify( matchWithoutID ),
+  }).then((response) => {
+    if (!response.ok) {
+				console.error(response);
+      throw new Error("Failed to report match");
+    }
+    return response.json();
+  });
+};
+
+export const confirmMatch = (match) => {
+  return fetch(`/api/matches/${_id}/report`, {
+    method: "POST",
+	headers: {
+		'Content-Type': 'application/json',
+	},
+	body: JSON.stringify( {match} ),
   }).then((response) => {
     if (!response.ok) {
 				console.error(response);
