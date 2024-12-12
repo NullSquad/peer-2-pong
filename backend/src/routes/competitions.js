@@ -1,6 +1,7 @@
 import express from "express";
 import db from "../db/connection.js";
 import { ObjectId } from "mongodb";
+import { schedule_competition } from "../competitions_scheduling.js";
 
 const router = express.Router();
 
@@ -39,11 +40,34 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
+		const actualDate = new Date();
+		const myPlayers = [1, 2, 3, 4, 5, 6, 7, 8];
     let match = {
       type: req.body.type,
+			startDate: actualDate,
+      endDate: new Date(Date.now() + 60000),
+			players: myPlayers.map(player => {return {player: new ObjectId(player), score: 0, active: true};}),
+			settings: {
+				frequency: {
+					quantity: 30,
+					unit: "second"
+				},
+				quantity: 3,
+				points: {
+					winner: 1,
+					loser: -1,
+					tie: 0
+				}
+			},
     };
+		console.log(`\n\n\n${match}\n\n\n`);
     let collection = await db.collection("competitions");
     let result = await collection.insertOne(match);
+		const	new_competition = await collection.findOne({startDate: actualDate});
+		console.log(`\n\n\n${new_competition._id} && type: ${new_competition.type}\n\n\n`);
+		// const	new_competition = await collection.findOne({});
+		schedule_competition({competitionId: new_competition._id});
+		result = "ok";
     res.send(result).status(204);
   } catch (err) {
     console.error(err);
