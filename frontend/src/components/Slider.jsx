@@ -1,9 +1,9 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCards, EffectCoverflow } from "swiper/modules";
-import { Children } from "react";
+import { Children } from "preact/compat";
 import "swiper/css";
 
-export const Slider = ({ children, setCompetition }) => {
+export const Slider = ({ children, setCurrentCompetition }) => {
   const count = Children.count(children);
   return (
     <article className="w-full bg-blue py-4 sm:py-6 md:py-8 px-2 sm:px-4 md:px-8">
@@ -19,7 +19,7 @@ export const Slider = ({ children, setCompetition }) => {
         }}
         effect={"cards"}
         grabCursor={true}
-        onSlideChange={(swiper) => setCompetition(swiper.activeIndex)}
+        onSlideChange={(swiper) => setCurrentCompetition(swiper.activeIndex)}
         className="flex justify-center items-center"
       >
         {Children.map(children, (child, index) => (

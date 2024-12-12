@@ -55,10 +55,8 @@ const controller = {
       const userPlayer = match.players.find((p) =>
         p.player.equals(new ObjectId(userId)),
       );
-      return {
-        ...match,
-        reportedByUser: userPlayer ? userPlayer.reported : false,
-      };
+      if (userPlayer && !userPlayer.reported) match.status = "pending";
+      return match;
     });
   },
 

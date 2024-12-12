@@ -15,9 +15,9 @@ export function MatchCard({ player1, player2, targetDate, status, score1, score2
     const statusMap = {
       "scheduled": 1,
       // "set result": 2,
-      "confirm": 3,
-      "waiting": 4,
-      "finished": 5,
+      "pending": 3,
+      "reported": 4,
+      "confirmed": 5,
     };
     return statusMap[status] || 0;
   };
@@ -25,7 +25,6 @@ export function MatchCard({ player1, player2, targetDate, status, score1, score2
   const [phaseNumber, setPhaseNumber] = useState(getStatusNumber(status));
   const PhaseComponent = phaseMap[phaseNumber] || null; 
   const [result, setResult] = useState({ blue: score1, red: score2 });
-
 
   return (
     <div className="relative flex w-full max-w-4xl h-[86px] sm:h-[94px] md:h-28 overflow-visible bg-invisible">

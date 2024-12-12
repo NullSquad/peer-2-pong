@@ -21,14 +21,13 @@ const Matches = ({competitionID}) => {
           targetDate: matches.date,
           status: matches.status,
         }));
-        console.log(data);
         setMatches(formattedMatches);
-      console.log(formattedMatches);
+        console.log(formattedMatches);
       })
       .catch((err) => {
         setError(err.message);
       });
-  }, []);
+  }, [competitionID]);
 
   return (
     <section className="flex flex-col flex-wrap justify-center items-center mx-5">
