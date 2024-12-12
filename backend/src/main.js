@@ -7,6 +7,20 @@ import matches from "./routes/matches.js";
 import competitions from "./routes/competitions.js";
 import verifyAuth from "./middleware/auth.js";
 
+//Testing agenda
+// import db from "./db/connection.js";
+// import Agenda	from "agenda";
+
+// const mongoConnectionString = `${process.env.DB_URI}` || "";
+// console.log(`\n\n\n${mongoConnectionString}\n\n\n`);
+// const	agenda = new Agenda({db: {address: mongoConnectionString}});
+
+// agenda.define("update competition matches", (job) => console.log(`${job}`));
+// agenda.start();
+
+// db.createCollection("matches");
+//
+
 const { PORT = 5000, CLIENT_SECRET } = process.env;
 const app = express();
 
