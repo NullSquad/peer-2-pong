@@ -12,45 +12,40 @@ const controller = {
     return collection.findOne({ _id: new ObjectId(id) });
   },
 
-  async getByCompetition(id) {
-    return collection.find({ competition: new ObjectId(id) }).toArray();
-  },
-
   async add(match) {
+    match.competition = new ObjectId(match.competition);
+    match.players = match.players.map((id) => new ObjectId(id));
     return collection.insertOne(match);
   },
 
   async update(id, updates) {
-    updates = { $set: updates };
-    return collection.updateOne({ _id: new ObjectId(id) }, updates);
-  },
-
-  async report(match, reportedBy) {
-    // if (match.status === "Ready to play") {
-    //   const score = match.players.map((player) => player.score);
-    //   if (score[0] !== 0 || score[1] !== 0) {
-    //     match.status = "Waiting for confirmation";
-    //     match.reportedBy = reportedBy;
-    //   } else {
-    //     throw new Error("Score must be different from 0-0");
-    //   }
-    // }
-    // else if (match.status === "Waiting for confirmation") {
-    //   if (match.reportedBy === reportedBy) {
-    //     throw new Error("You cannot confirm your own score");
-    //   }
-    //   match.status = "Finished";
-    // }
-    return collection.findOneAndUpdate(
-      { _id: new ObjectId(match._id) },
-      { $set: match },
-      { returnDocument: "after" },
-    );
+    if (updates.competition) updates.competition = new ObjectId(updates.competition);
+    if (updates.players) updates.players = updates.players.map((id) => new ObjectId(id));
+    return collection.findOneAndUpdate({ _id: new ObjectId(id) }, { $set: updates }, { returnDocument: "after" });
   },
 
   async delete(id) {
     return collection.deleteOne({ _id: new ObjectId(id) });
   },
+
+  async getMyMatchesByCompetition(competitionId, userId) {
+    return collection.find({ competition: new ObjectId(competitionId), players: { $elemMatch: { player: new ObjectId(userId) } } }).toArray();
+  },
+
+  async report(id, userId, report) {
+    const match = await this.getById(id);
+    if (!match) throw new Error("Match not found");
+
+    const index = match.players.findIndex(p => p.player.equals(new ObjectId(userId)));
+    if (index === -1) throw new Error("Player not found");
+
+    if (report.score[0] === report.score[1] || report.score[0] < 0 || report.score[1] < 0) throw new Error("Invalid score");
+
+    report.player[index].reported = true;
+    report.status = "reported";
+
+    return this.update(id, match);
+  }
 };
 
 export default controller;
