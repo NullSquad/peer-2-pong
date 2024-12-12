@@ -3,12 +3,6 @@ import { ObjectId } from "mongodb";
 
 const collection = db.collection("competitions");
 
-const PlayerState = {
-    Win: "winner",
-    Lose: "loser",
-    Tie: "tie"
-}
-
 const controller = {
   async getAll() {
     return collection.find({}).toArray();
@@ -18,36 +12,33 @@ const controller = {
     return collection.findOne({ _id: new ObjectId(id) });
   },
 
-  async update(id, updates) {
-    if (updates.players)
-      updates.players = updates.players.map((player) => ({
-        ...player,
-        player: new ObjectId(player.player),
-      }));
-    return collection.findOneAndUpdate(
-      { _id: new ObjectId(id) },
-      { $set: updates },
-      { returnDocument: "after" },
-    );
+  async add(competition) {
+    competition.players = competition.players.map((p) => ({ player: new ObjectId(p.player), score: 0 }));
+    return collection.insertOne(competition);
   },
 
-  async updatePlayerScore(id, playerId, state) {
-    const competition = await collection.findOne({ _id: new ObjectId(id) });
-    const player = competition.players.find((p) => p.player.equals(new ObjectId(playerId)));
-
-    if (!player)
-        return ;
-    player.score += competition.settings.points.get(state);
-    competition.players = competition.players.map((p) => {
-        if (p.player.equals(new ObjectId(playerId)))
-            return player;
-        return p;
-    });
-    this.update(id, { competition });
+  async update(id, updates) {
+    if (updates.players) updates.players = updates.players.map((p) => ({ player: new ObjectId(p.player), score: p.score }));
+    return collection.updateOne({ _id: new ObjectId(id) }, { $set: updates });
   },
 
   async delete(id) {
     return collection.deleteOne({ _id: new ObjectId(id) });
+  },
+
+  async join(id, userId) {
+    return collection.updateOne({ _id: new ObjectId(id) }, { $push: { players: { player: new ObjectId(userId), score: 0 } } });
+  },
+
+  async getMatchesOfUser(id, userId) {
+    return collection.aggregate([
+      { $match: { _id: new ObjectId(id) } },
+      { $unwind: "$players" },
+      { $lookup: { from: "users", localField: "players.player", foreignField: "_id", as: "player" } },
+      { $unwind: "$player" },
+      { $match: { "player._id": new ObjectId(userId) } },
+      { $project: { _id: 1, name: 1, players: 1 } }
+    ]).toArray();
   }
 };
 
