@@ -12,10 +12,10 @@ const LeaderboardTable = () => {
 				<table className="w-full border-collapse border border-black">
 					<thead className="bg-yellow-600">
 						<tr>
-							<th className="border border-black p-2 w-1/4 "> POSITION </th>
-							<th className="border border-black p-2 w-1/4 "> PHOTO </th>
-							<th className="border border-black p-2 w-1/4 "> LOGIN </th>
-							<th className="border border-black p-2 w-1/4 "> SCORE </th>
+							<th className="border border-black p-2 w-1/4 text-[10px] sm:text-lg"> POSITION </th>
+							<th className="border border-black p-2 w-1/4 text-[10px] sm:text-lg"> PHOTO </th>
+							<th className="border border-black p-2 w-1/4 text-[10px] sm:text-lg"> LOGIN </th>
+							<th className="border border-black p-2 w-1/4 text-[10px] sm:text-lg"> SCORE </th>
 						</tr>
 					</thead>
 				</table>
