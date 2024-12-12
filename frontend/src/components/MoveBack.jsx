@@ -2,7 +2,7 @@ import { useState } from "preact/hooks";
 import Popup from "./Popup";
 import { joinCompetition } from "../services/competitionService";
 
-const Join = ({ username, event_id }) => {
+const MoveBack = ({ username, event_id }) => {
 	const [message, setMessage] = useState("");
 	const [isPopupOpen, setIsPopupOpen] = useState(false);
 
@@ -17,10 +17,8 @@ const Join = ({ username, event_id }) => {
 	return (
 		<div>
 			<button
-				onClick={handleClick} 
-				className="bg-primary-yellow shadow-yellow-50-700 px-12 py-5 rounded-md text-whitefont-bold
-				font-bold text-xl text-stroke text-shadow font-lilita-one border-2 border-black mr-1mr-1 w-24 h-8 sm:w-36sm
-				sm:h-10 sm:text-2xl -skew-x-[8deg] rounded-lg relative active:translate-y-[2px]"
+				onClick={handleClick}
+				className="bg-primary-yellow shadow-yellow-50-700-sm text-white font-bold text-xl font-lilita-one border-2 border-black mr-1 w-24 h-8 sm:w-36 sm:h-10 sm:text-2xl -skew-x-[8deg] rounded-lg relative active:translate-y-[2px]"
 			>
 				<span
 					className="inline-block skew-x-[8deg]"
@@ -29,7 +27,7 @@ const Join = ({ username, event_id }) => {
 						WebkitTextFillColor: "white",
 					}}
 				>
-					JOIN
+					BACK
 				</span>
 			</button>
 			{isPopupOpen && <Popup message={message} onClose={closePopup} />}
@@ -37,4 +35,4 @@ const Join = ({ username, event_id }) => {
 	);
 };
 
-export default Join;
+export default MoveBack;
