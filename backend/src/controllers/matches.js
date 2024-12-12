@@ -63,10 +63,7 @@ const controller = {
   },
 
   async report(id, userId, report) {
-    const match = await this.getById(id);
-    if (!match) throw new Error("Match not found");
-
-    const index = match.players.findIndex((p) =>
+    const index = report.players.findIndex((p) =>
       p.player.equals(new ObjectId(userId)),
     );
     if (index === -1) throw new Error("Player not found");
@@ -78,30 +75,27 @@ const controller = {
     )
       throw new Error("Invalid score");
 
-    report.player[index].reported = true;
+    report.players[index].reported = true;
     report.status = "reported";
 
-    return this.update(id, match);
+    return this.update(id, report);
   },
 
   async confirm(id, userId, confirm) {
-    const match = await this.getById(id);
-    if (!match) throw new Error("Match not found");
-
-    const index = match.players.findIndex((p) =>
+    const index = confirm.players.findIndex((p) =>
       p.player.equals(new ObjectId(userId)),
     );
     if (index === -1) throw new Error("Player not found");
 
     if (confirm) {
-      match.status = "confirmed";
-      match.date = new Date();
+      confirm.status = "confirmed";
+      confirm.date = new Date();
     } else {
-      match.status = "scheduled";
-      match.players.forEach((player) => (player.reported = false));
+      confirm.status = "scheduled";
+      confirm.players.forEach((player) => (player.reported = false));
     }
 
-    return this.update(id, match);
+    return this.update(id, confirm);
   },
 };
 
