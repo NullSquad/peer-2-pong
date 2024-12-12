@@ -88,6 +88,7 @@ const controller = {
     if (confirm) {
       confirm.status = "confirmed";
       confirm.date = new Date();
+      // update competition score here
     } else {
       confirm.status = "scheduled";
       confirm.players.forEach((player) => (player.reported = false));
