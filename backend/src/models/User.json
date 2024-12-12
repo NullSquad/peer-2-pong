@@ -8,7 +8,7 @@
     },
     "email": {
       "bsonType": "string",
-      "pattern": "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$",
+      "pattern": "^[\\w\\.-]+@[\\w-]+\\.[\\w-]{2,4}$",
       "description": "must be a string and match the email format"
     },
     "login": {

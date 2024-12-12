@@ -2,7 +2,7 @@ import express from "express";
 import passport from "passport";
 import OAuth2Strategy from "passport-oauth2";
 import { ObjectId } from "mongodb";
-import verifyAuth from "../middleware/auth";
+import verifyAuth from "../middleware/auth.js";
 
 const { CALLBACK_URL, CLIENT_ID, CLIENT_SECRET } = process.env;
 const router = express.Router();

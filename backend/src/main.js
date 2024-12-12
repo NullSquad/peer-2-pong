@@ -5,7 +5,7 @@ import users from "./routes/users.js";
 import matches from "./routes/matches.js";
 import competitions from "./routes/competitions.js";
 
-const { PORT = 5000 } = process.env;
+const { PORT = 5000, CLIENT_SECRET } = process.env;
 const app = express();
 
 app.use(express.json());
