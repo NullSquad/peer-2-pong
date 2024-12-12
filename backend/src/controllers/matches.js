@@ -17,7 +17,10 @@ const controller = {
     match.players = match.players.map((player) => ({
       ...player,
       player: new ObjectId(player.player),
-    })); 
+      score: player.score ?? null,
+      reported: player.reported ?? false,
+    }));
+    match.status = match.status ?? "scheduled";
     return collection.insertOne(match);
   },
 
