@@ -41,15 +41,16 @@ export default {
         },
         accent: {
           blue: {
-            light: "#5DC3FD",
-            DEFAULT: "#0FA7FE",
-            dark: "#0174B7",
-            ocean: "#094CF0",
+            light: "#1499ff",
+            DEFAULT: "#0fa7fe",
+            dark: "#0845dd",
+            button: "#2373ff",
           },
           red: {
-            light: "#EB5151",
-            DEFAULT: "#E52424",
-            dark: "#B71515",
+            light: "#f3605d",
+            DEFAULT: "#eb5151",
+            dark: "#b41642",
+			button: "#e1362f"
           },
         },
       },
@@ -73,18 +74,24 @@ export default {
       });
       addComponents({
         ".shadow-yellow-50-700": {
-          boxShadow: `inset 0 .3em ${theme("colors.primary.yellow.50")}, inset 0 -.3em ${theme("colors.primary.yellow.700")}`,
+          boxShadow: `inset 0 .2em ${theme("colors.primary.yellow.50")}, inset 0 -.2em ${theme("colors.primary.yellow.700")}`, // 0.3rem -> 0.2rem
         },
         ".shadow-yellow-50-700-sm": {
+          boxShadow: `inset 0 .1em ${theme("colors.primary.yellow.50")}, inset 0 -.1em ${theme("colors.primary.yellow.700")}`,
+        },
+		".shadow-yellow-50-700-bot": {
+          boxShadow: `inset 0 -.2em ${theme("colors.primary.yellow.700")}`,
+        },
+		".shadow-yellow-50-700-bot-sm": {
           boxShadow: `inset 0 .1em ${theme("colors.primary.yellow.50")}, inset 0 -.1em ${theme("colors.primary.yellow.700")}`,
         },
         ".shadow-yellow-100-700": {
           boxShadow: `inset 0 .5em ${theme("colors.primary.yellow.100")}, inset 0 -.5em ${theme("colors.primary.yellow.700")}`,
         },
-        ".shadow-blue-ocean": {
-          boxShadow: `inset 0 .15em ${theme("colors.accent.blue.light")}, inset 0 -.15em ${theme("colors.accent.blue.ocean")}`,
+        ".shadow-blue": {
+          boxShadow: `inset 0 .15em ${theme("colors.accent.blue.light")}, inset 0 -.15em ${theme("colors.accent.blue.dark")}`,
         },
-        ".shadow-red-light-dark": {
+        ".shadow-red": {
           boxShadow: `inset 0 .15em ${theme("colors.accent.red.light")}, inset 0 -.15em ${theme("colors.accent.red.dark")}`,
         },
         ".parallelogram": {
