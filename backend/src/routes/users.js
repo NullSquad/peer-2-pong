@@ -1,52 +1,101 @@
 import express from "express";
-
 import db from "../db/connection.js";
-
 import { ObjectId } from "mongodb";
 
 const router = express.Router();
 
+// ========================
+// Validación de ID de MongoDB
+// ========================
+const validateObjectId = (id) => {
+    try {
+        return ObjectId.isValid(id) ? new ObjectId(id) : null;
+    } catch {
+        return null;
+    }
+};
+
+// ==============================
+// Rutas para gestionar usuarios
+// ==============================
+
+// Obtener todos los usuarios
 router.get("/", async (req, res) => {
-  let collection = await db.collection("users");
-  let results = await collection.find({}).toArray();
-  res.send(results).status(200);
+    try {
+        const users = await db.collection("users").find({}).toArray();
+        res.status(200).json(users);
+    } catch (error) {
+        console.error("Error obteniendo usuarios:", error);
+        res.status(500).json({ error: "Error interno del servidor" });
+    }
 });
 
-router.get("/:id", async (req, res) => {
-  let collection = await db.collection("users");
-  let query = { _id: new ObjectId(req.params.id) };
-  let result = await collection.findOne(query);
-
-  if (!result) res.send("Not found").status(404);
-  else res.send(result).status(200);
-});
-
+// Crear un nuevo usuario
 router.post("/", async (req, res) => {
-  try {
-    let user = {
-      name: req.body.name,
-      email: req.body.email,
-    };
-    let collection = await db.collection("users");
-    let result = await collection.insertOne(user);
-    res.send(result).status(204);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Error adding user");
-  }
+    try {
+        const { login, photo, coalition, campus } = req.body;
+
+        // Validación de campos obligatorios
+        if (!login || !photo || !coalition || !campus) {
+            return res.status(400).json({ error: "Faltan campos obligatorios" });
+        }
+
+        // Comprobar si el login ya existe
+        const existingUser = await db.collection("users").findOne({ login: new RegExp(`^${login}$`, "i") });
+        if (existingUser) {
+            return res.status(400).json({ error: "El login ya existe" });
+        }
+
+        // Crear un nuevo usuario
+        const newUser = { login, photo, coalition, campus };
+        const result = await db.collection("users").insertOne(newUser);
+
+        res.status(201).json({ message: "Usuario creado", userId: result.insertedId });
+    } catch (error) {
+        console.error("Error creando usuario:", error);
+        res.status(500).json({ error: "Error interno del servidor" });
+    }
 });
 
-router.delete("/:id", async (req, res) => {
+// Obtener un usuario por ID
+router.get("/:id", async (req, res) => {
+    try {
+        const objectId = validateObjectId(req.params.id);
+        if (!objectId) {
+            return res.status(400).json({ error: "ID de usuario inválido" });
+        }
+        const user = await db.collection("users").findOne({ _id: objectId });
+        if (!user) {
+            return res.status(404).json({ error: "Usuario no encontrado" });
+        }
+        res.status(200).json(user);
+    } catch (error) {
+        console.error("Error obteniendo usuario:", error);
+        res.status(500).json({ error: "Error interno del servidor" });
+    }
+});
+
+// Obtener los partidos de un usuario por ID
+router.get("/:id/matches", async (req, res) => {
   try {
-    const query = { _id: new ObjectId(req.params.id) };
+      const objectId = validateObjectId(req.params.id);
+      if (!objectId) {
+          return res.status(400).json({ error: "ID de usuario inválido" });
+      }
 
-    const collection = db.collection("users");
-    let result = await collection.deleteOne(query);
+      // Obtener los partidos en los que el usuario ha participado
+      const matches = await db.collection("matches").find({
+          "players.userId": objectId
+      }).toArray();
 
-    res.send(result).status(200);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Error deleting user");
+      if (!matches.length) {
+          return res.status(404).json({ error: "No se encontraron partidos para este usuario" });
+      }
+
+      res.status(200).json(matches);
+  } catch (error) {
+      console.error("Error obteniendo partidos:", error);
+      res.status(500).json({ error: "Error interno del servidor" });
   }
 });
 
