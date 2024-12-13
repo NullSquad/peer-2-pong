@@ -38,7 +38,7 @@ const controller = {
   },
 
   async getMatchesOfUser(id, userId) {
-    return db.collection("matches").find({ competition_id: new ObjectId(id), "players.player": new ObjectId(userId) }).toArray();
+    return db.collection("matches").find({ competition_id: new ObjectId(id)}).toArray();
   }
 };
 
