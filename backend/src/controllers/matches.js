@@ -21,6 +21,7 @@ const controller = {
       reported: player.reported ?? false,
     }));
     match.status = match.status ?? "scheduled";
+    match.date = new Date(match.date);
     return collection.insertOne(match);
   },
 
@@ -32,6 +33,8 @@ const controller = {
         ...player,
         player: new ObjectId(player.player),
       }));
+    if (updates.date)
+      updates.date = new Date(updates.date);
     return collection.updateOne({ _id: new ObjectId(id) }, { $set: updates });
   },
 
