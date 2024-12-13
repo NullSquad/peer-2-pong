@@ -51,8 +51,7 @@ const controller = {
     //   "date": "2025-09-02T00:00:00"
     // }
 
-    return collection
-    .aggregate([
+    return collection.aggregate([
       { $match: { _id: new ObjectId(id) } },
       { $unwind: "$matches" },
       { $unwind: "$matches.players" },
