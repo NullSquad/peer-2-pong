@@ -38,12 +38,33 @@ const controller = {
   },
 
   async getMatchesOfUser(id, userId) {
+    // return a list of matches and also in the match.players in the player return the player object of 
+    // the user collection remember competition_id players.player_id
+
     return collection.aggregate([
       { $match: { _id: new ObjectId(id) } },
       { $unwind: "$matches" },
+      { $unwind: "$matches.players" },
       { $match: { "matches.players.player_id": new ObjectId(userId) } },
-      { $replaceRoot: { newRoot: "$matches" } },
-      { $project: { _id: 1, competition_id: 1, players: 1, status: 1, date: 1 } },
+      {
+        $lookup: {
+          from: "users",
+          localField: "matches.players.player_id",
+          foreignField: "_id",
+          as: "player",
+        },
+      },
+      {
+        $set: {
+          "matches.players.player_id": { $arrayElemAt: ["$player", 0] },
+        },
+      },
+      {
+        $group: {
+          _id: "$_id",
+          matches: { $push: "$matches" },
+        },
+      },
     ]).toArray();
   }
 };
