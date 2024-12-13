@@ -1,5 +1,7 @@
 import express from "express";
 import controller from "../controllers/competitions.js";
+import { schedule } from "agenda/dist/agenda/schedule.js";
+import { schedule_competition } from "../competitions_scheduling.js";
 
 const router = express.Router();
 
@@ -23,7 +25,7 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   controller
     .add(req.body)
-    .then((result) => res.status(201).send(result))
+    .then((result) => {schedule_competition({competitionId: result.insertedId}); return res.status(201).send(result)})
     .catch((err) => res.status(500).send(err.message));
 });
 

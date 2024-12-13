@@ -1,124 +1,135 @@
 import Agenda	from "agenda";
-import db from "./db/connection";
+import humanInterval from "human-interval";
+import db from "./db/connection.js";
+import competitionController from "./controllers/competitions.js";
+import matchController from "./controllers/matches.js";
 
-const mongoConnectionString = `${process.env.DB_URI}/agenda` || "";
-const	agenda = new Agenda({db: {address: mongoConnectionString}});
+const	agenda = new Agenda({mongo: db});
 
-agenda.define("update competition matches", update_competitions);
-
-agenda.define("start competition", (job) => {
-	const	{ competitionId } = job.attr.data;
-	const	competition = get_competition({competitionId});
-
-	agenda.every(competition.settings.frequency, "update competition matches", {
-			competitionId
-		}, {
-			startDate: competition.startDate,
-			endDate: competition.endDate
-		});
-	return ;
-});
-
-agenda.define("end competition", (job) => {
-	const	{ competitionId } = job.attr.data;
-	const	competition = get_competition({competitionId});
-
-	// agenda.jobs({"update competition matches", }).then(data);
-	return ;
-});
-
-function	get_competition({competitionId})
-{
-  const	query = { _id: new ObjectId(competitionId) };
-	const	competitions = db.collection("competitions")
-												.then(data => data.findOne(query)
-													.then(data));
-
-	return (competitions);
-}
 
 function	schedule_competition({competitionId})
 {
-	const	{ competitionId } = job.attr.data;
-	const	competition = get_competition({competitionId});
+	//const	competition = get_competition({competitionId});
 
-	agenda.schedule(competition.startDate, "start competition", {competitionId});
+	competitionController.getById(competitionId).then((competition) => {
+		console.log(`\n\n\n${competition.settings.frequency.quantity} and ${competition.settings.frequency.unit} \n\n\n`);
+		
+		agenda.define("update competition matches", update_competitions);
+
+		agenda.define("start league", (job) => {
+			const	{ competitionId } = job.attr.data;
+			console.log(`\n\n\n${competitionId}\n\n\n`);
+			//const	competition = get_competition({competitionId});
+			competitionController.getById(competitionId).then((competition) => {
+				const	frequency = competition.settings.frequency;
+				const	frequencyString = `${frequency.quantity} ${frequency.unit}${frequency.quantity != 1 ? 's' : ''}`;
+			
+				console.log(`\n\n\nfrequency: ${frequencyString}\n\n\n`);
+				agenda.every(frequencyString, "update competition matches", {
+					competitionId
+				}, {
+					endDate: competition.endDate
+				});
+			});
+			return ;
+		});
+		
+		agenda.define("start tournament", (job) => {
+			const	{ competitionId } = job.attr.data;
+			//const	competition = get_competition({competitionId});
+		
+			return ;
+		});
+		
+		agenda.start();
+		agenda.now(`start ${competition.type}`, {competitionId});
+	});
 	return ;
 }
+
+export {schedule_competition}
 
 //Esto todavia no funsiona
 function	update_competitions(job)
 {
 	const	{ competitionId } = job.attr.data;
-	const	competition = get_competition({competitionId});
-	let		matches;
+	//const	competition = get_competition({competitionId});
 
-	check_outdate_matches(competition);
-	matches = create_competition_matches(competition);
-	matches.forEach(match => db.insertOne({
-			"match": {
-					"players": {...match},
-					"Date": new Date(today + competition.frequency),
-					"status": match.length == 1 ? "finished" : "to play",
-					"reporter": null,
-					"competition": competition.id                  
-			}
-	}));
+	competitionController.getById(competitionId).then((competition) => {
+		let		matches = [];
+	
+		check_outdated_matches(competition);
+		matches = create_competition_matches(competition);
+		matches.forEach(match => matchController.add({
+				"players": match.players.map(player => {player}),
+				"date": new Date(Date.now() + humanInterval(competition.frequency)),
+				"status": match.length == 1 ? "finished" : "scheduled",
+				"competition": competition.id
+		}));
+	});
+	return ;
 }
 
-function check_outdate_matches(competition)
+function	tie_match(match)
 {
-   matches = getCompetitionMatches(competition)
+	return ;
+}
 
-	for (match in matches)
-	{
+function check_outdated_matches(competition)
+{
+	const	matches = competition.matches;
+
+	matches.forEach(match => {
 		if (match.status != "finished")
 			tie_match(match)
-	}
+	});
+	return ;
 }
 
 const competition_matchmaking = {
-	"tournament": create_tournament_matches,
-	"league": create_league_matches
+	tournament: create_tournament_matches,
+	league: create_league_matches
 }
 
 function create_tournament_matches(competition)
 {
-	return ; 
+	return [];
 }
 
 function create_competition_matches(competition)
 {
-	players = getCompetitionPlayers(competition)    
-	return competition_matchmaking[competition.type](competition) 
+	return competition_matchmaking[competition.type](competition);
 }
 
 const leagues = {
-	"elite": 8,
-	"advanced": 16,
-	"rookie": -1
+	elite: 8,
+	advanced: 16,
+	rookie: Infinity
 }
 
 function create_league_matches(competition)
 {
-	let	matches = [];
-	let	first_player = 0;
+	const	players = competition.players.map(({player}) => player);
+	const	quantity = competition.settings.quantity;
+	let		matches = [];
+	let		first_player = 0;
+	let		competition_matches;
 
-	for (rank in Object.values(leagues))
+	for (rank of Object.values(leagues))
 	{
-		competition_matches = create_new_matches(players.slice(first_player, rank), competition.quant);
+		competition_matches = matchmaking(players.slice(first_player, rank), quantity);
 		matches.push(competition_matches);
 	}
+	matches = matches.flat();
 	return (matches);
 }
 
-const freepoints_user = "FREEPOINTS"
-
-function  create_new_matches(players)
+function	matchmaking(players, quantity)
 {
-	letmatches = matchmaking(players);
+	const	amountMatches = Math.round(players * quantity / 2);
+	let		matches = [];
 
-	if (matches[-1].length == 1)
-		matches[-1].push(freepoints_user)
-	return (matches);
+	for (let i = 0; i < amountMatches; i++)
+		matches.push([players[i % players.length], players[i + 1 % players.length]]);
+	return matches;
 }
