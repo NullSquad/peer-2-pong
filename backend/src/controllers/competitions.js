@@ -41,7 +41,6 @@ const controller = {
     return db.collection("matches").aggregate([
       { $match: { competition_id: new ObjectId(id) } },
       { $unwind: "$players" },
-      { $match: { "players.player": new ObjectId(userId) } },
     ]).toArray();
   }
 };
