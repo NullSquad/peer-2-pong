@@ -4,7 +4,6 @@ import { Children } from "preact/compat";
 import "swiper/css";
 
 export const Slider = ({ children, setCurrentCompetition }) => {
-  const count = Children.count(children);
   return (
     <article className="w-full bg-blue py-4 sm:py-6 md:py-8 px-2 sm:px-4 md:px-8">
       <Swiper
