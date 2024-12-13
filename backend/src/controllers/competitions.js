@@ -40,32 +40,6 @@ const controller = {
   async getMatchesOfUser(id, userId) {
     return collection.aggregate([
       { $match: { _id: new ObjectId(id) } },
-      { $unwind: "$matches" },
-      { $match: { "matches.players.player": new ObjectId(userId) } },
-      {
-        $lookup: {
-          from: "matches",
-          localField: "matches.match",
-          foreignField: "_id",
-          as: "match",
-        },
-      },
-      { $unwind: "$match" },
-      {
-        $project: {
-          _id: "$match._id",
-          competition: "$match.competition",
-          date: "$match.date",
-          status: "$match.status",
-          players: {
-            $filter: {
-              input: "$match.players",
-              as: "player",
-              cond: { $eq: ["$$player.player", new ObjectId(userId)] },
-            },
-          },
-        },
-      },
     ]).toArray();
   }
 };
