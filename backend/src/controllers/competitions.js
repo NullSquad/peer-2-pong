@@ -42,7 +42,8 @@ const controller = {
       { $match: { _id: new ObjectId(id) } },
       { $unwind: "$matches" },
       { $match: { "matches.players.player_id": new ObjectId(userId) } },
-      { $project: { _id: 0, matches: 1 } },
+      { $replaceRoot: { newRoot: "$matches" } },
+      { $project: { _id: 1, competition_id: 1, players: 1, status: 1, date: 1 } },
     ]).toArray();
   }
 };
