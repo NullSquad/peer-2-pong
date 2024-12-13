@@ -13,8 +13,10 @@ const controller = {
   },
 
   async add(competition) {
-    competition.start_date = new Date(competition.start_date);
-    competition.end_date = new Date(competition.end_date);
+    if (competition.start_date)
+      competition.start_date = new Date(competition.start_date);
+    if (competition.end_date)
+      competition.end_date = new Date(competition.end_date);
     if (competition.players)
       competition.players = competition.players.map((p) => ({ player: new ObjectId(p.player), score: 0 }));
     return collection.insertOne(competition);
