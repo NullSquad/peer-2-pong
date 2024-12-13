@@ -38,27 +38,7 @@ const controller = {
   },
 
   async getMatchesOfUser(id, userId) {
-    // return a list of matches and also in the match.players in the player return the player object of 
-    // the user collection remember competition_id players.player_id
-
-    // {
-    //   "competition_id": "675b7fc05d971016dbe4f531",
-    //   "players": [
-    //     { 
-    //     "player_id":"00025ed70000000000000000"
-    //   }
-    //   ],
-    //   "date": "2025-09-02T00:00:00"
-    // }
-
-    return collection.aggregate([
-      { $match: { _id: new ObjectId(id) } },
-      { $unwind: "$matches" },
-      { $unwind: "$matches.players" },
-      { $match: { "matches.players.player_id": new ObjectId(userId) } },
-      { $project: { _id: 0, matches: 1 } },
-    ])
-
+    return db.collection("matches").find({ competition_id: new ObjectId(id), "players.player": new ObjectId(userId) }).toArray();
   }
 };
 
