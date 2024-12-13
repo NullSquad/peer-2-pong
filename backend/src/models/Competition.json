@@ -1,87 +1,109 @@
 {
-  "bsonType": "object",
-  "required": ["type"],
-  "properties": {
-    "type": {
-      "bsonType": "string",
-      "enum": ["league", "tournament"],
-      "description": "can be 'league' or 'tournament' and is required"
-    },
-    "startDate": {
-      "bsonType": "date",
-      "description": "must be a date and is required"
-    },
-    "endDate": {
-      "bsonType": "date",
-      "description": "must be a date and is required"
-    },
-    "players": {
-      "bsonType": "array",
-      "items": {
-        "bsonType": "object",
-        "required": ["player"],
-        "properties": {
-          "player": {
-            "bsonType": "objectId",
-            "description": "must be an ObjectId and is required"
-          },
-          "score": {
-            "bsonType": "int",
-            "description": "must be an integer and is optional"
-          },
-          "active": {
-            "bsonType": "bool",
-            "description": "must be a boolean and is optional"
-          }
+    "bsonType": "object",
+    "required": [
+        "type",
+        "start_date",
+        "end_date"
+    ],
+    "properties": {
+        "type": {
+            "bsonType": "string",
+            "enum": [
+                "league",
+                "tournament"
+            ],
+            "description": "can be 'league' or 'tournament' and is required"
+        },
+        "start_date": {
+            "bsonType": "date",
+            "description": "must be a date and is required"
+        },
+        "end_date": {
+            "bsonType": "date",
+            "description": "must be a date and is required"
+        },
+        "players": { 
+            "bsonType": "array",
+            "items": {
+                "bsonType": "object",
+                "properties": {
+                    "player": {
+                        "bsonType": "objectId",
+                        "description": "must be an ObjectId and is required"
+                    },
+                    "score": {
+                        "bsonType": "int",
+                        "description": "must be an integer and is optional"
+                    },
+                    "active": {
+                        "bsonType": "bool",
+                        "description": "must be a boolean and is optional"
+                    }
+                }
+            },
+            "description": "must be an array of player objects and is optional"
+        },
+        "settings": {
+            "bsonType": "object",
+            "properties": {
+                "frequency": {
+                    "bsonType": "object",
+                    "required": [
+                        "quantity",
+                        "unit"
+                    ],
+                    "properties": {
+                        "quantity": {
+                            "bsonType": "int",
+                            "description": "must be an int and is required"
+                        },
+                        "unit": {
+                            "bsonType": "string",
+                            "enum": [
+                                "second",
+                                "minute",
+                                "hour",
+                                "day",
+                                "week",
+                                "month",
+                                "year"
+                            ],
+                            "description": "can be 'second', 'minute', 'hour', 'day', 'week', 'month', 'year' and is required"
+                        }
+                    }
+                },
+                "quantity": {
+                    "bsonType": "int",
+                    "description": "must be an int and is required"
+                },
+                "max_participants": {
+                    "bsonType": "int",
+                    "description": "must be an int and is optional"
+                },
+                "points": {
+                    "bsonType": "object",
+                    "required": [
+                        "winner",
+                        "loser",
+                        "tie"
+                    ],
+                    "properties": {
+                        "winner": {
+                            "bsonType": "int",
+                            "description": "must be an int and is required"
+                        },
+                        "loser": {
+                            "bsonType": "int",
+                            "description": "must be an int and is required"
+                        },
+                        "tie": {
+                            "bsonType": "int",
+                            "description": "must be an int and is required"
+                        }
+                    }
+                }
+            },
+            "description": "must be an object and is optional"
         }
-      }
-    },
-    "settings": {
-      "bsonType": "object",
-			"required": ["frequency", "quantity", "points"],
-			"properties": {
-				"frequency": {
-					"bsonType": "object",
-					"required": ["quantity", "unit"],
-					"properties": {
-							"quantity": {
-							"bsonType": "int",
-							"description": "must be an int and is required"
-						},
-							"unit": {
-							"bsonType": "string",
-							"enum": ["second", "minute", "hour", "day", "week", "month", "year"],
-							"description": "can be 'second', 'minute', 'hour', 'day', 'week', 'month', 'year' and is required"
-						}
-					}
-				},
-				"quantity": {
-					"bsonType": "int",
-					"description": "must be an int and is required"
-				},
-				"maxParticipants": {
-					"bsonType": "int",
-					"description": "must be an int and is optional"
-				},
-				"points": {
-					"bsonType": "object",
-					"required": ["winner", "loser", "tie"],
-					"properties": {
-						"winner": {
-							"bsonType": "int",
-							"description": "must be an int and is required"
-						},
-						"loser": {
-							"bsonType": "int",
-							"description": "must be an int and is required"
-						},
-						"tie": {
-							"bsonType": "int",
-							"description": "must be an int and is required"
-						}
-					}
-				}
-			}
-		}
-  }
+    }
 }

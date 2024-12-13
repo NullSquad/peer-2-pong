@@ -1,74 +1,70 @@
-import useAuth from "../hooks/useAuth";
-import MatchCard from "../components/MatchCard";
 import Slider from "../components/Slider";
 import Event from "../components/Events";
 import { Header } from "../components/Header";
 import { Separator } from "../components/Separator";
+import { getCompetitions } from "../services/competitionsService";
+import { useEffect, useState } from "preact/hooks";
+import Matches from "../components/Matches";
+import {getMyMatchesByCompetition} from "../services/matchesService";
 
 const Home = () => {
-  const { user } = useAuth();
+  const [competitions, setCompetitions] = useState([]);
+  const [currentCompetition, setCurrentCompetition] = useState(0);
+  const [matches, setMatches] = useState([]);
+
+  // con esto se recogen las competiciones de la db
+  useEffect(() => {
+    getCompetitions()
+      .then((data) => {
+        const formattedCompetitions = data.map((competition) => ({
+          id: competition._id,
+          type: competition.type,
+          name: competition.type.toUpperCase(),
+          isParticipating: competition.participating,
+          status: competition.status,
+          targetDate: competition.date,
+        }));
+        setCompetitions(formattedCompetitions);
+      })
+      .catch((err) => {
+        setError(err.message);
+      });
+  }, []);
+
+  // con esto se consiguen los matches asociados a cada una de las competiciones del usuario
+  useEffect(() => {
+    if (competitions.length > 0) {
+      const competitionID = competitions[currentCompetition]?.id;
+      if (competitionID) {
+        getMyMatchesByCompetition(competitionID)
+          .then((data) => {
+            setMatches(data);
+          })
+          .catch((err) => {
+            console.log(err)
+          });
+      }
+    }
+  }, [currentCompetition, competitions]); // dependencias: depende de la competiciones y de la current competition
 
   return (
-    <main className="relative inset-0 w-full h-full mt-5 bg-pattern bg-cover ">
+    <main className="relative inset-0 w-full h-full mt-5 bg-pattern bg-cover">
       <Header />
-      <Slider className="min-h-screen flex flex-col gap-6">
-        <Event
-          type="league"
-          isParticipating={true}
-          status="ends"
-          targetDate="2024-12-09T16:59:59"
-        >
-          LEAGUE
-        </Event>
-        <Event
-          type="tournament"
-          isParticipating={false}
-          status="start"
-          targetDate="2024-12-31T23:59:59"
-        >
-          TOURNAMENT
-        </Event>
+      <Slider setCurrentCompetition={setCurrentCompetition}>
+        {competitions.map((competition) => (
+          <Event
+            key={competition.id}
+            type={competition.type}
+            isParticipating={competition.isParticipating}
+            status={competition.status}
+            targetDate={competition.targetDate}
+          >
+            {competition.name.toUpperCase()}
+          </Event>
+        ))}
       </Slider>
       <Separator>Matches</Separator>
-      <section className="flex flex-col flex-wrap justify-center items-center mx-5">
-        <MatchCard
-          player1={{
-            name: user.login,
-            image: user.image,
-          }}
-          player2={{
-            name: user.login,
-            image: user.image,
-          }}
-          targetDate="2024-12-07T12:00:00"
-        />
-      </section>
-      <section className="flex flex-col flex-wrap justify-center items-center mx-5">
-        <MatchCard
-          player1={{
-            name: user.login,
-            image: user.image,
-          }}
-          player2={{
-            name: user.login,
-            image: user.image,
-          }}
-          targetDate="2024-12-29T12:00:00"
-        />
-      </section>
-      <section className="flex flex-col flex-wrap justify-center items-center mx-5">
-        <MatchCard
-          player1={{
-            name: user.login,
-            image: user.image,
-          }}
-          player2={{
-            name: user.login,
-            image: user.image,
-          }}
-          targetDate="2024-12-10T12:00:00"
-        />
-      </section>
+      <Matches matches={matches} />
     </main>
   );
 };

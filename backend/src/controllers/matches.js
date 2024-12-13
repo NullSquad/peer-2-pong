@@ -13,14 +13,15 @@ const controller = {
   },
 
   async add(match) {
-    match.competition = new ObjectId(match.competition);
+    match.competition_id = new ObjectId(match.competition_id);
     match.players = match.players.map((player) => ({
       ...player,
-      player: new ObjectId(player.player),
-      score: player.score ?? null,
+      player_id: new ObjectId(player.player_id),
+      score: player.score ?? 0,
       reported: player.reported ?? false,
     }));
     match.status = match.status ?? "scheduled";
+    match.date = new Date(match.date);
     return collection.insertOne(match);
   },
 
@@ -32,70 +33,19 @@ const controller = {
         ...player,
         player: new ObjectId(player.player),
       }));
-    return collection.findOneAndUpdate(
-      { _id: new ObjectId(id) },
-      { $set: updates },
-      { returnDocument: "after" },
-    );
+    if (updates.date)
+      updates.date = new Date(updates.date);
+    return collection.updateOne({ _id: new ObjectId(id) }, { $set: updates });
   },
 
   async delete(id) {
     return collection.deleteOne({ _id: new ObjectId(id) });
   },
 
-  async getMyMatchesByCompetition(userId, competitionId) {
-    const matches = await collection
-      .find({
-        competition: new ObjectId(competitionId),
-        "players.player": new ObjectId(userId),
-      })
-      .toArray();
-
-    return matches.map((match) => {
-      const userPlayer = match.players.find((p) =>
-        p.player.equals(new ObjectId(userId)),
-      );
-      return {
-        ...match,
-        reportedByUser: userPlayer ? userPlayer.reported : false,
-      };
-    });
-  },
-
   async report(id, userId, report) {
-    const index = report.players.findIndex((p) =>
-      p.player.equals(new ObjectId(userId)),
-    );
-    if (index === -1) throw new Error("Player not found");
-
-    if (
-      report.score[0] === report.score[1] ||
-      report.score[0] < 0 ||
-      report.score[1] < 0
-    )
-      throw new Error("Invalid score");
-
-    report.players[index].reported = true;
-    report.status = "reported";
-
-    return this.update(id, report);
-  },
-
-  async confirm(id, userId, confirm) {
-    const index = confirm.players.findIndex((p) =>
-      p.player.equals(new ObjectId(userId)),
-    );
-    if (index === -1) throw new Error("Player not found");
-
-    if (confirm) {
-      confirm.status = "confirmed";
-      confirm.date = new Date();
-    } else {
-      confirm.status = "scheduled";
-      confirm.players.forEach((player) => (player.reported = false));
-    }
-
-    return this.update(id, confirm);
+    const match = this.getById(id);
+    if (!match) throw new Error("Match not found");
+    this.update(id, match);
   },
 };
 

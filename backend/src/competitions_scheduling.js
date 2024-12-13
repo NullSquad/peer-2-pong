@@ -1,66 +1,49 @@
 import Agenda	from "agenda";
 import humanInterval from "human-interval";
 import db from "./db/connection.js";
+import competitionController from "./controllers/competitions.js";
 import matchController from "./controllers/matches.js";
-import { ObjectId } from "mongodb";
-// import { agenda } from "./main.js";
 
-// const mongoConnectionString = `${process.env.DB_URI}/agendaJobs` || "";
-// console.log(`\n\n\n${mongoConnectionString}\n\n\n`);
 const	agenda = new Agenda({mongo: db});
 
 
-// const mongoConnectionString = `${process.env.DB_URI}/agenda` || "";
-// const	agenda = new Agenda({db: {address: mongoConnectionString}});
-
-function	get_competition({competitionId})
-{
-	const my_get_competition = async ({id}) => {
-		const	query = { _id: new ObjectId(id) };
-		const	competitions = await db.collection("competitions");
-		const	competition = await competitions.findOne(query);
-
-		console.log(`second: ${competition._id}`);
-		return competition;
-	}
-
-	const result = my_get_competition({id: competitionId}).then((data) => {return data});
-	
-	console.log(`\n\n\nid: ${result._id}\n\n\n`);
-
-	return result;
-}
-
-agenda.define("update competition matches", update_competitions);
-
-agenda.define("start league", (job) => {
-	const	{ competitionId } = job.attr.data;
-	const	competition = get_competition({competitionId});
-	const	frequency = competition.settings.frequency;
-	const	frequencyString = `${frequency.quantity} ${frequency.unit}${frequency.quantity != 1 ? 's' : ''}`;
-
-	agenda.every(frequencyString, "update competition matches", {
-		competitionId
-	}, {
-		endDate: competition.endDate
-	});
-	return ;
-});
-
-agenda.define("start tournament", (job) => {
-	const	{ competitionId } = job.attr.data;
-	const	competition = get_competition({competitionId});
-
-	return ;
-});
-
-agenda.start();
-
 function	schedule_competition({competitionId})
 {
-	const	competition = get_competition({competitionId});
+	//const	competition = get_competition({competitionId});
 
-	agenda.schedule(competition.startDate, `start ${competition.type}`, {competitionId});
+	competitionController.getById(competitionId).then((competition) => {
+		console.log(`\n\n\n${competition.settings.frequency.quantity} and ${competition.settings.frequency.unit} \n\n\n`);
+		
+		agenda.define("update competition matches", update_competitions);
+
+		agenda.define("start league", (job) => {
+			const	{ competitionId } = job.attr.data;
+			console.log(`\n\n\n${competitionId}\n\n\n`);
+			//const	competition = get_competition({competitionId});
+			competitionController.getById(competitionId).then((competition) => {
+				const	frequency = competition.settings.frequency;
+				const	frequencyString = `${frequency.quantity} ${frequency.unit}${frequency.quantity != 1 ? 's' : ''}`;
+			
+				console.log(`\n\n\nfrequency: ${frequencyString}\n\n\n`);
+				agenda.every(frequencyString, "update competition matches", {
+					competitionId
+				}, {
+					endDate: competition.endDate
+				});
+			});
+			return ;
+		});
+		
+		agenda.define("start tournament", (job) => {
+			const	{ competitionId } = job.attr.data;
+			//const	competition = get_competition({competitionId});
+		
+			return ;
+		});
+		
+		agenda.start();
+		agenda.now(`start ${competition.type}`, {competitionId});
+	});
 	return ;
 }
 
@@ -70,17 +53,20 @@ export {schedule_competition}
 function	update_competitions(job)
 {
 	const	{ competitionId } = job.attr.data;
-	const	competition = get_competition({competitionId});
-	let		matches = [];
+	//const	competition = get_competition({competitionId});
 
-	check_outdated_matches(competition);
-	matches = create_competition_matches(competition);
-	matches.forEach(match => matchController.add({
-			"players": match.players.map(player => {player}),
-			"date": new Date(Date.now() + humanInterval(competition.frequency)),
-			"status": match.length == 1 ? "finished" : "scheduled",
-			"competition": competition.id
-	}));
+	competitionController.getById(competitionId).then((competition) => {
+		let		matches = [];
+	
+		check_outdated_matches(competition);
+		matches = create_competition_matches(competition);
+		matches.forEach(match => matchController.add({
+				"players": match.players.map(player => {player}),
+				"date": new Date(Date.now() + humanInterval(competition.frequency)),
+				"status": match.length == 1 ? "finished" : "scheduled",
+				"competition": competition.id
+		}));
+	});
 	return ;
 }
 
