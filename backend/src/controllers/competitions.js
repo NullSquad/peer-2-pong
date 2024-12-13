@@ -40,7 +40,9 @@ const controller = {
   async getMatchesOfUser(id, userId) {
     return collection.aggregate([
       { $match: { _id: new ObjectId(id) } },
-      { $unwind: "$matches" },
+      { $unwind: { path: "$players", preserveNullAndEmptyArrays: true } },
+      { $match: { "players.player": new ObjectId(userId) } },
+      { $project: { _id: 0, player: "$players.player", score: "$players.score" } },
     ]).toArray();
   }
 };
