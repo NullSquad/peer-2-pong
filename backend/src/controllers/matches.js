@@ -13,10 +13,10 @@ const controller = {
   },
 
   async add(match) {
-    match.competition = new ObjectId(match.competition);
+    match.competition_id = new ObjectId(match.competition_id);
     match.players = match.players.map((player) => ({
       ...player,
-      player: new ObjectId(player.player),
+      player_id: new ObjectId(player.player_id),
       score: player.score ?? 0,
       reported: player.reported ?? false,
     }));

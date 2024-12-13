@@ -30,7 +30,7 @@ try {
     validator: {
       $jsonSchema: CompetitionSchema,
     },
-  }); d
+  });
 } catch (err) {
   console.error(err);
 }
