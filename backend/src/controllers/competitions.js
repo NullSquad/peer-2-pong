@@ -18,14 +18,19 @@ const controller = {
     if (competition.end_date)
       competition.end_date = new Date(competition.end_date);
     if (competition.players)
-      competition.players = competition.players.map((p) => ({ player: new ObjectId(p.player), score: 0 }));
+      competition.players = competition.players.map((p) => ({
+        player: new ObjectId(p.player),
+      }));
     return collection.insertOne(competition);
   },
 
   async update(id, updates) {
     if (updates.start_date) updates.start_date = new Date(updates.start_date);
     if (updates.end_date) updates.end_date = new Date(updates.end_date);
-    if (updates.players) updates.players = updates.players.map((p) => ({ player: new ObjectId(p.player), score: p.score }));
+    if (updates.players)
+      updates.players = updates.players.map((p) => ({
+        player: new ObjectId(p.player),
+      }));
     return collection.updateOne({ _id: new ObjectId(id) }, { $set: updates });
   },
 
@@ -33,18 +38,12 @@ const controller = {
     return collection.deleteOne({ _id: new ObjectId(id) });
   },
 
-  async join(id, userId) {
-    return collection.updateOne({ _id: new ObjectId(id) }, { $push: { players: { player: new ObjectId(userId), score: 0 } } });
+  async addPlayer(id, player) {
+    return collection.updateOne(
+      { _id: new ObjectId(id) },
+      { $push: { players: { player: new ObjectId(player) } } },
+    );
   },
-
-  async getMatchesOfUser(id, userId) {
-    return db.collection("matches").aggregate([
-      { $match: { competition_id: new ObjectId(id) } },
-      { $unwind: "$players" },
-      { $match: { "players.player_id": new ObjectId(userId) } },
-      { $project: { _id: 1, competition_id: 1, status: 1, date: 1, players: 1 } },
-    ]).toArray();
-  }
 };
 
 export default controller;

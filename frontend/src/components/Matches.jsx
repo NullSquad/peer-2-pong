@@ -1,6 +1,9 @@
 import MatchCard from "./MatchCard";
 import { useEffect, useState } from "preact/hooks";
-import {getMyMatchesByCompetition, reportMatch} from "../services/matchesService";
+import {
+  getMyMatchesByCompetition,
+  reportMatch,
+} from "../services/matchesService";
 
 const Matches = ({ matches }) => {
   if (matches.length === 0) {

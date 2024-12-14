@@ -33,13 +33,61 @@ const controller = {
         ...player,
         player: new ObjectId(player.player),
       }));
-    if (updates.date)
-      updates.date = new Date(updates.date);
+    if (updates.date) updates.date = new Date(updates.date);
     return collection.updateOne({ _id: new ObjectId(id) }, { $set: updates });
   },
 
   async delete(id) {
     return collection.deleteOne({ _id: new ObjectId(id) });
+  },
+
+  async getByCompetitionAndPlayer(competitionId, playerId) {
+    return collection
+      .aggregate([
+        {
+          $match: {
+            competition_id: new ObjectId(competitionId),
+            "players.player_id": new ObjectId(playerId),
+          },
+        },
+        { $unwind: "$players" },
+        {
+          $lookup: {
+            from: "users",
+            localField: "players.player_id",
+            foreignField: "_id",
+            as: "playerDetails",
+          },
+        },
+        {
+          $addFields: {
+            "players.email": { $arrayElemAt: ["$playerDetails.email", 0] },
+            "players.login": { $arrayElemAt: ["$playerDetails.login", 0] },
+            "players.image": { $arrayElemAt: ["$playerDetails.image", 0] },
+            "players.campus": { $arrayElemAt: ["$playerDetails.campus", 0] },
+          },
+        },
+        { $unset: "playerDetails" },
+        {
+          $group: {
+            _id: "$_id",
+            competition_id: { $first: "$competition_id" },
+            date: { $first: "$date" },
+            status: { $first: "$status" },
+            players: { $push: "$players" },
+          },
+        },
+        {
+          $project: {
+            _id: 1,
+            competition_id: 1,
+            date: 1,
+            status: 1,
+            players: 1,
+          },
+        },
+      ])
+      .toArray();
   },
 
   async report(id, userId, report) {

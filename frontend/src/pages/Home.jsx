@@ -5,7 +5,7 @@ import { Separator } from "../components/Separator";
 import { getCompetitions } from "../services/competitionsService";
 import { useEffect, useState } from "preact/hooks";
 import Matches from "../components/Matches";
-import {getMyMatchesByCompetition} from "../services/matchesService";
+import { getMyMatchesByCompetition } from "../services/matchesService";
 
 const Home = () => {
   const [competitions, setCompetitions] = useState([]);
@@ -41,7 +41,7 @@ const Home = () => {
             setMatches(data);
           })
           .catch((err) => {
-            console.log(err)
+            console.log(err);
           });
       }
     }

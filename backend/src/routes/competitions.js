@@ -1,5 +1,6 @@
 import express from "express";
 import controller from "../controllers/competitions.js";
+import matchController from "../controllers/matches.js";
 
 const router = express.Router();
 
@@ -42,15 +43,15 @@ router.delete("/:id", async (req, res) => {
 });
 
 router.get("/:id/matches/me", async (req, res) => {
-  controller
-    .getMatchesOfUser(req.params.id, req.user.id)
+  matchController
+    .getByCompetitionAndPlayer(req.params.id, req.user.id)
     .then((results) => res.status(200).send(results))
     .catch((err) => res.status(500).send(err.message));
 });
 
 router.post("/:id/join", async (req, res) => {
   controller
-    .join(req.params.id, req.user.id)
+    .join(req.params.id, req.user)
     .then((result) => res.status(201).send(result))
     .catch((err) => res.status(500).send(err.message));
 });
