@@ -2,6 +2,7 @@ import db from "../db/connection.js";
 import { ObjectId } from "mongodb";
 import userController from "./users.js";
 import matchController from "./matches.js";
+//import agenda from "../scheduling.js";
 
 const collection = db.collection("competitions");
 
@@ -23,7 +24,18 @@ const controller = {
       competition.players = competition.players.map((p) => ({
         player_id: new ObjectId(p.player_id),
       }));
-    return collection.insertOne(competition);
+
+    const result = await collection.insertOne(competition);
+
+    // await agenda.schedule(competition.start_date, "start competition", {
+    //   competitionId: result.insertedId,
+    // });
+
+    // await agenda.schedule(competition.end_date, "end competition", {
+    //   competitionId: result.insertedId,
+    // });
+
+    return result;
   },
 
   async update(id, updates) {
