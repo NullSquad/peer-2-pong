@@ -1,5 +1,7 @@
 import db from "../db/connection.js";
 import { ObjectId } from "mongodb";
+import userController from "./users.js";
+import matchController from "./matches.js";
 
 const collection = db.collection("competitions");
 
@@ -19,7 +21,7 @@ const controller = {
       competition.end_date = new Date(competition.end_date);
     if (competition.players)
       competition.players = competition.players.map((p) => ({
-        player: new ObjectId(p.player),
+        player_id: new ObjectId(p.player_id),
       }));
     return collection.insertOne(competition);
   },
@@ -29,7 +31,7 @@ const controller = {
     if (updates.end_date) updates.end_date = new Date(updates.end_date);
     if (updates.players)
       updates.players = updates.players.map((p) => ({
-        player: new ObjectId(p.player),
+        player_id: new ObjectId(p.player_id),
       }));
     return collection.updateOne({ _id: new ObjectId(id) }, { $set: updates });
   },
@@ -39,10 +41,45 @@ const controller = {
   },
 
   async addPlayer(id, player) {
-    return collection.updateOne(
-      { _id: new ObjectId(id) },
-      { $push: { players: { player: new ObjectId(player) } } },
+    await userController.add(player);
+    return this.update(id, {
+      $addToSet: { players: { player_id: new ObjectId(player.id) } },
+    });
+  },
+
+  async getRanking(competitionId, playerId) {
+    const competition = await this.getById(competitionId);
+    if (!competition) throw new Error("Competition not found");
+
+    const matches = await matchController.getByCompetition(competitionId);
+    const points = competition.settings.points;
+
+    const ranking = {};
+    matches.forEach((match) => {
+      const [player1, player2] = match.players;
+      if (!ranking[player1.player_id]) ranking[player1.player_id] = 0;
+      if (!ranking[player2.player_id]) ranking[player2.player_id] = 0;
+
+      if (player1.score > player2.score) {
+        ranking[player1.player_id] += points.winner;
+        ranking[player2.player_id] += points.loser;
+      } else if (player1.score < player2.score) {
+        ranking[player1.player_id] += points.loser;
+        ranking[player2.player_id] += points.winner;
+      } else {
+        ranking[player1.player_id] += points.tie;
+        ranking[player2.player_id] += points.tie;
+      }
+    });
+
+    const isParticipating = competition.players.some(
+      (player) => player.player_id.toString() === userId.toString(),
     );
+
+    return {
+      ranking,
+      isParticipating,
+    };
   },
 };
 

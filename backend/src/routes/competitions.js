@@ -1,6 +1,6 @@
 import express from "express";
 import controller from "../controllers/competitions.js";
-import matchController from "../controllers/matches.js";
+import userController from "../controllers/users.js";
 
 const router = express.Router();
 
@@ -43,15 +43,22 @@ router.delete("/:id", async (req, res) => {
 });
 
 router.get("/:id/matches/me", async (req, res) => {
-  matchController
-    .getByCompetitionAndPlayer(req.params.id, req.user.id)
-    .then((results) => res.status(200).send(results))
+  userController
+    .getByCompetitionAndPlayer(req.params.id, req.user._id)
+    .then((result) => res.status(200).send(result))
+    .catch((err) => res.status(500).send(err.message));
+});
+
+router.get("/:id/ranking", async (req, res) => {
+  controller
+    .getRanking(req.params.id, req.user._id)
+    .then((result) => res.status(200).send(result))
     .catch((err) => res.status(500).send(err.message));
 });
 
 router.post("/:id/join", async (req, res) => {
   controller
-    .join(req.params.id, req.user)
+    .addPlayer(req.params.id, req.user)
     .then((result) => res.status(201).send(result))
     .catch((err) => res.status(500).send(err.message));
 });
