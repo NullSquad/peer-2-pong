@@ -1,10 +1,15 @@
 import MatchCard from "./MatchCard";
-import { useEffect, useState } from "preact/hooks";
-import {getMyMatchesByCompetition, reportMatch} from "../services/matchesService";
+import Frame from "../assets/Frame.svg";
 
 const Matches = ({ matches }) => {
   if (matches.length === 0) {
-    return <div>No matches available</div>;
+    return (
+      <div className="flex flex-col w-screen items-center justify-center">
+        <img src={Frame} alt="No matches" 
+          className="lg:w-1/2 w-1/2 h-auto"
+        />
+      </div>
+    );
   }
 
   return (
