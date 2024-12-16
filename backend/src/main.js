@@ -40,7 +40,7 @@ app.use("/auth", auth);
 // app.use("/users", verifyAuth, users);
 // app.use("/matches", verifyAuth, matches);
 // app.use("/competitions", verifyAuth, competitions);
-pp.use("/users", users);
+app.use("/users", users);
 app.use("/matches", matches);
 app.use("/competitions", competitions);
 
