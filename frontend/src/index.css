@@ -12,6 +12,5 @@
 }
 
 body {
-	@apply bg-pattern bg-cover bg-no-repeat m-0 w-full min-h-screen;
+  @apply bg-pattern bg-cover bg-no-repeat m-0 w-full min-h-screen;
 }
-  

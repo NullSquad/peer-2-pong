@@ -79,10 +79,10 @@ export default {
         ".shadow-yellow-50-700-sm": {
           boxShadow: `inset 0 .1em ${theme("colors.primary.yellow.50")}, inset 0 -.1em ${theme("colors.primary.yellow.700")}`,
         },
-		".shadow-yellow-50-700-bot": {
+        ".shadow-yellow-50-700-bot": {
           boxShadow: `inset 0 -.2em ${theme("colors.primary.yellow.700")}`,
         },
-		".shadow-yellow-50-700-bot-sm": {
+        ".shadow-yellow-50-700-bot-sm": {
           boxShadow: `inset 0 .1em ${theme("colors.primary.yellow.50")}, inset 0 -.1em ${theme("colors.primary.yellow.700")}`,
         },
         ".shadow-yellow-100-700": {

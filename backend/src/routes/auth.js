@@ -30,7 +30,7 @@ passport.use(
         const data = await response.json();
         const { id, email, login, image, campus } = data;
         const user = {
-          id: ObjectId.createFromTime(id),
+          _id: ObjectId.createFromTime(id),
           email,
           login,
           image: image.link,

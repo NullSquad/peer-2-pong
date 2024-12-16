@@ -1,11 +1,7 @@
 {
   "bsonType": "object",
-  "required": ["_id", "email", "login", "image", "campus"],
+  "required": ["email", "login", "image", "campus"],
   "properties": {
-    "_id": {
-      "bsonType": "objectId",
-      "description": "must be an ObjectId and is required"
-    },
     "email": {
       "bsonType": "string",
       "pattern": "^[\\w\\.-]+@[\\w-]+\\.[\\w-]{2,4}$",
