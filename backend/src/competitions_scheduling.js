@@ -1,11 +1,52 @@
 import Agenda	from "agenda";
 import humanInterval from "human-interval";
-import db from "./db/connection.js";
+import db, {dbClient} from "./db/connection.js";
 import competitionController from "./controllers/competitions.js";
 import matchController from "./controllers/matches.js";
 
-const	agenda = new Agenda({mongo: db});
+const	agenda = new Agenda({mongo: dbClient.db("agendaDB"), processEvery: "5 seconds"});
+// const mongoConnectionString = 'mongodb://user:pass/agenda';
+// const mongoConnectionString = process.env.DB_URI;
 
+// const agenda = new Agenda({ db: { address: mongoConnectionString }, processEvery: "5 seconds"});
+
+agenda.define("update competition matches", update_competitions);
+
+agenda.define("start league", (job) => {
+	const	{ competitionId } = job.attrs.data;
+	console.log(`\n\n\n${competitionId}\n\n\n`);
+	//const	competition = get_competition({competitionId});
+	competitionController.getById(competitionId).then((competition) => {
+		const	frequency = competition.settings.frequency;
+		const	frequencyString = `${frequency.quantity} ${frequency.unit}${frequency.quantity != 1 ? 's' : ''}`;
+
+		console.log(`\n\n\nfrequency: ${frequencyString}\n\n\n`);
+		agenda.every(frequencyString, "update competition matches", {
+			competitionId
+		}, {
+			endDate: competition.endDate
+		});
+	});
+	return ;
+});
+
+agenda.define("start tournament", (job) => {
+	const	{ competitionId } = job.attrs.data;
+	//const	competition = get_competition({competitionId});
+
+	return ;
+});
+
+console.log("jobs: ", agenda.define("print message 2", (job, done) => {
+	const	{ competitionId } = job.attrs.data;
+	//const	competition = get_competition({competitionId});
+
+	console.log(`aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa message: ${competitionId}\n`);
+	// done();
+	return ;
+}));
+
+// agenda.start();
 
 function	schedule_competition({competitionId})
 {
@@ -13,36 +54,10 @@ function	schedule_competition({competitionId})
 
 	competitionController.getById(competitionId).then((competition) => {
 		console.log(`\n\n\n${competition.settings.frequency.quantity} and ${competition.settings.frequency.unit} \n\n\n`);
-		
-		agenda.define("update competition matches", update_competitions);
+	
+		console.log(agenda.start());
 
-		agenda.define("start league", (job) => {
-			const	{ competitionId } = job.attr.data;
-			console.log(`\n\n\n${competitionId}\n\n\n`);
-			//const	competition = get_competition({competitionId});
-			competitionController.getById(competitionId).then((competition) => {
-				const	frequency = competition.settings.frequency;
-				const	frequencyString = `${frequency.quantity} ${frequency.unit}${frequency.quantity != 1 ? 's' : ''}`;
-			
-				console.log(`\n\n\nfrequency: ${frequencyString}\n\n\n`);
-				agenda.every(frequencyString, "update competition matches", {
-					competitionId
-				}, {
-					endDate: competition.endDate
-				});
-			});
-			return ;
-		});
-		
-		agenda.define("start tournament", (job) => {
-			const	{ competitionId } = job.attr.data;
-			//const	competition = get_competition({competitionId});
-		
-			return ;
-		});
-		
-		agenda.start();
-		agenda.now(`start ${competition.type}`, {competitionId});
+		console.log(agenda.every("5 seconds", "print message 2", {competitionId}, {timezone: "Europe/Madrid"}));
 	});
 	return ;
 }
@@ -52,7 +67,7 @@ export {schedule_competition}
 //Esto todavia no funsiona
 function	update_competitions(job)
 {
-	const	{ competitionId } = job.attr.data;
+	const	{ competitionId } = job.attrs.data;
 	//const	competition = get_competition({competitionId});
 
 	competitionController.getById(competitionId).then((competition) => {

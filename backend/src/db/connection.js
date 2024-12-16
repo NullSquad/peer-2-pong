@@ -36,3 +36,4 @@ try {
 }
 
 export default db;
+export {client as dbClient};

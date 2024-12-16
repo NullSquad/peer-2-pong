@@ -25,7 +25,10 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   controller
     .add(req.body)
-    .then((result) => {schedule_competition({competitionId: result.insertedId}); return res.status(201).send(result)})
+    .then((result) => {
+			schedule_competition({competitionId: result.insertedId});
+			return res.status(201).send(result)
+		})
     .catch((err) => res.status(500).send(err.message));
 });
 

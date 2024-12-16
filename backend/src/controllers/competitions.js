@@ -13,12 +13,14 @@ const controller = {
   },
 
   async add(competition) {
+		console.log(`date:\n\nstart: ${competition.start_date}\nend: ${competition.end_date}\n`);
     if (competition.start_date)
       competition.start_date = new Date(competition.start_date);
     if (competition.end_date)
       competition.end_date = new Date(competition.end_date);
     if (competition.players)
       competition.players = competition.players.map((p) => ({ player: new ObjectId(p.player), score: 0 }));
+		console.log(`date:\n\nstart: ${competition.start_date}\nend: ${competition.end_date}\n`);
     return collection.insertOne(competition);
   },
 
