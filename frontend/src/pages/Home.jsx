@@ -6,30 +6,32 @@ import { useState } from "preact/hooks";
 import Matches from "../components/Matches";
 import { useCompetitions } from "../hooks/useCompetitions";
 import { useMatches } from "../hooks/useMatches";
+import { Link } from "preact-router"; 
 
 const Home = () => {
   const { competitions, compError } = useCompetitions();
   const [currentCompetition, setCurrentCompetition] = useState(0);
-  const { matches, refreshMatches, matchError } = useMatches(
-    competitions.length > 0 ? competitions[currentCompetition]?.id : null,
-  );
+  const competitionID = competitions.length > 0 ? competitions[currentCompetition]?.id : null;
+  const { matches, refreshMatches, matchError } = useMatches(competitionID);
 
   return (
     <main className="relative inset-0 w-full h-full mt-5">
       <Header />
-      <Slider setCurrentCompe={setCurrentCompetition}>
-        {competitions.map((competition) => (
-          <Event
-            key={competition.id}
-            type={competition.type}
-            isParticipating={competition.isParticipating}
-            status={competition.status}
-            targetDate={competition.targetDate}
-          >
-            {competition.name.toUpperCase()}
-          </Event>
-        ))}
-      </Slider>
+      <Link href={`competition/${competitionID}`} >
+        <Slider setCurrentCompe={setCurrentCompetition}>
+          {competitions.map((competition) => (
+            <Event
+              key={competition.id}
+              type={competition.type}
+              isParticipating={competition.isParticipating}
+              status={competition.status}
+              targetDate={competition.targetDate}
+            >
+              {competition.name.toUpperCase()}
+            </Event>
+          ))}
+        </Slider>
+      </Link>
       <Separator>Matches</Separator>
       <button className="bg-black items-center" onClick={refreshMatches}>
         Refresh
