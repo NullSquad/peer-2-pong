@@ -15,3 +15,14 @@ export const getCompetitionById = (id) => {
     return response.json();
   });
 };
+
+export const joinCompetition = (competition_id) => {
+  return fetch(`/api/competitions/${competition_id}/join`, {
+    method: "POST",
+  }).then((response) => {
+    if (!response.ok) {
+      throw new Error("Failed to join competition");
+    }
+    return response.json();
+  });
+};

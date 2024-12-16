@@ -56,7 +56,7 @@ export function Phase1({ match, refresh }) {
             : "z-0 opacity-0 animate-slide-out-bottom absolute bottom-10 left-1/2 transform mb-4"
         }`}
       >
-        <Phase2 match={match} refresh={refresh}/>
+        <Phase2 match={match} refresh={refresh} />
       </div>
     </div>
   );
@@ -312,11 +312,17 @@ export function Phase5({ match }) {
   const redCardSize =
     match.players[1].score > match.players[0].score ? "w-9/12" : "w-5/12";
   const crownPosition =
-    match.players[0].score > match.players[1].score ? "right-[80%]" : "right-[20%]";
+    match.players[0].score > match.players[1].score
+      ? "right-[80%]"
+      : "right-[20%]";
   const blueImagePosition =
-    match.players[0].score > match.players[1].score ? "right-[55%]" : "right-[82%]";
+    match.players[0].score > match.players[1].score
+      ? "right-[55%]"
+      : "right-[82%]";
   const redImagePosition =
-    match.players[0].score < match.players[1].score ? "left-[45%]" : "left-[72%]";
+    match.players[0].score < match.players[1].score
+      ? "left-[45%]"
+      : "left-[72%]";
 
   return (
     <div className="relative flex w-full max-w-4xl h-28 overflow-visible bg-invisible">

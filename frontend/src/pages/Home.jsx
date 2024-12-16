@@ -6,18 +6,19 @@ import { useState } from "preact/hooks";
 import Matches from "../components/Matches";
 import { useCompetitions } from "../hooks/useCompetitions";
 import { useMatches } from "../hooks/useMatches";
-import { Link } from "preact-router"; 
+import { Link } from "preact-router";
 
 const Home = () => {
   const { competitions, compError } = useCompetitions();
   const [currentCompetition, setCurrentCompetition] = useState(0);
-  const competitionID = competitions.length > 0 ? competitions[currentCompetition]?.id : null;
+  const competitionID =
+    competitions.length > 0 ? competitions[currentCompetition]?.id : null;
   const { matches, refreshMatches, matchError } = useMatches(competitionID);
 
   return (
     <main className="relative inset-0 w-full h-full mt-5">
       <Header />
-      <Link href={`competition/${competitionID}`} >
+      <Link href={`competition/${competitionID}`}>
         <Slider setCurrentCompe={setCurrentCompetition}>
           {competitions.map((competition) => (
             <Event

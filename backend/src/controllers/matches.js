@@ -47,80 +47,85 @@ const controller = {
 
   async getByCompetitionAndPlayer(competitionId, playerId) {
     return collection
-    .aggregate([
-      {
-        $match: {
-          competition_id: new ObjectId(competitionId),
-          "players.player_id": new ObjectId(playerId),
+      .aggregate([
+        {
+          $match: {
+            competition_id: new ObjectId(competitionId),
+            "players.player_id": new ObjectId(playerId),
+          },
         },
-      },
-      { $unwind: "$players" },
-      {
-        $lookup: {
-          from: "users",
-          localField: "players.player_id",
-          foreignField: "_id",
-          as: "player",
+        { $unwind: "$players" },
+        {
+          $lookup: {
+            from: "users",
+            localField: "players.player_id",
+            foreignField: "_id",
+            as: "player",
+          },
         },
-      },
-      {
-        $addFields: {
-          "players.email": { $arrayElemAt: ["$player.email", 0] },
-          "players.login": { $arrayElemAt: ["$player.login", 0] },
-          "players.image": { $arrayElemAt: ["$player.image", 0] },
-          "players.campus": { $arrayElemAt: ["$player.campus", 0] },
+        {
+          $addFields: {
+            "players.email": { $arrayElemAt: ["$player.email", 0] },
+            "players.login": { $arrayElemAt: ["$player.login", 0] },
+            "players.image": { $arrayElemAt: ["$player.image", 0] },
+            "players.campus": { $arrayElemAt: ["$player.campus", 0] },
+          },
         },
-      },
-      { $unset: "player" },
-      {
-        $group: {
-          _id: "$_id",
-          competition_id: { $first: "$competition_id" },
-          date: { $first: "$date" },
-          status: { $first: "$status" },
-          players: { $push: "$players" },
+        { $unset: "player" },
+        {
+          $group: {
+            _id: "$_id",
+            competition_id: { $first: "$competition_id" },
+            date: { $first: "$date" },
+            status: { $first: "$status" },
+            players: { $push: "$players" },
+          },
         },
-      },
-      {
-        $set: {
-          status: {
-            $cond: {
-              if: {
-                $and: [
-                  { $eq: ["$status", "reported"] },
-                  {
-                    $in: [new ObjectId(playerId), "$players.player_id"],
-                  },
-                  {
-                    $eq: [
-                      {
-                        $arrayElemAt: [
-                          "$players.reported",
-                          { $indexOfArray: ["$players.player_id", new ObjectId(playerId)] },
-                        ],
-                      },
-                      true,
-                    ],
-                  },
-                ],
+        {
+          $set: {
+            status: {
+              $cond: {
+                if: {
+                  $and: [
+                    { $eq: ["$status", "reported"] },
+                    {
+                      $in: [new ObjectId(playerId), "$players.player_id"],
+                    },
+                    {
+                      $eq: [
+                        {
+                          $arrayElemAt: [
+                            "$players.reported",
+                            {
+                              $indexOfArray: [
+                                "$players.player_id",
+                                new ObjectId(playerId),
+                              ],
+                            },
+                          ],
+                        },
+                        true,
+                      ],
+                    },
+                  ],
+                },
+                then: "pending",
+                else: "$status",
               },
-              then: "pending",
-              else: "$status",
             },
           },
         },
-      },
-      {
-        $project: {
-          _id: 1,
-          competition_id: 1,
-          date: 1,
-          status: 1,
-          players: 1,
+        {
+          $project: {
+            _id: 1,
+            competition_id: 1,
+            date: 1,
+            status: 1,
+            players: 1,
+          },
         },
-      },
-    ])
-    .toArray();
+      ])
+      .toArray();
   },
 
   async report(id, userId, report, accept) {

@@ -1,17 +1,5 @@
-import { createContext } from "preact";
-import { useState, useContext, useMemo } from "preact/hooks";
-
-const AuthContext = createContext();
-
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-
-  const auth = useMemo(() => {
-    return { user, setUser };
-  }, [user]);
-
-  return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
-};
+import AuthContext from "../context/AuthContext";
+import { useContext } from "preact/hooks";
 
 const useAuth = () => useContext(AuthContext);
 
