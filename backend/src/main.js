@@ -36,15 +36,10 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// app.use("/auth", auth);
-// app.use("/users", verifyAuth, users);
-// app.use("/matches", verifyAuth, matches);
-// app.use("/competitions", verifyAuth, competitions);
-
 app.use("/auth", auth);
-app.use("/users", users);
-app.use("/matches", matches);
-app.use("/competitions", competitions);
+app.use("/users", verifyAuth, users);
+app.use("/matches", verifyAuth, matches);
+app.use("/competitions", verifyAuth, competitions);
 
 app.use((err, req, res, next) => {
   res.locals.message = err.message;
