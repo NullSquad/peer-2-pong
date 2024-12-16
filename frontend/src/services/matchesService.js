@@ -8,7 +8,7 @@ export const getMatches = () => {
 };
 
 export const getMyMatchesByCompetition = (competitionID) => {
-  return fetch(`/api/matches/competition/${competitionID}/me`).then(
+  return fetch(`/api/competitions/${competitionID}/matches/me`).then(
     (response) => {
       if (!response.ok) {
         throw new Error("Failed to fetch my matches");
