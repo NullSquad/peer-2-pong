@@ -13,10 +13,11 @@ const Home = () => {
         <Header />
           <Slider className="min-h-screen flex flex-col gap-6">
             <Event
+              id = "123"
               type="league"
               isParticipating={true}
-              status="ends"
-              targetDate="2024-12-09T16:59:59"
+              status="start"
+              targetDate={new Date("2024-12-31")}
             >
               LEAGUE
             </Event>
