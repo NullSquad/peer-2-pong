@@ -136,11 +136,11 @@ export function Phase2({ match }) {
   };
 
   return (
-    <div className="absolute transform -translate-x-[35%] mb-4">
+    <div className="absolute h-[20%] -translate-x-[33%] sm:-translate-x-[35%]">
       {/* Controles de puntuación */}
-      <div className="flex justify-center items-center mt-1 sm:mt-2 gap-1">
+      <div className="flex justify-center items-center mt-8 sm:mt-[1.45rem] md:mt-4 gap-1">
         {/* Player 1 Score */}
-        <div className="flex items-center bg-accent-blue-light p-1 md:p2 rounded">
+        <div className="flex items-center bg-accent-blue-light p-[0.1rem] sm:p-1 rounded">
           <ButtonScore
             Sign="-"
             Operation={decreaseBlue}
