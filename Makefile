@@ -1,25 +1,41 @@
-up:	
-	docker compose -f docker-compose.yaml up --build
+DOCKER_COMPOSE = docker compose
+DOCKER_COMPOSE_FILE = docker-compose.yml
+
+.PHONY: up down build start stop restart logs ps clean watch
+
+up:
+    @echo "Starting services..."
+    @$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) up -d --watch
+
 down:
-	docker-compose down
-	@if [ -n "$$(docker image ls -aq)" ]; then \
-		docker image rmi $$(docker image ls -aq); \
-	fi
+    @echo "Stopping and removing services..."
+    @$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) down
+
+build:
+    @echo "Building services..."
+    @$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) build
+
+start:
+    @echo "Starting services..."
+    @$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) start
+
+stop:
+    @echo "Stopping services..."
+    @$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) stop
+
+restart:
+    @echo "Restarting services..."
+    @$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) restart
+
+logs:
+    @echo "Following logs..."
+    @$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) logs -f
+
+ps:
+    @echo "Listing containers..."
+    @$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) ps
+
 clean:
-	@if [ ! -z "$$(docker ps -aq)" ]; then \
-		docker stop $$(docker ps -aq); \
-		docker rm $$(docker ps -aq); \
-	fi
-	@if [ ! -z "$$(docker images -aq)" ]; then \
-		docker rmi $$(docker images -aq); \
-	fi	
-	@if [ ! -z "$$(docker volume ls -q)" ]; then \
-		docker volume rm $$(docker volume ls -q); \
-	fi
-	@if [ ! -z "$$(docker network ls -q --filter type=custom)" ]; then \
-		docker network rm $$(docker network ls -q --filter type=custom); \
-	fi
-	@echo "Deleted all docker containers, volumes, networks, and images succesfully"
-watch:
-	docker compose -f docker-compose.yaml up --build --watch
-re: clean up
+    @echo "Cleaning up dangling images and volumes..."
+    @docker system prune -f
+    @docker volume prune -f
