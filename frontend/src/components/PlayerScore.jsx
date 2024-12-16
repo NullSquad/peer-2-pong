@@ -1,11 +1,13 @@
 import { reportMatch } from "../services/matchesService";
-export const SubmitScore = ({ text, match, blue, red }) => {
+
+export const SubmitScore = ({ text, match, refresh, blue, red }) => {
   return (
     <button
       onClick={() => {
         match.players[0].score = blue;
         match.players[1].score = red;
         reportMatch(match);
+        refresh();
       }}
       className="bg-primary-yellow shadow-yellow-50-700-sm text-white font-bold  text-md md:text-xl font-lilita-one border-2 border-black mr-9 sm:mr-1 w-16 h-6 sm:w-24 sm:h-8 text-sm sm:text-xl -skew-x-[8deg] rounded-lg relative active:translate-y-[2px]"
     >

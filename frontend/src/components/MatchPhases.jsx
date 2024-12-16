@@ -10,7 +10,7 @@ import CountdownTimer from "./CountdownTimer";
 import { useState } from "preact/hooks";
 
 // fase1, la fase relacionada con el status "scheduled"
-export function Phase1({ match }) {
+export function Phase1({ match, refresh }) {
   const [showPhase2, setShowPhase2] = useState(false);
 
   const togglePhase2 = () => {
@@ -56,7 +56,7 @@ export function Phase1({ match }) {
             : "z-0 opacity-0 animate-slide-out-bottom absolute bottom-10 left-1/2 transform mb-4"
         }`}
       >
-        <Phase2 match={match}/>
+        <Phase2 match={match} refresh={refresh}/>
       </div>
     </div>
   );
@@ -64,7 +64,7 @@ export function Phase1({ match }) {
 
 // fase2..... la fase del submit.... esta horrible y funciona como el orto (la matchcard)
 // pero el submit funciona fenomenal
-export function Phase2({ match }) {
+export function Phase2({ match, refresh }) {
   const [result, setResult] = useState({
     blue: match.players[0].score,
     red: match.players[1].score,
@@ -144,28 +144,28 @@ export function Phase2({ match }) {
           <ButtonScore
             Sign="-"
             Operation={decreaseBlue}
-            color="red"
-            effect="light-dark"
+            color="blue"
+            effect="ocean"
           />
           <ButtonScore
             Sign="+"
             Operation={increaseBlue}
-            color="blue"
-            effect="ocean"
+            color="red"
+            effect="light-dark"
           />
           <PlayerScore score={result.blue} />
           <PlayerScore score={result.red} />
           <ButtonScore
             Sign="-"
             Operation={decreaseRed}
-            color="red"
-            effect="light-dark"
+            color="blue"
+            effect="ocean"
           />
           <ButtonScore
             Sign="+"
             Operation={increaseRed}
-            color="blue"
-            effect="ocean"
+            color="red"
+            effect="light-dark"
           />
         </div>
 
@@ -173,6 +173,7 @@ export function Phase2({ match }) {
         <SubmitScore
           text="SUBMIT"
           match={match}
+          refresh={refresh}
           blue={result.blue}
           red={result.red}
         />

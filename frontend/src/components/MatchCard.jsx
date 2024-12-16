@@ -1,7 +1,7 @@
 import { useState } from "preact/hooks";
 import { Phase1, Phase3, Phase4, Phase5 } from "./MatchPhases";
 
-export function MatchCard({ match }) {
+export function MatchCard({ match, refresh }) {
   // setear phase dependiendo del status
   const phaseMap = {
     1: Phase1,
@@ -25,7 +25,7 @@ export function MatchCard({ match }) {
 
   return (
     <div className="relative flex w-full max-w-4xl h-[60px] sm:h-[94px] md:h-28 overflow-visible bg-invisible">
-      <PhaseComponent match={match}/>
+      <PhaseComponent match={match} refresh={refresh}/>
     </div>
   );
 }

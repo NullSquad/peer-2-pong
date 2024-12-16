@@ -3,7 +3,7 @@ import { EffectCards, EffectCoverflow } from "swiper/modules";
 import { Children } from "preact/compat";
 import "swiper/css";
 
-export const Slider = ({ children, setCurrentCompetition }) => {
+export const Slider = ({ children, setCurrentCompe }) => {
   return (
     <article className="w-full bg-blue py-4 sm:py-6 md:py-8 px-2 sm:px-4 md:px-8">
       <Swiper
@@ -18,7 +18,7 @@ export const Slider = ({ children, setCurrentCompetition }) => {
         }}
         effect={"cards"}
         grabCursor={true}
-        onSlideChange={(swiper) => setCurrentCompetition(swiper.activeIndex)}
+        onSlideChange={(swiper) => setCurrentCompe(swiper.activeIndex)}
         className="flex justify-center items-center"
       >
         {Children.map(children, (child, index) => (
