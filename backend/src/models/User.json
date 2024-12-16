@@ -4,8 +4,7 @@
   "properties": {
     "email": {
       "bsonType": "string",
-      "pattern": "^[\\w\\.-]+@[\\w-]+\\.[\\w-]{2,4}$",
-      "description": "must be a string and match the email format"
+      "description": "must be a string and is required"
     },
     "login": {
       "bsonType": "string",
