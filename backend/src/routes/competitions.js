@@ -1,6 +1,6 @@
 import express from "express";
 import controller from "../controllers/competitions.js";
-import userController from "../controllers/users.js";
+import matchController from "../controllers/matches.js";
 
 const router = express.Router();
 
@@ -43,7 +43,7 @@ router.delete("/:id", async (req, res) => {
 });
 
 router.get("/:id/matches/me", async (req, res) => {
-  userController
+  matchController
     .getByCompetitionAndPlayer(req.params.id, req.user._id)
     .then((result) => res.status(200).send(result))
     .catch((err) => res.status(500).send(err.message));
