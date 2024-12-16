@@ -47,8 +47,7 @@ const controller = {
 
   async getByCompetitionAndPlayer(competitionId, playerId) {
     return collection.find({
-      competition_id: new ObjectId(competitionId),
-      "players.player_id": new ObjectId(playerId),
+      competition_id: new ObjectId(competitionId)
     }).toArray();
   },
 
