@@ -1,7 +1,7 @@
 import useAuth from "../hooks/useAuth";
 
 export const Header = () => {
-	  const { user } = useAuth();
+  const { user } = useAuth();
   return (
     <header
       className="relative bg-yellow-500 text-white py-1 px-5 sm:px-10 sm:ml-[-1%] ml-[-2%] w-[80%] sm:w-[50%] md: flex justify-between mb-4 
