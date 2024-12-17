@@ -6,13 +6,21 @@ import  LeaderboardTable  from "../components/LeaderboardTable";
 const Competition = ({id}) => {
 
 	return (
-    <main className="relative container w-screen h-screen min-w-max">
-		<div className="flex  justify-between items-center  px-4 py-2">
-			<MoveBack />
-			<Join />
+    <main className="relative inset-0 w-full h-full mt-0 m-w-20">
+		<div className="flex  justify-between items-center">
+			<div>
+				<MoveBack />
+			</div>
+			<div>
+				<Join />
+			</div>
 		</div>
-		<Separator>Leaderboard</Separator>
-		<LeaderboardTable />
+		<div>
+			<Separator>Leaderboard</Separator>
+		</div>
+		<div>
+			<LeaderboardTable />
+		</div>
     </main>
   );
 };

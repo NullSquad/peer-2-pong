@@ -19,7 +19,7 @@ const Join = ({ username, event_id }) => {
 <div>
   <button
     onClick={handleClick}
-    className="bg-primary-yellow shadow-yellow-50-700 px-12 py-5 rounded-md text-white font-bold 
+    className="bg-primary-yellow shadow-yellow-50-700 px-10 py-5 rounded-md text-white font-bold 
                text-xl text-stroke text-shadow font-lilita-one border-2 border-black w-30 h-2 sm:w-36 
                sm:h-8 sm:text-2xl -skew-x-[8deg] rounded-lg relative active:translate-y-[2px] 
                flex justify-center items-center"
