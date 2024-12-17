@@ -4,15 +4,16 @@ import db, {dbClient} from "./db/connection.js";
 import competitionController from "./controllers/competitions.js";
 import matchController from "./controllers/matches.js";
 
-const	agenda = new Agenda({mongo: dbClient.db("agendaDB"), processEvery: "5 seconds"});
+// await dbClient.connect();
+// const	agenda = new Agenda({mongo: dbClient.db("agendaDB"), processEvery: "5 seconds"});
 // const mongoConnectionString = 'mongodb://user:pass/agenda';
-// const mongoConnectionString = process.env.DB_URI;
+const mongoConnectionString = process.env.DB_URI;
 
-// const agenda = new Agenda({ db: { address: mongoConnectionString }, processEvery: "5 seconds"});
+const agenda = new Agenda({ db: { address: mongoConnectionString }, processEvery: "5 seconds"});
 
 agenda.define("update competition matches", update_competitions);
 
-agenda.define("start league", (job) => {
+agenda.define("start league", async (job) => {
 	const	{ competitionId } = job.attrs.data;
 	console.log(`\n\n\n${competitionId}\n\n\n`);
 	//const	competition = get_competition({competitionId});
@@ -30,58 +31,79 @@ agenda.define("start league", (job) => {
 	return ;
 });
 
-agenda.define("start tournament", (job) => {
+agenda.define("start tournament", async (job) => {
 	const	{ competitionId } = job.attrs.data;
-	//const	competition = get_competition({competitionId});
+	const competition = await competitionController.getById(competitionId);
 
 	return ;
 });
 
-console.log("jobs: ", agenda.define("print message 2", (job, done) => {
+//Testing Agenda
+agenda.define(`update matches`, async (job) => {
 	const	{ competitionId } = job.attrs.data;
-	//const	competition = get_competition({competitionId});
-
 	console.log(`aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa message: ${competitionId}\n`);
-	// done();
 	return ;
-}));
+});
 
-// agenda.start();
+agenda.define("delete update matches", async (job) => {
+	const	{ competitionId } = job.attrs.data;
 
-function	schedule_competition({competitionId})
+	await agenda.cancel({name: "print message 2", data: { competitionId: competitionId }});
+	return ;
+});
+
+agenda.define("start league", async (job) => {
+	const	{ competitionId } = job.attrs.data;
+	const competition = await competitionController.getById(competitionId);
+	const	frequency = competition.settings.frequency;
+	const	frequencyString = `${frequency.quantity} ${frequency.unit}${frequency.quantity != 1 ? 's' : ''}`;
+
+	// console.log(`\n\n\nfrequency: ${frequencyString} and end\n\n\n`);
+	await agenda.create(`update matches`, {competitionId})
+		.unique({"data.competitionId": competitionId}, {insertOnly: true})
+		.repeatEvery(frequencyString, {timezone: "Europe/Madrid", endDate: competition.end_date})
+		.save();
+	await agenda.create("delete update matches", {competitionId})
+		.unique({"data.competitionId": competitionId})
+		.schedule(competition.end_date, {timezone: "Europe/Madrid"})
+		.save();
+	return ;
+});
+
+agenda.start();
+
+agenda.on("ready", () => {console.log("Agenda connected successfully to db")});
+agenda.on("error", (err) => {console.log("fuck some error happended while trying connect to db: ", error)});
+
+async function	schedule_competition({competitionId})
 {
-	//const	competition = get_competition({competitionId});
+	const competition = await competitionController.getById(competitionId);
 
-	competitionController.getById(competitionId).then((competition) => {
-		console.log(`\n\n\n${competition.settings.frequency.quantity} and ${competition.settings.frequency.unit} \n\n\n`);
-	
-		console.log(agenda.start());
-
-		console.log(agenda.every("5 seconds", "print message 2", {competitionId}, {timezone: "Europe/Madrid"}));
-	});
+	agenda.create(`start ${competition.type}`, {competitionId})
+		.unique({"data.competitionId": competitionId})
+		.schedule(competition.start_date, {timezone: "Europe/Madrid"})
+		.save();
 	return ;
 }
+//
 
 export {schedule_competition}
 
 //Esto todavia no funsiona
-function	update_competitions(job)
+async function	update_competitions(job)
 {
 	const	{ competitionId } = job.attrs.data;
-	//const	competition = get_competition({competitionId});
+	const competition = await competitionController.getById(competitionId);
+	let		matches = [];
 
-	competitionController.getById(competitionId).then((competition) => {
-		let		matches = [];
-	
-		check_outdated_matches(competition);
-		matches = create_competition_matches(competition);
-		matches.forEach(match => matchController.add({
-				"players": match.players.map(player => {player}),
-				"date": new Date(Date.now() + humanInterval(competition.frequency)),
-				"status": match.length == 1 ? "finished" : "scheduled",
-				"competition": competition.id
-		}));
-	});
+	check_outdated_matches(competition);
+	matches = create_competition_matches(competition);
+	matches.forEach(async match => await matchController.add({
+			"players": match.players.map(player => {player}),
+			"date": new Date(Date.now() + humanInterval(competition.frequency)),
+			"status": match.length == 1 ? "finished" : "scheduled",
+			"competition": competition.id
+	}));
 	return ;
 }
 
