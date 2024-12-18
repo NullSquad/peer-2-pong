@@ -12,7 +12,7 @@ export const Header = () => {
         <img
           src={user.image}
           alt={`${user.login}'s avatar`}
-          className="w-12 h-12 sm:w-16 sm:h-16 rounded-full border-4 border-black mr-4 sm:mr-6 shadow-sm cursor-pointer"
+          className="w-12 h-12 sm:w-16 sm:h-16 rounded-full border-2 border-black mr-4 sm:mr-6 shadow-sm cursor-pointer"
         />
         {/* Eslogan */}
         <h1

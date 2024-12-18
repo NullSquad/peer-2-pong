@@ -25,28 +25,26 @@ export const SubmitScore = ({ text, match, refresh, blue, red }) => {
 };
 
 export const SignScore = ({ Sign }) => {
-  return (
-    <>
-      <span
-        className="inline-block relative top-[-1px] sm:top-[-2px] leading-none skew-x-[5deg]"
-        style={{
-          textShadow: "1px 1px 0px black",
-        }}
-      >
-        {Sign}
-      </span>
-    </>
-  );
+	const isNegative = Sign === "-";
+	return (
+		<span
+			className={`inline-block relative leading-none skew-x-[5deg] ${isNegative ? "top-[-2px] sm:top-[-3px]" : "sm:top-[-1px]"
+				}`}
+			style={{
+				textShadow: "1px 1px 0px black",
+			}}
+		>
+			{Sign}
+		</span>
+	);
 };
 
 export const ButtonScore = ({ Sign, Operation, color, effect }) => {
-  const bgColorClass = `bg-accent-${color}`;
-  const shadowClass = `shadow-${color}-${effect}`;
   return (
     <>
       <button
         onClick={Operation}
-        className={`${bgColorClass} ${shadowClass} border-2 border-black w-6 h-5 sm:w-9 sm:h-7 mr-1 rounded-md text-white text-sm sm:text-xl font-bold font-lilita-one active:translate-y-[1px] flex items-center justify-center -skew-x-[5deg]`}
+        className={`${color} ${effect} border-2 border-black w-6 h-5 sm:w-9 sm:h-7 mr-1 rounded-md text-white text-sm sm:text-xl font-bold font-lilita-one active:translate-y-[1px] flex items-center justify-center -skew-x-[5deg]`}
       >
         <SignScore Sign={Sign} />
       </button>
@@ -54,10 +52,10 @@ export const ButtonScore = ({ Sign, Operation, color, effect }) => {
   );
 };
 
-export const PlayerScore = ({ score }) => {
+export const PlayerScore = ({ score, skew, mr }) => {
   return (
     <>
-      <div className="bg-black text-white p-1 px-2 rounded w-5 h-6 sm:w-7 sm:h-8 flex items-center justify-center mr-1">
+      <div className={`bg-black text-white p-1 px-2 rounded w-5 h-6 sm:w-7 sm:h-8 flex items-center ${skew} ${mr} justify-center`}>
         <span className="font-bold text-sm skew-x-[8deg] sm:text-lg">
           {score}
         </span>

@@ -34,9 +34,6 @@ const Home = () => {
         </Slider>
       </Link>
       <Separator>Matches</Separator>
-      <button className="bg-black items-center" onClick={refreshMatches}>
-        Refresh
-      </button>
       <Matches matches={matches} refresh={refreshMatches} />
     </main>
   );

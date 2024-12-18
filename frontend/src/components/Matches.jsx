@@ -11,7 +11,7 @@ const Matches = ({ matches, refresh }) => {
   }
 
   return (
-    <section className="flex flex-col flex-wrap justify-center items-center mx-5">
+    <section className="flex flex-col flex-wrap justify-center items-center mx-5 gap-4">
       {matches.map((match) => (
         <MatchCard key={match._id} match={match} refresh={refresh} />
       ))}

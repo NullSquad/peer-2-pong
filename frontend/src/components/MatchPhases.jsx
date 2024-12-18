@@ -8,6 +8,7 @@ import { PlayerScore } from "./PlayerScore.jsx";
 import { SubmitScore } from "./PlayerScore.jsx";
 import CountdownTimer from "./CountdownTimer";
 import { useState } from "preact/hooks";
+import BaseCard from "./BaseCard.jsx";
 
 // fase1, la fase relacionada con el status "scheduled"
 export function Phase1({ match, refresh }) {
@@ -20,14 +21,14 @@ export function Phase1({ match, refresh }) {
   const showTimeLeft = match.date && !showPhase2;
 
   return (
-    <div className="z-10 relative flex w-full overflow-visible bg-invisible">
+    <div className="relative flex flex-col w-full overflow-visible bg-invisible">
       <div
-        className="relative flex w-full h-[60%] sm:h-[65%] -skew-x-[8deg]"
+        className="relative flex w-full h-[75%] -skew-x-[8deg]"
         onClick={togglePhase2}
       >
         {/* Player 1 Side */}
         <div
-          className="flex items-center  justify-center bg-accent-blue-light w-1/2 px-3 py-2 text-white"
+          className="flex items-center justify-center bg-accent-blue-light w-1/2 px-3 py-2 text-white"
           style={{ WebkitTextStroke: "1px black", color: "white" }}
         >
           <AvatarCircle player={match.players[0]} />
@@ -52,8 +53,8 @@ export function Phase1({ match, refresh }) {
       <div
         className={`animation-opacity ${
           showPhase2
-            ? "z-10 opacity-100 animate-slide-in-top absolute bottom-10 left-1/2 transform mb-4"
-            : "z-0 opacity-0 animate-slide-out-bottom absolute bottom-10 left-1/2 transform mb-4"
+            ? "z-10 opacity-100 animate-slide-in-top absolute bottom-10 left-1/2 transform mb-[6px] sm:mb-[7px] md:mb-[4px]"
+            : "z-0 opacity-0 animate-slide-out-bottom absolute bottom-10 left-1/2 transform mb-[6px] sm:mb-[7px] md:mb-[4px]"
         }`}
       >
         <Phase2 match={match} refresh={refresh} />
@@ -140,32 +141,32 @@ export function Phase2({ match, refresh }) {
       {/* Controles de puntuación */}
       <div className="flex justify-center items-center mt-8 sm:mt-[1.45rem] md:mt-4 gap-1">
         {/* Player 1 Score */}
-        <div className="flex items-center bg-accent-blue-light p-[0.1rem] sm:p-1 rounded">
+        <div className="flex items-center p-[0.1rem] sm:p-1 rounded">
           <ButtonScore
             Sign="-"
             Operation={decreaseBlue}
-            color="blue"
-            effect="ocean"
+            color="bg-accent-blue-button"
+            effect="shadow-blue"
           />
           <ButtonScore
             Sign="+"
             Operation={increaseBlue}
-            color="red"
-            effect="light-dark"
+            color="bg-accent-red-button"
+            effect="shadow-red"
           />
-          <PlayerScore score={result.blue} />
-          <PlayerScore score={result.red} />
+          <PlayerScore score={result.blue} mr="mr-1" />
+          <PlayerScore score={result.red} mr="mr-1" />
           <ButtonScore
             Sign="-"
             Operation={decreaseRed}
-            color="blue"
-            effect="ocean"
+            color="bg-accent-blue-button"
+            effect="shadow-blue"
           />
           <ButtonScore
             Sign="+"
             Operation={increaseRed}
-            color="red"
-            effect="light-dark"
+            color="bg-accent-red-button"
+            effect="shadow-red"
           />
         </div>
 
@@ -185,8 +186,8 @@ export function Phase2({ match, refresh }) {
 // muestra el boton de accept or deny
 export function Phase3({ match }) {
   return (
-    <div className="z-10 relative flex w-full max-w-4xl h-[86px] sm:h-[94px] md:h-28 overflow-visible bg-invisible">
-      <div className="relative flex w-full h-14 sm:h-16 -skew-x-[8deg]">
+    <div className="z-10 relative flex w-full overflow-visible bg-invisible">
+      <div className="relative flex w-full h-[75%] -skew-x-[8deg]">
         {/* Blue Card */}
         <div className="relative flex items-center justify-between bg-accent-blue-light w-5/12 px-3 py-2 text-black">
           {/* Blue image */}
@@ -199,11 +200,7 @@ export function Phase3({ match }) {
           </div>
 
           {/* Blue score */}
-          <div className="absolute sm:right-4 right-2 top-1/2 -translate-y-1/2 bg-black text-white p-1 px-2 rounded w-6 h-7 skew-x-[8deg] sm:w-7 sm:h-8 flex items-center justify-center">
-            <span className="font-bold text-sm sm:text-lg skew-x-[8deg]">
-              {match.players[0].score}
-            </span>
-          </div>
+          <PlayerScore score={match.players[0].score} skew="skew-x-[8deg]" />
         </div>
 
         {/* Space between blue and red */}
@@ -212,13 +209,7 @@ export function Phase3({ match }) {
         {/* Red Card */}
         <div className="relative flex items-center justify-between bg-red-500 w-9/12 px-3 py-2 text-black">
           {/* Red score */}
-          <div
-            className="absolute sm:left-4 left-2 top-1/2 -translate-y-1/2 skew-x-[8deg] bg-black text-white p-1 px-2 rounded w-6 h-7 sm:w-7 sm:h-8 flex items-center justify-center" // absolute right-9"
-          >
-            <span className="font-bold text-sm sm:text-lg skew-x-[8deg]">
-              {match.players[1].score}
-            </span>{" "}
-          </div>
+          <PlayerScore score={match.players[1].score} skew="skew-x-[8deg]" />
           {/* Red image */}
           <div className="flex items-center justify-center w-full">
             <img
@@ -279,28 +270,36 @@ export function Phase3({ match }) {
 // fase 4, fase picada, relacionada con el status pending
 export function Phase4({ match }) {
   return (
-    <div className="relative flex w-full max-w-4xl h-[86px] sm:h-[94px] md:h-28 overflow-visible bg-invisible">
-      {/* Player 1 Side */}
-      <div className="relative flex w-full h-14 sm:h-16 -skew-x-[8deg]">
-        <div className="relative flex items-center justify-center bg-accent-blue-light w-1/2 px-3 py-2 text-black">
-          <AvatarCircle player={match.players[0]} />
-          <MatchText player={match.players[0]} />
-          <PlayerScore score={match.players[0].score} />
+    <div className="z-10 relative flex flex-col w-full overflow-visible bg-invisible">
+      <div className="relative flex w-full h-[75%] -skew-x-[8deg]">
+		{/* Player 1 Side */}
+        <div className="relative grid grid-cols-[1fr_auto] items-center bg-accent-blue-light w-1/2 px-3 py-2 text-black">
+		  <div className="flex justify-center items-center">
+            <MatchText player={match.players[0]} />
+            <AvatarCircle player={match.players[0]} />
+		  </div>
+		  <div classname="flex items-center">
+		    <PlayerScore score={match.players[0].score} skew="skew-x-[8deg]" />
+		  </div>
         </div>
 
         {/* Space between blue and red */}
         <div className="w-1"></div>
 
         {/* Player 2 Side */}
-        <div className="relative flex items-center justify-center bg-red-500 w-1/2 px-3 py-2 text-black">
-          <PlayerScore score={match.players[1].score} />
-          <MatchText player={match.players[1]} />
-          <AvatarCircle player={match.players[1]} />
+        <div className="relative grid grid-cols-[auto_1fr] items-center bg-red-500 w-1/2 px-3 py-2 text-black">
+          <div classname="flex items-center">
+		    <PlayerScore score={match.players[1].score} skew="skew-x-[8deg]" />
+		  </div>
+		  <div className="flex justify-center items-center">
+            <MatchText player={match.players[1]} />
+            <AvatarCircle player={match.players[1]} />
+		  </div>
         </div>
       </div>
 
       {/* Time Left Container */}
-      <InfoMatchBox children="WAITING" />
+      <InfoMatchBox children="Waiting confirmation..." />
     </div>
   );
 }
@@ -325,20 +324,17 @@ export function Phase5({ match }) {
       : "left-[72%]";
 
   return (
-    <div className="relative flex w-full max-w-4xl h-28 overflow-visible bg-invisible">
-      {/* Card Body */}
-      <div className="relative flex w-full h-14 sm:h-16 m-2 -skew-x-[8deg]">
+    <div className="z-10 relative flex w-full overflow-visible bg-invisible">
+      <div className="relative flex w-full h-[75%] -skew-x-[8deg]">
         {/* Blue card */}
         <div
           className={`relative flex items-center justify-between bg-accent-blue-light ${blueCardSize} px-3 py-2 text-black`}
         >
           {/* Blue score */}
           <div
-            className="absolute sm:right-4 skew-x-[8deg] right-2 top-1/2 -translate-y-1/2 bg-black text-white p-1 px-2 rounded w-6 h-7 sm:w-7 sm:h-8 flex items-center justify-center" // absolute right-9"
+            className="absolute sm:right-4 skew-x-[8deg] right-2 top-1/2 -translate-y-1/2 bg-black text-white p-1 px-2 rounded w-5 h-6 sm:w-7 sm:h-8 flex items-center justify-center" // absolute right-9"
           >
-            <span className="font-bold text-sm sm:text-lg">
-              {match.players[0].score}
-            </span>{" "}
+            <PlayerScore score={match.players[0].score} />
           </div>
         </div>
 
@@ -351,11 +347,9 @@ export function Phase5({ match }) {
         >
           {/* Red score */}
           <div
-            className="absolute sm:left-4 left-2 skew-x-[8deg] top-1/2 -translate-y-1/2 bg-black text-white p-1 px-2 rounded w-6 h-7 sm:w-7 sm:h-8 flex items-center justify-center" // absolute right-9"
+            className="absolute sm:left-4 left-2 skew-x-[8deg] top-1/2 -translate-y-1/2 bg-black text-white p-1 px-2 rounded w-5 h-6 sm:w-7 sm:h-8 flex items-center justify-center" // absolute right-9"
           >
-            <span className="font-bold text-sm sm:text-lg">
-              {match.players[1].score}
-            </span>{" "}
+            <PlayerScore score={match.players[1].score} />
           </div>
         </div>
 
@@ -377,7 +371,7 @@ export function Phase5({ match }) {
         <div
           className={`absolute ${crownPosition} translate-x-[50%] skew-x-[8deg] flex justify-center w-1/3`}
         >
-          <img src={CrownIcon} alt="Crown Icon" className="w-14 sm:w-16" />
+          <img src={CrownIcon} alt="Crown Icon" className="w-12 sm:w-16" />
         </div>
       </div>
     </div>
