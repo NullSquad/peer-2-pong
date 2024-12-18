@@ -371,7 +371,7 @@ export function Phase5({ match }) {
         <div
           className={`absolute ${crownPosition} translate-x-[50%] skew-x-[8deg] flex justify-center w-1/3`}
         >
-          <img src={CrownIcon} alt="Crown Icon" className="w-12 sm:w-16" />
+          <img src={CrownIcon} alt="Crown Icon" className="w-12 sm:w-16 md:w-20" />
         </div>
       </div>
     </div>
