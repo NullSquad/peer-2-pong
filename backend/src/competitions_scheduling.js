@@ -3,6 +3,7 @@ import humanInterval from "human-interval";
 import db, {dbClient} from "./db/connection.js";
 import competitionController from "./controllers/competitions.js";
 import matchController from "./controllers/matches.js";
+import { ObjectId } from "mongodb";
 
 // await dbClient.connect();
 // const	agenda = new Agenda({mongo: dbClient.db("agendaDB"), processEvery: "5 seconds"});
@@ -41,14 +42,24 @@ agenda.define("start tournament", async (job) => {
 //Testing Agenda
 agenda.define(`update matches`, async (job) => {
 	const	{ competitionId } = job.attrs.data;
-	console.log(`aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa message: ${competitionId}\n`);
+	const competition = await competitionController.getById(competitionId);
+	const	frequency = competition.settings.frequency;
+	const	frequencyString = `${frequency.quantity} ${frequency.unit}${frequency.quantity != 1 ? 's' : ''}`;
+
+	console.log(`Creating match: ${competitionId}\n`);
+	await matchController.add({
+			"players": [{player_id: 1}, {player_id: 2}],
+			"date": new Date(Date.now() + humanInterval(frequencyString)),
+			"status": "scheduled",
+			"competition_id": competition._id
+	});
 	return ;
 });
 
 agenda.define("delete update matches", async (job) => {
 	const	{ competitionId } = job.attrs.data;
 
-	await agenda.cancel({name: "print message 2", data: { competitionId: competitionId }});
+	await agenda.cancel({name: "update matches", data: { competitionId: competitionId }});
 	return ;
 });
 
