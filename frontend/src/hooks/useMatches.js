@@ -15,12 +15,12 @@ export function useMatches(competitionID) {
             players: match.players.map((player) => ({
               player: player.player_id,
               score: player.score,
-              reported: player.reported,
+			  image: player.image,
+			  login: player.login,
             })),
             status: match.status,
             date: match.date,
           }));
-          console.log(formattedMatches);
           setMatches(formattedMatches);
         })
         .catch((err) => {

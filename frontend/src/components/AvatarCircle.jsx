@@ -4,7 +4,7 @@ export const AvatarCircle = ({ player }) => {
       <img
         src={player.image}
         alt={player.name}
-        className="w-12 sm:w-14 rounded-full border-2 skew-x-[8deg] border-black mr-2"
+        className="w-10 sm:w-14 md:w-[70px] rounded-full border-2 skew-x-[8deg] border-black mr-2"
       />
     </>
   );
