@@ -25,18 +25,19 @@ export const SubmitScore = ({ text, match, refresh, blue, red }) => {
 };
 
 export const SignScore = ({ Sign }) => {
-	const isNegative = Sign === "-";
-	return (
-		<span
-			className={`inline-block relative leading-none skew-x-[5deg] ${isNegative ? "top-[-2px] sm:top-[-3px]" : "sm:top-[-1px]"
-				}`}
-			style={{
-				textShadow: "1px 1px 0px black",
-			}}
-		>
-			{Sign}
-		</span>
-	);
+  const isNegative = Sign === "-";
+  return (
+    <span
+      className={`inline-block relative leading-none skew-x-[5deg] ${
+        isNegative ? "top-[-2px] sm:top-[-3px]" : "sm:top-[-1px]"
+      }`}
+      style={{
+        textShadow: "1px 1px 0px black",
+      }}
+    >
+      {Sign}
+    </span>
+  );
 };
 
 export const ButtonScore = ({ Sign, Operation, color, effect }) => {
@@ -55,7 +56,9 @@ export const ButtonScore = ({ Sign, Operation, color, effect }) => {
 export const PlayerScore = ({ score, skew, mr }) => {
   return (
     <>
-      <div className={`bg-black text-white p-1 px-2 rounded w-5 h-6 sm:w-7 sm:h-8 flex items-center ${skew} ${mr} justify-center`}>
+      <div
+        className={`bg-black text-white p-1 px-2 rounded w-5 h-6 sm:w-7 sm:h-8 flex items-center ${skew} ${mr} justify-center`}
+      >
         <span className="font-bold text-sm skew-x-[8deg] sm:text-lg">
           {score}
         </span>

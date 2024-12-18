@@ -15,8 +15,8 @@ export function useMatches(competitionID) {
             players: match.players.map((player) => ({
               player: player.player_id,
               score: player.score,
-			  image: player.image,
-			  login: player.login,
+              image: player.image,
+              login: player.login,
             })),
             status: match.status,
             date: match.date,

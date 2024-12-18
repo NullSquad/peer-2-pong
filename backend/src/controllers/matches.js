@@ -129,38 +129,128 @@ const controller = {
   },
 
   async report(id, userId, report, accept) {
-    const match = await this.getById(id);
-    if (!match) throw new Error("Match not found");
-
-    const userIndex = match.players.findIndex(
-      (player) => player.player_id.toString() === userId.toString(),
-    );
-    if (userIndex === -1) throw new Error("User not part of the match");
-
-    const otherUserIndex = userIndex === 0 ? 1 : 0;
-
-    if (match.players[userIndex].reported) {
-      throw new Error("User has already reported the match");
-    }
-
-    if (match.players[otherUserIndex].reported) {
-      if (accept) {
-        match.status = "confirmed";
-      } else {
-        match.status = "scheduled";
-        match.players.forEach((player) => (player.reported = false));
-      }
-    } else {
-      match.players[userIndex].reported = true;
-      match.players[userIndex].score = report[userIndex].score;
-      match.players[otherUserIndex].score = report[otherUserIndex].score;
-      match.status = "reported";
-    }
-
-    match.players[userIndex].score = report[userIndex].score;
-    match.players[otherUserIndex].score = report[otherUserIndex].score;
-
-    await this.update(id, match);
+    return collection
+      .aggregate([
+        {
+          $match: {
+            _id: new ObjectId(id),
+            "players.player_id": new ObjectId(userId),
+          },
+        },
+        {
+          $project: {
+            players: {
+              $map: {
+                input: "$players",
+                as: "player",
+                in: {
+                  $mergeObjects: [
+                    "$$player",
+                    {
+                      reported: {
+                        $cond: {
+                          if: {
+                            $eq: ["$$player.player_id", new ObjectId(userId)],
+                          },
+                          then: true,
+                          else: "$$player.reported",
+                        },
+                      },
+                      score: {
+                        $cond: {
+                          if: {
+                            $and: [
+                              {
+                                $eq: [
+                                  "$$player.player_id",
+                                  new ObjectId(userId),
+                                ],
+                              },
+                              {
+                                $gte: [
+                                  report.find(
+                                    (r) =>
+                                      r.player_id.toString() ===
+                                      userId.toString(),
+                                  ).score,
+                                  0,
+                                ],
+                              },
+                              {
+                                $lte: [
+                                  report.find(
+                                    (r) =>
+                                      r.player_id.toString() ===
+                                      userId.toString(),
+                                  ).score,
+                                  11,
+                                ],
+                              },
+                            ],
+                          },
+                          then: report.find(
+                            (r) => r.player_id.toString() === userId.toString(),
+                          ).score,
+                          else: "$$player.score",
+                        },
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+            status: {
+              $cond: {
+                if: {
+                  $and: [
+                    { $eq: ["$status", "reported"] },
+                    {
+                      $anyElementTrue: {
+                        $map: {
+                          input: "$players",
+                          as: "player",
+                          in: "$$player.reported",
+                        },
+                      },
+                    },
+                    {
+                      $not: {
+                        $anyElementTrue: {
+                          $map: {
+                            input: "$players",
+                            as: "player",
+                            in: {
+                              $and: [
+                                {
+                                  $eq: [
+                                    "$$player.player_id",
+                                    new ObjectId(userId),
+                                  ],
+                                },
+                                { $eq: ["$$player.reported", true] },
+                              ],
+                            },
+                          },
+                        },
+                      },
+                    },
+                  ],
+                },
+                then: "confirmed",
+                else: "reported",
+              },
+            },
+          },
+        },
+        {
+          $merge: {
+            into: "matches",
+            whenMatched: "merge",
+            whenNotMatched: "fail",
+          },
+        },
+      ])
+      .toArray();
   },
 };
 

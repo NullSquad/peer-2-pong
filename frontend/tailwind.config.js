@@ -40,18 +40,18 @@ export default {
           },
         },
         accent: {
-		  blue: {
-		    light: "#1499ff",
-		    DEFAULT: "#0fa7fe",
-		    dark: "#0845dd",
-		    button: "#2373ff",
-		  },
-		  red: {
-		    light: "#f3605d",
-		    DEFAULT: "#eb5151",
-		    dark: "#b41642",
-		    button: "#e1362f",
-		  },
+          blue: {
+            light: "#1499ff",
+            DEFAULT: "#0fa7fe",
+            dark: "#0845dd",
+            button: "#2373ff",
+          },
+          red: {
+            light: "#f3605d",
+            DEFAULT: "#eb5151",
+            dark: "#b41642",
+            button: "#e1362f",
+          },
         },
       },
       backgroundImage: {
