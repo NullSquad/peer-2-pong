@@ -1,7 +1,7 @@
 import { MongoClient } from "mongodb";
-import UserSchema from "../models/User.json" assert { type: "json" };
-import MatchSchema from "../models/Match.json" assert { type: "json" };
-import CompetitionSchema from "../models/Competition.json" assert { type: "json" };
+import UserSchema from "../models/User.json" with { type: "json" };
+import MatchSchema from "../models/Match.json" with { type: "json" };
+import CompetitionSchema from "../models/Competition.json" with { type: "json" };
 
 const URI = process.env.DB_URI || "";
 const client = new MongoClient(URI);
