@@ -46,7 +46,12 @@ const controller = {
       { $match: { "players.player_id": new ObjectId(userId) } },
       { $project: { _id: 1, competition_id: 1, status: 1, date: 1, players: 1 } },
     ]).toArray();
-  }
+  },
+
+  async	getMatchesOfCompetition(id) {
+    return db.collection("matches").find({ competition_id: new ObjectId(id) }).toArray();
+	}
+
 };
 
 export default controller;

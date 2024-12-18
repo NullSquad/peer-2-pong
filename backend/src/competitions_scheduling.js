@@ -72,11 +72,12 @@ agenda.define("start league", async (job) => {
 	// console.log(`\n\n\nfrequency: ${frequencyString} and end\n\n\n`);
 	await agenda.create(`update matches`, {competitionId})
 		.unique({"data.competitionId": competitionId}, {insertOnly: true})
-		.repeatEvery(frequencyString, {timezone: "Europe/Madrid", endDate: competition.end_date})
+		.repeatEvery(frequencyString, {timezone: "Europe/Madrid"})
 		.save();
 	await agenda.create("delete update matches", {competitionId})
 		.unique({"data.competitionId": competitionId})
-		.schedule(competition.end_date, {timezone: "Europe/Madrid"})
+		.schedule(competition_last_day_date(competition.days, competition.settings.frequency), {timezone: "Europe/Madrid"})
+		.priority('low')
 		.save();
 	return ;
 });
@@ -100,6 +101,16 @@ async function	schedule_competition({competitionId})
 
 export {schedule_competition}
 
+function	get_frequency_string(frequency)
+{
+	return ;
+}
+
+function	competition_last_day_date(days, frequency)
+{
+	return new;
+}
+
 //Esto todavia no funsiona
 async function	update_competitions(job)
 {
@@ -120,12 +131,13 @@ async function	update_competitions(job)
 
 function	tie_match(match)
 {
+	matchController.update(match);
 	return ;
 }
 
 function check_outdated_matches(competition)
 {
-	const	matches = competition.matches;
+	const	matches = competitionController.getMatchesOfCompetition(competition._id);
 
 	matches.forEach(match => {
 		if (match.status != "finished")
