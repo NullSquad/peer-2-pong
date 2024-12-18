@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "start": "node src/main.js",
-    "test": "NODE_OPTIONS='$NODE_OPTIONS --experimental-vm-modules' NODE_ENV=test jest --verbose"
+    "test": "NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" jest"
   },
   "dependencies": {
     "agenda": "^5.0.0",
