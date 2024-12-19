@@ -19,7 +19,7 @@
           },
           "score": {
             "bsonType": "int",
-						"minimun": 0,
+			"minimum": 0,
             "description": "must be an integer and is optional"
           },
           "reported": {
@@ -33,7 +33,7 @@
       "bsonType": "date",
       "description": "must be a date and is required"
     },
-		"status": {
+	"status": {
       "bsonType": "string",
       "enum": ["scheduled", "reported", "confirmed"],
       "description": "can be 'scheduled', 'reported' or 'confirmed' and is optional"

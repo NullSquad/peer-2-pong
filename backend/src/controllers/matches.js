@@ -30,8 +30,8 @@ const controller = {
   },
 
   async update(id, updates) {
-    if (updates.competition)
-      updates.competition = new ObjectId(updates.competition);
+    if (updates.competition_id)
+      updates.competition_id = new ObjectId(updates.competition_id);
     if (updates.players)
       updates.players = updates.players.map((player) => ({
         ...player,

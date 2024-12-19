@@ -19,7 +19,6 @@ const controller = {
       competition.players = competition.players.map((p) => ({
 				player_id: new ObjectId(p.player_id)
 			}));
-
     const result = await collection.insertOne(competition);
 
 		return result;

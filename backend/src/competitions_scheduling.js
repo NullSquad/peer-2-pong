@@ -13,23 +13,27 @@ const mongoConnectionString = process.env.DB_URI;
 const agenda = new Agenda({ db: { address: mongoConnectionString }, processEvery: "5 seconds"});
 
 //Testing Agenda
-agenda.define(`update matches`, async (job) => {
+agenda.define(`perform next day`, async (job) => {
 	const	{ competitionId } = job.attrs.data;
 	const competition = await competitionController.getById(competitionId);
 
-	console.log(`Creating match: ${competitionId}\n`);
-	await matchController.add({
-		"players": competition.players,
-		"date": new Date(Date.now() + humanInterval(get_frequency_string(competition.settings.frequency))),
-		"competition_id": competition._id
-	});
+	// check_outdated_matches(competition);
+	console.log("\n\nperform in\n\n");
+	try
+	{
+		create_competition_matches(competition);
+	}
+	catch (e)
+	{
+		console.log(e);
+	}
 	return ;
 });
 
-agenda.define("delete update matches", async (job) => {
+agenda.define("delete perform next day", async (job) => {
 	const	{ competitionId } = job.attrs.data;
 
-	await agenda.cancel({name: "update matches", data: { competitionId: competitionId }});
+	await agenda.cancel({name: "perform next day", data: { competitionId: competitionId }});
 	return ;
 });
 
@@ -37,11 +41,11 @@ agenda.define("start league", async (job) => {
 	const	{ competitionId } = job.attrs.data;
 	const competition = await competitionController.getById(competitionId);
 
-	await agenda.create(`update matches`, {competitionId})
+	await agenda.create(`perform next day`, {competitionId})
 		.unique({"data.competitionId": competitionId}, {insertOnly: true})
 		.repeatEvery(get_frequency_string(competition.settings.frequency), {timezone: "Europe/Madrid"})
 		.save();
-	await agenda.create("delete update matches", {competitionId})
+	await agenda.create("delete perform next day", {competitionId})
 		.unique({"data.competitionId": competitionId})
 		.schedule(competition_last_day_date(competition.days, competition.settings.frequency), {timezone: "Europe/Madrid"})
 		.priority('low')
@@ -79,19 +83,9 @@ function	competition_last_day_date(days, frequency)
 }
 
 //Esto todavia no funsiona
-async function	perform_next_day(job)
-{
-	const	{ competitionId } = job.attrs.data;
-	const competition = await competitionController.getById(competitionId);
-
-	check_outdated_matches(competition);
-	create_competition_matches(competition);
-	return ;
-}
-
 function	tie_match(match)
 {
-	matchController.update(match);
+	// matchController.update(match);
 	return ;
 }
 
@@ -118,19 +112,25 @@ function create_tournament_matches(competition)
 
 function create_competition_matches(competition)
 {
+	console.log(`\n\ncreate competition\n\n`);
 	const	matches = competition_matchmaking[competition.type](competition);
 
-	matches.forEach(async match => {
-		const	isFreePoints = match.length == 1;
+	console.log(`\n\nMATCHES: ${matches}\n\n`);
+	matches.forEach(async players => {
+		let	match = {
+			"players": players.map(player_id => ({player_id})),
+			"date": new Date(Date.now() + humanInterval(get_frequency_string(competition.settings.frequency))),
+			"competition_id": competition._id
+		};
 
-		await matchController.add({
-			"players": match.players.map((player_id, idx) =>
-				(Object.assign({player_id}, isFreePoints && !idx ? {score: 11, reported: true} : null))
-			),
-			"date": new Date(Date.now() + humanInterval(competition.frequency)),
-			"status": isFreePoints ? "finished" : "scheduled",
-			"competition": competition.id
-		})
+		console.log(`players: ${players}\n`);
+		if (players.length == 1)
+		{
+			Object.assign(match.players[0], {score: 11, reported: true});
+			match.players.push({player_id: -1});
+			match.status = "confirmed";
+		}
+		await matchController.add(match);
 		return ;
 	});
 	return ;
@@ -144,27 +144,36 @@ const leagues = {
 
 function create_league_matches(competition)
 {
-	const	players = competition.players.map(({player}) => player);
+	const	players = competition.players.map(({player_id}) => player_id);
 	const	quantity = competition.settings.quantity;
 	let		matches = [];
 	let		first_player = 0;
 	let		competition_matches;
 
-	for (rank of Object.values(leagues))
+	console.log("\n\ncreate league matches\n\n");
+	for (let rank of Object.values(leagues))
 	{
+		console.log(`\n\nprev matchmaking\n\n`);
 		competition_matches = matchmaking(players.slice(first_player, rank), quantity);
 		matches.push(competition_matches);
+		console.log(`\n\nrank == ${rank}\n\n`);
 	}
+	console.log(`\nmatches: ${matches}\n`);
 	matches = matches.flat();
 	return (matches);
 }
 
 function	matchmaking(players, quantity)
 {
-	const	amountMatches = Math.round(players * quantity / 2);
+	const	realAmountMatches = players.length * quantity / 2;
+	const	amountMatches = Math.round(realAmountMatches);
 	let		matches = [];
+	let		i;
 
-	for (let i = 0; i < amountMatches; i++)
+	console.log(`\namount matches: ${amountMatches}\n`);
+	for (i = 0; i < amountMatches; i++)
 		matches.push([players[i % players.length], players[i + 1 % players.length]]);
+	if (realAmountMatches != amountMatches)
+		matches.push([players[i % players.length]]);
 	return matches;
 }
