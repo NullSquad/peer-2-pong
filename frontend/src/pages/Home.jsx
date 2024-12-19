@@ -26,6 +26,7 @@ const Home = () => {
               isParticipating={competition.isParticipating}
               status={competition.status}
               targetDate={competition.targetDate}
+              eventId={competition.id}
             >
               {competition.name.toUpperCase()}
             </Event>

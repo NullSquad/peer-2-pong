@@ -4,7 +4,7 @@ import { route } from "preact-router";
 //import { joinCompetition } from "../services/competitionService";
 import BackArrow from "../assets/back_arrow.svg";
 
-const MoveBack = ({ username, event_id }) => {
+export const MoveBack = ({ username, event_id }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const handleMoveBack = () => {
@@ -31,5 +31,3 @@ const MoveBack = ({ username, event_id }) => {
     </div>
   );
 };
-
-export default MoveBack;
