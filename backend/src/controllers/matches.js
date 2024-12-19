@@ -128,12 +128,30 @@ const controller = {
       .toArray();
   },
 
-async report(id, userId, report, accept) {
-  if (!report.every(r => r.score >= 0 && r.score <= 11)) {
-    throw new Error("Invalid scores in the report. Scores must be between 0 and 11.");
-  }
-  return this.update(id, { players: report, status: "reported" });
-}
+  async report(id, userId, report) {
+    if (!report.every((r) => r.score >= 0 && r.score <= 11)) {
+      throw new Error(
+        "Invalid scores in the report. Scores must be between 0 and 11.",
+      );
+    }
+    return this.update(id, {
+      players: report.map((r) => ({
+        player_id: r.player_id,
+        score: r.score,
+        reported: r.player_id.toString() === userId.toString(),
+      })),
+      status: "reported",
+    });
+  },
+
+  async confirm(id, userId, confirmation) {
+    console.log(confirmation, id)
+    if (confirmation) {
+      return this.update(id, { status: "confirmed" });
+    } else {
+      return this.update(id, { status: "scheduled" });
+    }
+  },
 };
 
 export default controller;

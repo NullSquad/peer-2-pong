@@ -8,7 +8,7 @@ import { PlayerScore } from "./PlayerScore.jsx";
 import { SubmitScore } from "./PlayerScore.jsx";
 import CountdownTimer from "./CountdownTimer";
 import { useState } from "preact/hooks";
-//import BaseCard from "./BaseCard.jsx";
+import { confirmMatch } from "../services/matchesService";
 
 // fase1, la fase relacionada con el status "scheduled"
 export function Phase1({ match, refresh }) {
@@ -181,7 +181,7 @@ export function Phase2({ match, refresh }) {
 }
 // la fase3 es la de totototototootototottony, costo pero se pudo (grande tony tkm <3).
 // muestra el boton de accept or deny
-export function Phase3({ match }) {
+export function Phase3({ match, refresh }) {
   return (
     <div className="z-10 relative flex w-full overflow-visible bg-invisible">
       <div className="relative flex w-full h-[75%] -skew-x-[8deg]">
@@ -214,7 +214,9 @@ export function Phase3({ match }) {
             <div className="flex items-center">
               {/* Accept Button */}
               <button
-                onClick={() => confirmMatch(match._id, true)}
+                onClick={() => { confirmMatch(match.id, true);
+                  refresh()
+                }}
                 className="bg-accent-blue-button shadow-blue mr-2 border-2 border-black w-8 h-6 sm:w-9 sm:h-7 mt-1 -mb-1 rounded-md text-white text-sm sm:text-xl font-lilita-one active:translate-y-[1px] flex items-center justify-center"
               >
                 <span
@@ -229,7 +231,9 @@ export function Phase3({ match }) {
 
               {/* Deny Button */}
               <button
-                onClick={() => confirmMatch(match._id, false)}
+                onClick={() => { confirmMatch(match.id, false);
+                  refresh()
+                }}
                 className="bg-accent-red-button shadow-red border-2 border-black w-8 h-6 sm:w-9 sm:h-7 rounded-md mt-1 -mb-1 text-white text-sm sm:text-xl font-lilita-one active:translate-y-[1px] flex items-center justify-center"
               >
                 <span

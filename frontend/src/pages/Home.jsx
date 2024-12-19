@@ -18,20 +18,20 @@ const Home = () => {
   return (
     <main className="relative inset-0 w-full h-full mt-5">
       <Header />
-        <Slider setCurrentCompe={setCurrentCompetition}>
-          {competitions.map((competition) => (
-            <Event
-              key={competition.id}
-              type={competition.type}
-              isParticipating={competition.isParticipating}
-              status={competition.status}
-              targetDate={competition.targetDate}
-              eventId={competition.id}
-            >
-              {competition.name.toUpperCase()}
-            </Event>
-          ))}
-        </Slider>
+      <Slider setCurrentCompe={setCurrentCompetition}>
+        {competitions.map((competition) => (
+          <Event
+            key={competition.id}
+            type={competition.type}
+            isParticipating={competition.isParticipating}
+            status={competition.status}
+            targetDate={competition.targetDate}
+            eventId={competition.id}
+          >
+            {competition.name.toUpperCase()}
+          </Event>
+        ))}
+      </Slider>
       <Separator>Matches</Separator>
       <Matches matches={matches} refresh={refreshMatches} />
     </main>

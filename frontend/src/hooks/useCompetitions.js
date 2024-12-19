@@ -16,7 +16,8 @@ export function useCompetitions() {
           // isParticipating: competition.participating,
           status: new Date(competition.start_date) > today ? "start" : "end",
           // check if the competition has started or ended
-          targetDate: status === "start" ? competition.start_date : competition.end_date,
+          targetDate:
+            status === "start" ? competition.start_date : competition.end_date,
         }));
         setCompetitions(formattedCompetitions);
       })

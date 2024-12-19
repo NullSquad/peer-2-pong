@@ -43,14 +43,15 @@ router.delete("/:id", async (req, res) => {
 
 router.post("/:id/report", async (req, res) => {
   controller
-    .report(req.params.id, req.user.id, req.body, true)
+    .report(req.params.id, req.user._id, req.body)
     .then((result) => res.status(201).send(result))
     .catch((err) => res.status(500).send(err.message));
 });
 
 router.post("/:id/confirm", async (req, res) => {
+  console.log(req.body);
   controller
-    .report(req.params.id, req.user.id, req.body.report, req.body.confirm)
+    .confirm(req.params.id, null, req.body.confirmation)
     .then((result) => res.status(201).send(result))
     .catch((err) => res.status(500).send(err.message));
 });

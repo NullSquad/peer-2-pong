@@ -35,18 +35,22 @@ export const reportMatch = (match) => {
   });
 };
 
-export const confirmMatch = (id, tuvieja) => {
-  return fetch(`/api/matches/${id}/report`, {
+export const confirmMatch = (id, confirmation) => {
+  console.log(id, confirmation)
+  confirmation = {confirmation}
+  return fetch(`/api/matches/${id}/confirm`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(tuvieja),
+    body: JSON.stringify(confirmation),
   }).then((response) => {
     if (!response.ok) {
       console.error(response);
       throw new Error("Failed to report match");
     }
     return response.json();
-  });
+  }).catch((err) => {
+      console.log(err)
+    });
 };

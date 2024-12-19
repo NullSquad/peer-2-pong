@@ -13,8 +13,8 @@ export function MatchCard({ match, refresh }) {
   const getStatusNumber = (status) => {
     const statusMap = {
       scheduled: 1,
-      pending: 3,
-      reported: 4,
+      pending: 4,
+      reported: 3,
       confirmed: 5,
     };
     return statusMap[status] || 0;
@@ -25,6 +25,7 @@ export function MatchCard({ match, refresh }) {
   if (phaseNumber != getStatusNumber(match.status)) {
     setPhaseNumber(getStatusNumber(match.status));
   }
+  console.log(match)
 
   return (
     <div className="relative flex w-full max-w-4xl h-[60px] sm:h-[94px] md:h-28 overflow-visible bg-invisible">
