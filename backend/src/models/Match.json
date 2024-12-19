@@ -8,6 +8,7 @@
     },
     "players": {
       "bsonType": "array",
+			"minItems": 2,
       "items": {
         "bsonType": "object",
         "required": ["player_id"],
@@ -18,6 +19,7 @@
           },
           "score": {
             "bsonType": "int",
+						"minimun": 0,
             "description": "must be an integer and is optional"
           },
           "reported": {
@@ -30,6 +32,11 @@
     "date": {
       "bsonType": "date",
       "description": "must be a date and is required"
+    },
+		"status": {
+      "bsonType": "string",
+      "enum": ["scheduled", "reported", "confirmed"],
+      "description": "can be 'scheduled', 'reported' or 'confirmed' and is optional"
     }
   }
 }

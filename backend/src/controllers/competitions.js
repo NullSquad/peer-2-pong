@@ -13,22 +13,29 @@ const controller = {
   },
 
   async add(competition) {
-		console.log(`date:\n\nstart: ${competition.start_date}\nend: ${competition.end_date}\n`);
     if (competition.start_date)
       competition.start_date = new Date(competition.start_date);
-    if (competition.end_date)
-      competition.end_date = new Date(competition.end_date);
     if (competition.players)
-      competition.players = competition.players.map((p) => ({ player: new ObjectId(p.player), score: 0 }));
-		console.log(`date:\n\nstart: ${competition.start_date}\nend: ${competition.end_date}\n`);
-    return collection.insertOne(competition);
+      competition.players = competition.players.map((p) => ({
+				player_id: new ObjectId(p.player_id)
+			}));
+
+    const result = await collection.insertOne(competition);
+
+		return result;
   },
 
   async update(id, updates) {
-    if (updates.start_date) updates.start_date = new Date(updates.start_date);
-    if (updates.end_date) updates.end_date = new Date(updates.end_date);
-    if (updates.players) updates.players = updates.players.map((p) => ({ player: new ObjectId(p.player), score: p.score }));
-    return collection.updateOne({ _id: new ObjectId(id) }, { $set: updates });
+    if (updates.start_date)
+			updates.start_date = new Date(updates.start_date);
+    if (updates.players)
+			updates.players = updates.players.map((p) => ({
+				player_id: new ObjectId(p.player_id)
+			}));
+
+    const result = await collection.updateOne({ _id: new ObjectId(id) }, { $set: updates });
+
+		return result;
   },
 
   async delete(id) {
@@ -36,7 +43,7 @@ const controller = {
   },
 
   async join(id, userId) {
-    return collection.updateOne({ _id: new ObjectId(id) }, { $push: { players: { player: new ObjectId(userId), score: 0 } } });
+    return collection.updateOne({ _id: new ObjectId(id) }, { $push: { players: { player_id: new ObjectId(userId) } } });
   },
 
   async getMatchesOfUser(id, userId) {
@@ -46,11 +53,7 @@ const controller = {
       { $match: { "players.player_id": new ObjectId(userId) } },
       { $project: { _id: 1, competition_id: 1, status: 1, date: 1, players: 1 } },
     ]).toArray();
-  },
-
-  async	getMatchesOfCompetition(id) {
-    return db.collection("matches").find({ competition_id: new ObjectId(id) }).toArray();
-	}
+  }
 
 };
 

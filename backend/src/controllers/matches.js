@@ -12,6 +12,10 @@ const controller = {
     return collection.findOne({ _id: new ObjectId(id) });
   },
 
+  async getByCompetition(id) {
+    return collection.find({ competition_id: new ObjectId(id) }).toArray();
+  },
+
   async add(match) {
     match.competition_id = new ObjectId(match.competition_id);
     match.players = match.players.map((player) => ({
