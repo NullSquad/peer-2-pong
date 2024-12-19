@@ -27,7 +27,7 @@ export function Phase1({ match, refresh }) {
         onClick={togglePhase2}
       >
         {/* Player 1 Side */}
-        <div className="flex items-center justify-center bg-accent-blue-light w-1/2 px-3 py-2">
+        <div className="flex items-center justify-evenly bg-accent-blue-light w-1/2 px-3 py-2">
           <AvatarCircle player={match.players[0]} />
           <MatchText player={match.players[0]} />
         </div>
@@ -36,7 +36,7 @@ export function Phase1({ match, refresh }) {
         {/* Space between blue and red */}
         <div className="w-1"></div>
         {/* Player 2 Side */}
-        <div className="flex items-center justify-center bg-red-500 w-1/2 px-3 py-2">
+        <div className="flex items-center justify-evenly bg-red-500 w-1/2 px-3 py-2">
           <MatchText player={match.players[1]} />
           <AvatarCircle player={match.players[1]} />
         </div>
@@ -263,7 +263,7 @@ export function Phase4({ match }) {
       <div className="relative flex w-full h-[75%] -skew-x-[8deg]">
         {/* Player 1 Side */}
         <div className="relative grid grid-cols-[1fr_auto] items-center bg-accent-blue-light w-1/2 px-2 text-black">
-          <div className="flex justify-center items-center">
+          <div className="flex justify-evenly items-center">
             <AvatarCircle player={match.players[0]} />
             <MatchText player={match.players[0]} />
           </div>
@@ -280,7 +280,7 @@ export function Phase4({ match }) {
           <div classname="flex items-center">
             <PlayerScore score={match.players[1].score} skew="skew-x-[8deg]" />
           </div>
-          <div className="flex justify-center items-center">
+          <div className="flex justify-evenly items-center">
             <MatchText player={match.players[1]} />
             <AvatarCircle player={match.players[1]} />
           </div>
