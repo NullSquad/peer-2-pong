@@ -3,6 +3,7 @@ import humanInterval from "human-interval";
 import db, {dbClient} from "./db/connection.js";
 import competitionController from "./controllers/competitions.js";
 import matchController from "./controllers/matches.js";
+import matchmaking from "./algorithm-matchmaking.js";
 import { ObjectId } from "mongodb";
 
 // await dbClient.connect();
@@ -17,6 +18,7 @@ agenda.define(`perform next day`, async (job) => {
 	const	{ competitionId } = job.attrs.data;
 	const competition = await competitionController.getById(competitionId);
 
+	console.log("perform next day");
 	// check_outdated_matches(competition);
 	console.log("\n\nperform in\n\n");
 	try
@@ -41,6 +43,7 @@ agenda.define("start league", async (job) => {
 	const	{ competitionId } = job.attrs.data;
 	const competition = await competitionController.getById(competitionId);
 
+	console.log("start league");
 	await agenda.create(`perform next day`, {competitionId})
 		.unique({"data.competitionId": competitionId}, {insertOnly: true})
 		.repeatEvery(get_frequency_string(competition.settings.frequency), {timezone: "Europe/Madrid"})
@@ -112,10 +115,10 @@ function create_tournament_matches(competition)
 
 function create_competition_matches(competition)
 {
-	console.log(`\n\ncreate competition\n\n`);
+	// console.log(`\n\ncreate competition\n\n`);
 	const	matches = competition_matchmaking[competition.type](competition);
 
-	console.log(`\n\nMATCHES: ${matches}\n\n`);
+	// console.log(`\n\nMATCHES: ${matches}\n\n`);
 	matches.forEach(async players => {
 		let	match = {
 			"players": players.map(player_id => ({player_id})),
@@ -123,13 +126,15 @@ function create_competition_matches(competition)
 			"competition_id": competition._id
 		};
 
-		console.log(`players: ${players}\n`);
-		if (players.length == 1)
+		// console.log(`players: ${players}\n`);
+		match.players = match.players.filter(({player_id}) => player_id != ".");
+		if (match.players.length == 1)
 		{
 			Object.assign(match.players[0], {score: 11, reported: true});
 			match.players.push({player_id: -1});
 			match.status = "confirmed";
 		}
+		// console.log(`match: ${match} and match.players: ${match.players}\n`);
 		await matchController.add(match);
 		return ;
 	});
@@ -150,30 +155,33 @@ function create_league_matches(competition)
 	let		first_player = 0;
 	let		competition_matches;
 
-	console.log("\n\ncreate league matches\n\n");
+	// console.log("\n\ncreate league matches\n\n");
 	for (let rank of Object.values(leagues))
 	{
-		console.log(`\n\nprev matchmaking\n\n`);
+		// console.log(`\n\nprev matchmaking\n\n`);
+		if (first_player >= players.length)
+			break ;
 		competition_matches = matchmaking(players.slice(first_player, rank), quantity);
 		matches.push(competition_matches);
-		console.log(`\n\nrank == ${rank}\n\n`);
+		first_player += rank;
+		// console.log(`\n\nrank == ${rank}\n\n`);
 	}
-	console.log(`\nmatches: ${matches}\n`);
+	// console.log(`\nmatches: ${matches}\n`);
 	matches = matches.flat();
 	return (matches);
 }
 
-function	matchmaking(players, quantity)
-{
-	const	realAmountMatches = players.length * quantity / 2;
-	const	amountMatches = Math.round(realAmountMatches);
-	let		matches = [];
-	let		i;
+// function	matchmaking(players, quantity)
+// {
+// 	const	realAmountMatches = players.length * quantity / 2;
+// 	const	amountMatches = Math.round(realAmountMatches);
+// 	let		matches = [];
+// 	let		i;
 
-	console.log(`\namount matches: ${amountMatches}\n`);
-	for (i = 0; i < amountMatches; i++)
-		matches.push([players[i % players.length], players[i + 1 % players.length]]);
-	if (realAmountMatches != amountMatches)
-		matches.push([players[i % players.length]]);
-	return matches;
-}
+// 	console.log(`\namount matches: ${amountMatches}\n`);
+// 	for (i = 0; i < amountMatches; i++)
+// 		matches.push([players[i % players.length], players[i + 1 % players.length]]);
+// 	if (realAmountMatches != amountMatches)
+// 		matches.push([players[i % players.length]]);
+// 	return matches;
+// }

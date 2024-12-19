@@ -89,3 +89,5 @@ function removeGhostPlayer(matches) {
 	const filtered = matches.filter(match => !match.includes("."));
 	return filtered;
 }*/
+
+export default getMatches;
