@@ -22,6 +22,9 @@ export function MatchCard({ match, refresh }) {
 
   const [phaseNumber, setPhaseNumber] = useState(getStatusNumber(match.status));
   const PhaseComponent = phaseMap[phaseNumber] || null;
+  if (phaseNumber != getStatusNumber(match.status)) {
+    setPhaseNumber(getStatusNumber(match.status));
+  }
 
   return (
     <div className="relative flex w-full max-w-4xl h-[60px] sm:h-[94px] md:h-28 overflow-visible bg-invisible">

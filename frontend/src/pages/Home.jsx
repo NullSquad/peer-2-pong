@@ -18,7 +18,6 @@ const Home = () => {
   return (
     <main className="relative inset-0 w-full h-full mt-5">
       <Header />
-      <Link href={`competition/${competitionID}`}>
         <Slider setCurrentCompe={setCurrentCompetition}>
           {competitions.map((competition) => (
             <Event
@@ -32,7 +31,6 @@ const Home = () => {
             </Event>
           ))}
         </Slider>
-      </Link>
       <Separator>Matches</Separator>
       <Matches matches={matches} refresh={refreshMatches} />
     </main>

@@ -19,14 +19,13 @@ export const getMyMatchesByCompetition = (competitionID) => {
 };
 
 export const reportMatch = (match) => {
-  console.log(match);
-  const { _id, ...matchWithoutID } = match;
-  return fetch(`/api/matches/${_id}/report`, {
+  const { id, players } = match;
+  return fetch(`/api/matches/${id}/report`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(matchWithoutID),
+    body: JSON.stringify(players),
   }).then((response) => {
     if (!response.ok) {
       console.error(response);

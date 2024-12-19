@@ -6,6 +6,7 @@ export function useMatches(competitionID) {
   const [error, setError] = useState(null);
 
   function refreshMatches() {
+    console.log("refreshing matches");
     if (competitionID) {
       getMyMatchesByCompetition(competitionID)
         .then((data) => {
@@ -13,7 +14,7 @@ export function useMatches(competitionID) {
             id: match._id,
             competition: match.competition_id,
             players: match.players.map((player) => ({
-              player: player.player_id,
+              player_id: player.player_id,
               score: player.score,
               image: player.image,
               login: player.login,

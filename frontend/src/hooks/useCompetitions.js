@@ -6,15 +6,17 @@ export function useCompetitions() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    var today = new Date();
     getCompetitions()
       .then((data) => {
         const formattedCompetitions = data.map((competition) => ({
           id: competition._id,
           type: competition.type,
           name: competition.type.toUpperCase(),
-          isParticipating: competition.participating,
-          status: competition.status,
-          targetDate: competition.date,
+          // isParticipating: competition.participating,
+          status: new Date(competition.start_date) > today ? "start" : "end",
+          // check if the competition has started or ended
+          targetDate: status === "start" ? competition.start_date : competition.end_date,
         }));
         setCompetitions(formattedCompetitions);
       })

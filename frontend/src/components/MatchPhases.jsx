@@ -18,8 +18,6 @@ export function Phase1({ match, refresh }) {
     setShowPhase2(!showPhase2);
   };
 
-  console.log(match.players);
-
   const showTimeLeft = match.date && !showPhase2;
 
   return (

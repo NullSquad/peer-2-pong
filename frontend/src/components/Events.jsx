@@ -1,4 +1,3 @@
-import CountdownTimer from "./CountdownTimer";
 import { Link } from "preact-router";
 import CountdownTimer from "./CountdownTimer";
 
@@ -8,7 +7,6 @@ const Event = ({ type, isParticipating, status, children, targetDate, eventId })
   return (
     <div className="relative">
       {/* Container that holds both left and right info */}
-      <h1>{children}</h1>
       <Link href={`/competition/${eventId}`}>
       <div className="relative flex justify-between pt-[.25rem] items-center translate-x-[0.6rem] sm:translate-x-[0.7rem] md:translate-x-[0.81rem] lg:translate-x-[0.91rem] -skew-x-[8.2deg] bg-black px-3">
         {/* left text */}
