@@ -1,33 +1,31 @@
 import { useState } from "preact/hooks";
 import Popup from "./Popup";
-import { joinCompetition } from "../services/competitionsService";
+import { route } from "preact-router";
+//import { joinCompetition } from "../services/competitionService";
+import BackArrow from "../assets/back_arrow.svg";
 
 const MoveBack = ({ username, event_id }) => {
-  const [message, setMessage] = useState("");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
-  const handleClick = async () => {
-    const result = await joinCompetition(username, event_id);
-    setMessage(result.message);
-    setIsPopupOpen(true);
+  const handleMoveBack = () => {
+    route("/");
   };
-
-  const closePopup = () => setIsPopupOpen(false);
 
   return (
     <div>
       <button
-        onClick={handleClick}
-        className="bg-primary-yellow shadow-yellow-50-700 px-8 py-5 rounded-md text-white font-bold 
-               text-xl text-stroke text-shadow font-lilita-one border-2 border-black w-[10%] h-6 sm:w-36 
-               sm:h-8 sm:text-2xl -skew-x-[8deg] rounded-lg relative active:translate-y-[2px] 
-               flex justify-center items-center"
+        onClick={handleMoveBack}
+        className="bg-primary-yellow shadow-yellow-50-700 px-4 py-2 rounded-md text-white font-bold text-xl
+               text-stroke text-shadow font-lilita-one border-2 border-black sm:w-14 sm:h-10 sm:text-2xl
+               -skew-x-[2.5deg] relative active:translate-y-[2px] flex justify-center items-center"
       >
-        <img
-          src="../assets/goBack.svg"
-          alt="arrow-left"
-          className="w-6 h-6 mr-2"
-        />
+        <div className="flex items-center justify-center h-full w-full">
+          <img
+            className="h-full w-full max-h-full max-w-full object-contain"
+            src={BackArrow}
+            alt="To move back"
+          />
+        </div>
       </button>
       {isPopupOpen && <Popup message={message} onClose={closePopup} />}
     </div>
